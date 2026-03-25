@@ -202,9 +202,9 @@ http://127.0.0.1:8000
 
 ## 👨‍💻 Author
 
-Afrin S
-Harshini G
-Johnshi Elena A
+Afrin S,
+Harshini G,
+Johnshi Elena A.
 B.E CSE (AI & ML)
 
 ---

@@ -1,0 +1,564 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heritage sites - Tamil Nadu Heritage</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* CHATBOT BOX */
+#chatbot{
+  position:fixed;
+  bottom:90px;
+  right:30px;
+  width:300px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(14px);
+  border-radius:18px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.45);
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+  z-index:999;
+}
+
+/* HEADER */
+#chat-header{
+  background:#2f5f5b;
+  padding:12px;
+  text-align:center;
+  font-weight:600;
+}
+
+/* BODY */
+#chat-body{
+  height:220px;
+  padding:12px;
+  overflow-y:auto;
+  font-size:14px;
+}
+
+.bot-msg{
+  background:#3b6f6b;
+  padding:8px 10px;
+  border-radius:12px;
+  margin-bottom:8px;
+  width:fit-content;
+}
+
+.user-msg{
+  background:#d9a441;
+  color:black;
+  padding:8px 10px;
+  border-radius:12px;
+  margin-bottom:8px;
+  margin-left:auto;
+  width:fit-content;
+}
+
+/* INPUT */
+#chat-input{
+  display:flex;
+  border-top:1px solid rgba(255,255,255,0.2);
+}
+
+#chat-input input{
+  flex:1;
+  padding:10px;
+  border:none;
+  outline:none;
+}
+
+#chat-input button{
+  background:#e3b46b;
+  border:none;
+  padding:10px 15px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* FLOATING ICON */
+#chat-toggle{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  background:#e3b46b;
+  color:#1f3f3d;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:24px;
+  cursor:pointer;
+  box-shadow:0 15px 30px rgba(0,0,0,0.4);
+  z-index:999;
+}
+
+@keyframes bgChange {
+  0% {
+    background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url("{% static 'images/img1.png' %}");
+  }
+  33% {
+    background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url("{% static 'images/img2.jpg' %}");
+  }
+  66% {
+    background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url("{% static 'images/img3.png' %}");
+  }
+  100% {
+    background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url("{% static 'images/img4.jpg' %}");
+  }
+}
+.navbar {
+  padding: 18px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.35); /* konjam dark */
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 9999;   /* 🔥 IMPORTANT */
+}
+
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-brand img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: 8px; /* square look */
+}
+
+.nav-brand span {
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+}
+
+
+.nav-links a{
+  margin-left:30px;
+  color:white;
+  text-decoration:none;
+}
+
+.nav-links a:hover{
+  color:#d9a441;
+}
+#nav-username{
+  margin-right: 20px;
+  font-weight: 600;
+  color: #ffd88a;
+}
+/* PROFILE DROPDOWN */
+.profile-dropdown{
+  position: relative;
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.profile-btn{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #ffd88a;
+}
+
+.profile-btn:hover{
+  color: white;
+}
+
+.dropdown-menu{
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  min-width: 160px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.45);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.dropdown-menu a{
+  padding: 12px 16px;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+}
+
+.dropdown-menu a:hover{
+  background: rgba(255,255,255,0.12);
+}
+
+.arrow{
+  font-size: 14px;
+}
+.profile-dropdown {
+  position: relative;
+  z-index: 10000;  /* navbar mela */
+}
+.dropdown-menu{
+  position: absolute;
+  right: 0;
+  top: 40px;
+  z-index: 10001;  /* 🔥 MUST */
+}
+.hero {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+
+</style>
+
+</head>
+<body
+
+style="margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;background:#2f5f5b;">
+
+<!-- Premium Navbar -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <span>Tamilverse</span>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+<div class="profile-dropdown">
+        <div class="profile-btn" onclick="toggleProfile()">
+            <span id="nav-username">👤 User</span>
+            <span class="arrow">▾</span>
+        </div>
+
+        <div class="dropdown-menu" id="profileMenu">
+            <a href="{% url 'accounts:profile' %}">Profile</a>
+            <a href="{% url 'accounts:settings' %}">Settings</a>
+            <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+        </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+<!-- Hero Section -->
+<section style="
+height:100vh;
+position:relative;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:white;
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+animation:bgChange 12s infinite;
+">
+
+  <div style="position:relative;z-index:2;">
+    <h1 style="font-size:56px;margin-bottom:15px;">
+      Explore the Heritage of <span style="color:#f4c430;">Tamil Nadu</span>
+    </h1>
+    <p style="font-size:17px;opacity:0.9;margin-bottom:28px;">
+      Explore ancient temples, monuments, and the rich cultural legacy of Tamil civilization.
+    </p>
+    <a href="{% url 'explore' %}">
+    <button style="
+      background:linear-gradient(135deg,#f4c430,#d4af37);
+      border:none;
+      padding:14px 36px;
+      border-radius:30px;
+      font-size:15px;
+      font-weight:600;
+      color:#2f5f5b;
+      cursor:pointer;
+      box-shadow:0 10px 25px rgba(212,175,55,0.5);
+    ">Explore Heritage</button></a>
+  </div>
+  
+
+  <!-- Floating Heritage Highlights -->
+  <div style="
+  position:absolute;
+  bottom:40px;
+  display:flex;
+  gap:18px;
+  z-index:2;">
+   
+  </div>
+</section>
+
+<!-- Explore Section -->
+<section style="padding:80px 100px;background:#2f5f5b;text-align:center;color:white;">
+  <h2 style="font-size:36px;color:#f4c430;margin-bottom:10px;">Explore Tamil Nadu Heritage</h2>
+  <p style="font-size:16px;color:#e0f2f1;margin-bottom:40px;">
+    Temples, Culture, Nature & History in one place
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:25px;">
+
+    <div style="padding:30px 25px;border-radius:20px;color:white;text-align:left;box-shadow:0 15px 35px rgba(0,0,0,0.15);background:linear-gradient(135deg,#8b4513,#d2691e);">
+      <h3 style="font-size:22px;margin-bottom:10px;">🛕 Temples</h3>
+      <p style="font-size:14px;opacity:0.9;">Ancient Dravidian temples and architecture.</p>
+    </div>
+
+    <div style="padding:30px 25px;border-radius:20px;color:white;text-align:left;box-shadow:0 15px 35px rgba(0,0,0,0.15);background:linear-gradient(135deg,#7b1fa2,#e040fb);">
+      <h3 style="font-size:22px;margin-bottom:10px;">🎭 Culture</h3>
+      <p style="font-size:14px;opacity:0.9;">Dance, festivals, and Tamil traditions.</p>
+    </div>
+
+    <div style="padding:30px 25px;border-radius:20px;color:white;text-align:left;box-shadow:0 15px 35px rgba(0,0,0,0.15);background:linear-gradient(135deg,#2e7d32,#66bb6a);">
+      <h3 style="font-size:22px;margin-bottom:10px;">🌄 Nature</h3>
+      <p style="font-size:14px;opacity:0.9;">Hills, beaches, forests and landscapes.</p>
+    </div>
+
+    <div style="padding:30px 25px;border-radius:20px;color:white;text-align:left;box-shadow:0 15px 35px rgba(0,0,0,0.15);background:linear-gradient(135deg,#263238,#607d8b);">
+      <h3 style="font-size:22px;margin-bottom:10px;">🏛️ History</h3>
+      <p style="font-size:14px;opacity:0.9;">Historical monuments and kingdoms.</p>
+    </div>
+
+  </div>
+</section>
+<section style="padding:80px 100px;background:#2f5f5b;text-align:center;">
+
+  <h2 style="font-size:32px;color:#152d0a;margin-bottom:40px;">
+    Featured Heritage Sites
+  </h2>
+
+  <div style="
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+    justify-content:center;
+  ">
+
+    <!-- Card 1 -->
+    <div style="
+      background:#f8f4ee;
+      padding:28px 24px;
+      border-radius:16px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.08);
+      transition:0.3s;
+    ">
+      <h3 style="font-size:18px;color:#5a3825;margin-bottom:10px;">
+        GPS-Based Exploration
+      </h3>
+      <p style="font-size:14px;color:#555;line-height:1.6;">
+        Automatically detect nearby heritage sites as you travel across Tamil Nadu.
+      </p>
+    </div>
+
+    <!-- Card 2 -->
+    <div style="
+      background:#f8f4ee;
+      padding:28px 24px;
+      border-radius:16px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.08);
+      transition:0.3s;
+    ">
+      <h3 style="font-size:18px;color:#5a3825;margin-bottom:10px;">
+        Augmented Reality
+      </h3>
+      <p style="font-size:14px;color:#555;line-height:1.6;">
+        See ancient structures come to life through immersive AR experiences.
+      </p>
+    </div>
+
+    <!-- Card 3 -->
+    <div style="
+      background:#f8f4ee;
+      padding:28px 24px;
+      border-radius:16px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.08);
+      transition:0.3s;
+    ">
+      <h3 style="font-size:18px;color:#5a3825;margin-bottom:10px;">
+        AI-Powered Insights
+      </h3>
+      <p style="font-size:14px;color:#555;line-height:1.6;">
+        Understand the history, culture, and stories behind every monument.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+<section style="padding:80px 120px;background:#2f5f5b;text-align:center;color:#152d0a;">
+
+  <h2 style="font-size:32px;font-weight:700;margin-bottom:20px;">
+    About Tamilverse
+  </h2>
+
+  <p style="max-width:900px;margin:0 auto;font-size:15px;line-height:1.8;color:#ffff;">
+    Tamilverse is a smart heritage discovery platform built to preserve, promote, and explore the cultural richness of Tamil Nadu. Using AI, GPS, voice assistance, and AR, it helps users experience history interactively. Tamilverse isn’t just data—it tells stories, guides travelers, supports students, and empowers locals to reconnect with their roots. With location-aware features, voice control in Tamil/English, and a focus on inclusivity, it’s perfect for tourists, researchers, and anyone curious about Tamil heritage. Every feature is a tribute to the Tamil identity, blending technology with tradition to ensure our legacy lives on, proudly and powerfully, in the digital age.
+  </p>
+
+  <p style="margin-top:25px;font-weight:600;font-style:italic;color:#cad280;">
+    "Payanam oru anubavam, Tamilverse athai unmaiyaaga seigirathu."
+  </p>
+
+  <h3 style="margin-top:50px;font-size:26px;font-weight:700;">
+    Contact Us
+  </h3>
+
+  <p style="margin-top:10px;font-size:15px;color:#0f0e0e;">
+    Email: hello@tamilverse.ai <br>
+    Instagram: @tamilverse
+  </p>
+<a href="{% url 'explore' %}">
+  <button style="
+    margin-top:25px;
+    padding:12px 32px;
+    border:none;
+    border-radius:25px;
+    background:linear-gradient(135deg,#f4c430,#d4af37);
+    color:#2f5f5b;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(212,175,55,0.4);
+  ">
+    Explore Now
+  </button></a>
+
+</section>
+<!-- ===== DUMMY CHATBOT ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+    <div class="bot-msg">This is a demo chatbot. Advanced version coming soon!</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<!-- Footer -->
+<footer style="background:#222;color:#2f5f5b;text-align:center;padding:18px 0;font-size:14px;">
+  © 2025 Tamilverse. All rights reserved.
+</footer>
+
+
+
+
+<script>
+function toggleChat(){
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage(){
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if(msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  // User message
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem("loggedInUser");
+    const userSpan = document.getElementById("nav-username");
+
+    if (username && userSpan) {
+        userSpan.textContent = "👤" + username;
+    }
+});
+
+function toggleProfile(){
+    const menu = document.getElementById("profileMenu");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+function logoutUser(){
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("loggedInUser");
+    alert("👋 Logged out successfully");
+    window.location.href = "{% url 'accounts:login' %}";
+}
+
+// close dropdown when clicking outside
+document.addEventListener("click", function(e){
+    const dropdown = document.querySelector(".profile-dropdown");
+    if(dropdown && !dropdown.contains(e.target)){
+        document.getElementById("profileMenu").style.display = "none";
+    }
+});
+
+</script>
+</body>
+</html>

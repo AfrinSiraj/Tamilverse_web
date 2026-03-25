@@ -1,0 +1,1126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Explore Tamil Nadu Heritage</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<style>
+/* ================= GLOBAL ================= */
+body {
+  background: linear-gradient(180deg, #2f5f5b, #1f3f3c);
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  margin: 0;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  padding: 18px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0,0,0,0.35); /* konjam dark */
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 9999;   /* 🔥 IMPORTANT */
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-brand img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: 8px; /* square look */
+}
+
+
+.nav-brand span {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.nav-links a {
+  margin-left: 30px;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  color: #d9a441;
+}
+
+/* ================= CONTENT ================= */
+.container {
+  width: 90%;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+/* ================= SEARCH ================= */
+.search-box input {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  background: #3b6f6b;
+  color: white;
+}
+
+/* ================= CATEGORIES ================= */
+.categories {
+  text-align: center;
+  margin: 18px 0;
+}
+
+.categories button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  margin: 5px;
+  background: #3b6f6b;
+  color: white;
+  cursor: pointer;
+}
+
+.categories button.active {
+  background: #d9a441;
+  color: black;
+}
+
+/* ================= CARDS ================= */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Card wrapper link */
+.card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Card */
+.card {
+  height: 320px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================= OVERLAY ================= */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.75));
+}
+
+/* 🔥 FORCE TEXT WHITE */
+.overlay h4,
+.overlay p {
+  color: white !important;
+  margin: 0;
+}
+
+.overlay p {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+/* TAG */
+.overlay span {
+  background: #d9a441;
+  color: black !important;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  display: inline-block;
+  margin-top: 6px;
+}
+
+/* ================= LINK SAFETY FIX ================= */
+.card-link:visited,
+.card-link:hover,
+.card-link:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+a {
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ================= CHATBOT ================= */
+#chatbot{
+  position:fixed;
+  bottom:90px;
+  right:30px;
+  width:300px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(14px);
+  border-radius:18px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.45);
+  display:none;
+  flex-direction:column;
+  overflow:hidden;
+  z-index:999;
+}
+
+#chat-header{
+  background:#2f5f5b;
+  padding:12px;
+  text-align:center;
+  font-weight:600;
+}
+
+#chat-body{
+  height:220px;
+  padding:12px;
+  overflow-y:auto;
+  font-size:14px;
+}
+
+.bot-msg{
+  background:#3b6f6b;
+  padding:8px 10px;
+  border-radius:12px;
+  margin-bottom:8px;
+  width:fit-content;
+}
+
+.user-msg{
+  background:#d9a441;
+  color:black;
+  padding:8px 10px;
+  border-radius:12px;
+  margin-bottom:8px;
+  margin-left:auto;
+  width:fit-content;
+}
+
+#chat-input{
+  display:flex;
+}
+
+#chat-input input{
+  flex:1;
+  padding:10px;
+  border:none;
+  outline:none;
+}
+
+#chat-input button{
+  background:#e3b46b;
+  border:none;
+  padding:10px 15px;
+  cursor:pointer;
+}
+
+/* Floating icon */
+#chat-toggle{
+  position:fixed;
+  bottom:30px;
+  right:30px;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  background:#e3b46b;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:24px;
+  cursor:pointer;
+  box-shadow:0 15px 30px rgba(0,0,0,0.4);
+}
+.overlay {
+  pointer-events: none;
+}
+/* PROFILE DROPDOWN */
+.profile-dropdown{
+  position: relative;
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.profile-btn{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #ffd88a;
+}
+
+.profile-btn:hover{
+  color: white;
+}
+
+.dropdown-menu{
+  position: absolute;
+  right: 0;
+  top: 40px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  min-width: 160px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.45);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 999;
+}
+
+.dropdown-menu a{
+  padding: 12px 16px;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+}
+
+.dropdown-menu a:hover{
+  background: rgba(255,255,255,0.12);
+}
+
+.arrow{
+  font-size: 14px;
+}
+.profile-dropdown {
+  position: relative;
+  z-index: 10000;  /* navbar mela */
+}
+.dropdown-menu{
+  position: absolute;
+  right: 0;
+  top: 40px;
+  z-index: 10001;  /* 🔥 MUST */
+}
+.hero {
+  position: relative;
+  z-index: 1;
+}
+
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,220px);
+  justify-content:center;
+  gap:25px;
+}
+
+.card{
+  width:220px;
+  border-radius:18px;
+  overflow:hidden;
+}
+.hide{
+  display:none;
+}
+/* ===== CARD ANIMATION ===== */
+
+.card{
+  height:320px;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+  transition:transform 0.35s ease, opacity 0.35s ease;
+}
+
+.card:hover{
+  transform:scale(1.05);
+}
+
+/* hide animation */
+.card.hide{
+  opacity:0;
+  transform:scale(0.8);
+  pointer-events:none;
+  position:absolute;
+}/* ===== STAGGER ANIMATION ===== */
+.card{
+  height:320px;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 0.4s ease;
+}
+
+.card.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.card.hide{
+  display:none;
+}
+.distance{
+  display:inline-block;
+  margin-top:5px;
+  padding:3px 8px;
+  background:#4fd1c5;
+  color:black;
+  border-radius:10px;
+  font-size:11px;
+  font-weight:600;
+}
+#near-title{
+margin-top:10px;
+margin-bottom:10px;
+color:#ffd966;
+font-size:20px;
+}
+
+/* near you smaller row */
+.nearby{
+grid-template-columns:repeat(auto-fit,220px);
+justify-content:flex-start;
+margin-bottom:25px;
+}
+.distance{
+display:inline-block;
+margin-left:6px;
+padding:3px 8px;
+background:#4fd1c5;
+color:black;
+border-radius:10px;
+font-size:11px;
+font-weight:600;
+}
+</style>
+
+
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+   <b> <span>Tamilverse</span></b>
+  </div>
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+<div class="profile-dropdown">
+        <div class="profile-btn" onclick="toggleProfile()">
+            <span id="nav-username">👤 User</span>
+            <span class="arrow">▾</span>
+        </div>
+
+        <div class="dropdown-menu" id="profileMenu">
+            <a href="{% url 'accounts:profile' %}">Profile</a>
+            <a href="{% url 'accounts:settings' %}">Settings</a>
+            <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="container">
+
+<h1>Explore Tamil Nadu Heritage Sites</h1>
+
+<!-- NEAR YOU -->
+<h2 id="near-title">⭐ Near You</h2>
+<div id="nearby" class="cards nearby"></div>
+
+<!-- SEARCH -->
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Search heritage sites...">
+</div>
+
+<!-- FILTER -->
+<div class="categories">
+<button class="active" onclick="filterCategory('all', this)">All</button>
+<button onclick="filterCategory('temple', this)">Temple</button>
+<button onclick="filterCategory('church', this)">Church</button>
+<button onclick="filterCategory('fort', this)">Fort</button>
+<button onclick="filterCategory('palace', this)">Palace</button>
+<button onclick="filterCategory('museum', this)">Museum</button>
+<button onclick="filterCategory('nature', this)">Nature</button>
+<button onclick="filterCategory('hill', this)">Hill/Lake</button>
+</div>
+
+
+</div>
+<div class="cards" >
+
+    <!-- TEMPLES (15) -->
+<a href="{% url 'place-detail' slug='adikumbeswarartemple' %}">
+    <div class="card temple" data-lat="12.2501" data-lon="79.4173">
+      
+      <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/87/4f/d8/adi-kumbeswarar-temple.jpg?w=1200&h=1200&s=1">
+      <div class="overlay">
+        <h4>AdiKumbeswararTemple</h4>
+        <p>Kumbakonam</p>
+        <span>Temple</span>
+      </div>
+    </div>
+    </a>
+
+      <a href="{% url 'place-detail' slug='sarangapanitemple' %}">
+    <div class="card temple" data-lat="10.9618" data-lon="79.3832">
+      <img src="https://www.sarangapanitemple.org/images/14.jpg">
+      <div class="overlay">
+        <h4>SarangapaniTemple</h4>
+        <p> Kumbakonam</p><span>Temple</span>
+      </div></div></a>
+
+<a href="{% url 'place-detail' slug='mahamahamtank' %}">
+   <div class="card temple" data-lat="10.9618" data-lon="79.3832">
+      <img src="https://www.gosahin.com/go/p/b/1517595750_Mahamaham-Tank3.jpg">
+      <div class="overlay">
+        <h4>MahamahamTank</h4>
+        <p>Kumbakonam</p>
+        <span>Temple</span>
+      </div></div>
+      </a>
+
+      <a href="{% url 'place-detail' slug='ramaswamytemple' %}">
+<div class="card temple" data-lat="10.9613" data-lon="79.3816">
+      <img src="https://templesinkumbakonam.files.wordpress.com/2015/07/ramaswamy-temple.jpg?w=768">
+      <div class="overlay">
+        <h4>RamaswamyTemple</h4>
+        <p>Kumbakonam</p>
+        <span>Temple</span>
+      </div></div>
+      </a>
+
+      <!-- 🔥 NEWLY ADDED -->
+    <a href="{% url 'place-detail' slug='chidambaramnatarajatemple' %}">
+     <div class="card temple" data-lat="11.3993" data-lon="79.6936">
+        <img src="https://static.india.com/wp-content/uploads/2021/12/1-Large-Wood-Nataraja-Statue-1.jpg">
+        <div class="overlay"><h4>Chidambaram Temple</h4>
+          <p>Chidambaram</p>
+          <span>Temple</span>
+        </div>
+      </div></a>
+      <a href="{% url 'place-detail' slug='airavatesvaratemple' %}">
+    <div class="card temple" data-lat="10.9487" data-lon="79.3567">
+      <img src="https://www.holidify.com/images/cmsuploads/compressed/800px-Airavatesvara_Temple_20180430125221.jpg">
+      <div class="overlay"><h4>Airavatesvara Temple</h4>
+        <p>kumbakonam</p><span>Temple</span>
+      </div></div></a>
+
+<a href="{% url 'place-detail' slug='brihadeeswarartemple' %}">
+    <div class="card temple" data-lat="10.7828" data-lon="79.1310">
+      <img src="http://3.bp.blogspot.com/-0QpZZOggVp0/VK1tLTg0PxI/AAAAAAAAGQA/wpt8qGZBmTI/s1600/Thanjavur%2BBrihadeeswarar%2BTemple%2BView%2Bfrom%2BBack1.jpg">
+      <div class="overlay"><h4>Brihadeesvara Temple</h4>
+        <p>Thanjavur</p><span>Temple</span>
+      </div></div></a>
+
+<a href="{% url 'place-detail' slug='gangaikondacholapuramtemple' %}">
+    <div class="card temple" data-lat="11.2075" data-lon="79.4500">
+      <img src="https://thumbs.dreamstime.com/b/ancient-temple-gangaikonda-cholapuram-unesco-world-heritage-centre-known-as-great-living-chola-temples-gangaikonda-cholapuram-119745068.jpg">
+      <div class="overlay"><h4>Gangaikonda Cholapuram Temple</h4>
+        <p>Thanjavur</p><span>Temple</span>
+      </div></div></a>
+
+      <a href="{% url 'place-detail' slug='meenakshiammantemple' %}">
+    <div class="card temple" data-lat="9.9195" data-lon="78.1193">
+      <img src="https://wallpapercave.com/wp/wp9198786.jpg">
+      <div class="overlay"><h4>Meenakshi Amman Temple</h4>
+        <p>Madurai</p><span>Temple</span>
+      </div></div></a>
+
+        <a href="{% url 'place-detail' slug='palanimurugantemple' %}">
+    <div class="card temple" data-lat="10.4500" data-lon="77.5200">
+      <img src="https://c9admin.cottage9.com/uploads/5704/palani-murugan-temple.jpg">
+          <div class="overlay"><h4>Palani Murugan Temple</h4>
+            <p>Palani</p><span>Temple</span>
+      </div></div></a>
+
+        <a href="{% url 'place-detail' slug='ramanathaswamytemple' %}">
+    <div class="card temple" data-lat="9.2881" data-lon="79.3174">
+      <img src="https://2.bp.blogspot.com/-pOp2fT5T23M/WhW3AQ_C2zI/AAAAAAAAEyI/6CThnZB7d8EZaU11jC_gEM5iUcQTY2kSACEwYBhgL/s1600/Ramanathaswamy%2BTemple.jpg">
+      <div class="overlay"><h4>Ramanathaswamy Temple</h4>
+        <p>Rameswaram</p><span>Temple</span>
+      </div></div></a>
+      
+        <a href="{% url 'place-detail' slug='shoretemple' %}">
+   <div class="card temple" data-lat="12.6177" data-lon="80.1994">
+      <img src="https://thrillingtravel.in/wp-content/uploads/2022/12/Mamallapuram-shore-temple.jpg">
+      <div class="overlay"><h4>Shore Temple</h4>
+        <p>Mahabalipuram</p><span>Temple</span>
+      </div></div></a>
+
+  <a href="{% url 'place-detail' slug='srirangamranganathaswamytemple' %}">
+    <div class="card temple" data-lat="9.9195" data-lon="78.1193">
+      <img src="https://www.templepurohit.com/wp-content/uploads/2015/06/sri-ranganathaswamy-temple-e1467684324217.jpg">
+      <div class="overlay"><h4>Srirangam Ranganathaswamy Temple</h4>
+        <p>Srirangam</p><span>Temple</span>
+      </div></div></a>
+
+      
+       <a href="{% url 'place-detail' slug='tiruchendurmurugantemple' %}">
+    <div class="card temple" data-lat="9.9195" data-lon="78.1193">
+      <img src="https://c9admin.cottage9.com/uploads/5017/thiruchendur-murugan-temple-a-historical-overview.jpg">
+      <div class="overlay"><h4>Tiruchendur Murugan Temple</h4>
+        <p>Tiruchendur</p><span>Temple</span>
+      </div></div></a>
+    <a href="{% url 'place-detail' slug='srivilliputhurandaltemple' %}">
+<div class="card temple" data-lat="9.5125" data-lon="77.6337">
+<img src= "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhinXNw5Xc0sbtBGLswAoXDlKO4RZ_rdy7f_Yw8z_c4f_xJ_sPjZ-3dgiYzIUUXIQ1S2TRG63IPAhYam6oRzdEP1MqqGtaGn6DHOM7P5eqCyVbRwRerOnXhw2qnZADl9VQtq57UOaK2J9qPHFP1VtVqPpVKOCGun9OCGafhRgFHhHeiqN8F3nnZpFDFOKs/s746/sriviliputhurgopuram.jpg">
+<div class="overlay">
+<h4>Srivilliputhur Andal Temple</h4>
+<p>Virudhunagar</p>
+<span>Temple</span>
+</div></div></a>
+
+<a href="{% url 'place-detail' slug='chakrapanitemple' %}">
+<div class="card temple" data-lat="10.9615" data-lon="79.3806">
+<img src=  "https://www.trawell.in/admin/images/upload/868291893Kumbakonam_Chakrapani_Temple_Main.jpg">
+<div class="overlay">
+<h4>Chakrapani Temple</h4>
+<p>Kumbakonam</p>
+<span>Temple</span>
+</div></div></a>
+
+<a href="{% url 'place-detail' slug='someshwartemple' %}">
+<div class="card temple" data-lat="10.9602" data-lon="79.3820">
+<img src=   "https://www.findmytemple.com/images/Article_Images/T161_Arulmigu-Someeshwara-Swami_temple4.jpg">
+<div class="overlay">
+<h4>Someshwar Temple</h4>
+<p>Kumbakonam</p>
+<span>Temple</span>
+</div></div></a>
+
+<a href="{% url 'place-detail' slug='banapureswartemple' %}">
+<div class="card temple" data-lat="10.9680" data-lon="79.3850">
+<img src=  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXPkyP8groeF0_jrk167_kl2g4TjpMn1_wRw&s">
+<div class="overlay">
+<h4>Banapureshwar Temple</h4>
+<p>Kumbakonam</p>
+<span>Temple</span>
+</div></div></a>
+
+<a href="{% url 'place-detail' slug='kasuviswanathartemple' %}">
+<div class="card temple" data-lat="10.9635" data-lon="79.3840">
+<img src=  "https://www.findmytemple.com/images/Article_Images/T166_Arulmigu--Kasi-viswanatha-Swamy_temple5.jpg">
+<div class="overlay">
+<h4>Kasi Viswanathar Temple</h4>
+<p>Kumbakonam</p>
+<span>Temple</span>
+</div></div></a>
+
+
+
+
+
+
+
+
+    <!-- CHURCHES (5) -->
+     
+            <a href="{% url 'place-detail' slug='st-thomasmountchurch' %}">
+<div class="card church" data-lat="13.0053" data-lon="80.1937">
+      <img src="https://www.holidify.com/images/cmsuploads/compressed/800px-Church_stmt_20181129220240.jpg">
+      <div class="overlay"><h4>St.ThomasMountChurch</h4>
+        <p>Chennai</p><span>Church</span>
+      </div></div></a>
+
+      
+
+      <a href="{% url 'place-detail' slug='fortst-george' %}">
+<div class="card church" data-lat="13.0827" data-lon="80.2870">
+      <img src="https://c8.alamy.com/comp/B5A39M/fort-st-george-founded-by-the-east-india-company-madras-india-B5A39M.jpg">
+      <div class="overlay"><h4>Fort St. George</h4>
+        <p>Chennai</p><span>Church</span>
+      </div></div></a>
+
+<a href="{% url 'place-detail' slug='velankannibasilica' %}">
+<div class="card church" data-lat="10.6833" data-lon="79.8500">
+<img src=  "https://stappbldrprod.blob.core.windows.net/appbuilder/post/0fd004a7-4e66-4db2-b461-a3781d2ea9b3.jpg">
+<div class="overlay">
+<h4>Velankanni Basilica</h4>
+<p>Nagapattinam</p>
+<span>Church</span>
+</div></div></a>
+
+
+    <!--
+    <div class="card church"><img src="https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba"><div class="overlay"><h3>Santhome Basilica</h3><p>Chennai</p><span>Church</span></div></div>
+    <div class="card church"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"><div class="overlay"><h3>Our Lady of Ransom Church</h3><p>Kanyakumari</p><span>Church</span></div></div>
+    <div class="card church"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7"><div class="overlay"><h3>St. Mary's Church</h3><p>Chennai</p><span>Church</span></div></div>
+    <div class="card church"><img src="https://images.unsplash.com/photo-1500534314209-a26db0f5f5b4"><div class="overlay"><h3>Sacred Heart Cathedral</h3><p>Puducherry</p><span>Church</span></div></div>
+
+    FORTS (10) -->
+     
+            <a href="{% url 'place-detail' slug='dindigulrock' %}">
+    <div class="card fort" data-lat="10.9618" data-lon="79.3832">
+      <img src="https://thumbs.dreamstime.com/b/dindigul-tamilnadu-india-july-fort-temple-malai-kottai-th-century-hill-built-madurai-nayak-situated-town-135175974.jpg">
+      <div class="overlay"><h4>Dindigul-Rock-Fort</h4>
+        <p>Dindigul</p><span>Fort</span>
+      </div></div></a>
+      
+<a href="{% url 'place-detail' slug='gingeefort' %}">
+  <div class="card fort" data-lat="12.2501" data-lon="79.4173">
+      <img src="https://www.sterlingholidays.com/activities/tiruvannamalai/bannerimage/gingee-fort-experience-activity.jpg.imgw.1280.1280.jpeg">
+      <div class="overlay">
+        <h4>GingeeFort</h4>
+        <p>Villupuram</p>
+        <span>Fort</span>
+      </div></div></a>
+
+ 
+
+      <a href="{% url 'place-detail' slug='vattakottaifort' %}">
+<div class="card fort" data-lat="12.9165" data-lon="79.1325">
+      <img src="https://dynamic.tourtravelworld.com/hotspot-images/vattakottai-fort-kanyakumari-5010.jpg">
+      <div class="overlay">
+        <h4>Vattakottai Fort</h4>
+        <p>Trichy</p><span>Fort</span>
+      </div></div></a>
+
+      <a href="{% url 'place-detail' slug='vellorefort' %}">
+    <div class="card fort" data-lat="12.9165" data-lon="79.1325">
+      <img src="http://www.rangalayaroyal.in/images/vellore-sites/vellore-fort-big.jpg">
+      <div class="overlay">
+        <h4>Vellore Fort</h4>
+        <p>Vellore</p>
+        <span>Fort</span>
+      </div></div></a>
+
+      <a href="{% url 'place-detail' slug='sankagirifort' %}">
+   <div class="card fort" data-lat="11.4775" data-lon="77.8733">
+      <img src="https://venkatarangan.com/blog/wp-content/uploads/2021/12/2021-12-22-Sankagiri-Fort-TamilNadu-Entrance.jpg">
+      <div class="overlay"><h4>Sankagiri Fort</h4>
+        <p>Salem</p>
+        <span>Fort</span>
+      </div></div></a>
+
+
+
+<!--
+    <div class="card fort"><img src="https://images.unsplash.com/photo-1589308078055-76c4c1b2e2c1"><div class="overlay"><h3>Gingee Fort</h3><p>Villupuram</p><span>Fort</span></div></div>
+    <div class="card fort"><img src="https://images.unsplash.com/photo-1605100804763-247fdfc8e4e0"><div class="overlay"><h3>Vellore Fort</h3><p>Vellore</p><span>Fort</span></div></div>
+    <div class="card fort"><img src="https://images.unsplash.com/photo-1558980394-0c8c5f8b6f9e"><div class="overlay"><h3>Dindigul Rock Fort</h3><p>Dindigul</p><span>Fort</span></div></div>
+    <div class="card fort"><img src="https://images.unsplash.com/photo-1500534314209-a26db0f5f5b4"><div class="overlay"><h3>Fort St. George</h3><p>Chennai</p><span>Fort</span></div></div>
+    <div class="card fort"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"><div class="overlay"><h3>Sankagiri Fort</h3><p>Salem</p><span>Fort</span></div></div>
+    <div class="card fort"><img src="https://images.unsplash.com/photo-1529429617124-95b109e86bb8"><div class="overlay"><h3>Vattakottai Fort</h3><p>Kanyakumari</p><span>Fort</span></div></div>
+    <div class="card fort"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"><div class="overlay"><h3>Thirumayam Fort</h3><p>Pudukkottai</p><span>Fort</span></div></div>
+    <div class="card fort"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7"><div class="overlay"><h3>Sadras Fort</h3><p>Chengalpattu</p><span>Fort</span></div></div>
+    <div class="card fort"><img src="https://images.unsplash.com/photo-1500534314209-a26db0f5f5b4"><div class="overlay"><h3>Krishnagiri Fort</h3><p>Krishnagiri</p><span>Fort</span></div></div>
+    <div class="card fort"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"><div class="overlay"><h3>Namakkal Fort</h3><p>Namakkal</p><span>Fort</span></div></div>
+
+     PALACES (8) -->
+     
+         <a href="{% url 'place-detail' slug='padmanabhapurampalace' %}">
+<div class="card palace" data-lat="8.2502" data-lon="77.3281">
+      <img src="https://assets.gqindia.com/photos/5f0ec391532fa7831d9d6e81/1:1/w_1024%2cc_limit/Everything-you-need-to-know-about-the-world's-richest-temple-Sree-Padmanabhaswamy-and-its-treasures-worth-Rs-1%252C00%252C000-crore.jpg">
+      <div class="overlay"><h4>Padmanabhapuram Palace</h4>
+        <p>Kannya kummari</p>
+        <span>Palace</span>
+      </div></div></a>
+
+      <a href="{% url 'place-detail' slug='thanjavurmarathapalace' %}">
+    <div class="card palace" data-lat="10.7870" data-lon="79.1378">
+      <img src="https://thumbs.dreamstime.com/b/thanjavur-maratha-palace-complex-known-locally-as-aranmanai-tanjore-tamil-nadu-india-119741514.jpg">
+      <div class="overlay">
+        <h4>ThanjavurMarathaPalace</h4>
+        <p>Darasuram</p><span>Palace</span>
+      </div></div></a>
+      
+      <a href="{% url 'place-detail' slug='thirumalainayakkarpalace' %}">
+    <div class="card palace" data-lat="9.9195" data-lon="78.1193">
+      <img src="https://www.overstaytonight.com/wp-content/uploads/2021/09/Thirumalai-Nayakkar-Palace-1024x512.jpg">
+      <div class="overlay"><h4>Thirumalai Nayakkar Palace</h4>
+        <p>Madurai</p><span>Palace</span>
+      </div></div></a>
+
+      <a href="{% url 'place-detail' slug='chettinadpalace' %}">
+<div class="card palace" data-lat="10.0675" data-lon="78.7830">
+<img src=  "https://www.theparkhotels.com/images/site-specific/the-lotus-palace-chettinad/home/banner-1.jpg">
+<div class="overlay">
+<h4>Chettinad Palace</h4>
+<p>Karaikudi</p>
+<span>Palace</span>
+</div></div></a>
+<!--
+    <div class="card palace"><img src="https://images.unsplash.com/photo-1549880338-65ddcdfd017b"><div class="overlay"><h3>Padmanabhapuram Palace</h3><p>Kanyakumari</p><span>Palace</span></div></div>
+    <div class="card palace"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"><div class="overlay"><h3>Thanjavur Maratha Palace</h3><p>Thanjavur</p><span>Palace</span></div></div>
+    <div class="card palace"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7"><div class="overlay"><h3>Ramanathapuram Palace</h3><p>Ramanathapuram</p><span>Palace</span></div></div>
+    <div class="card palace"><img src="https://images.unsplash.com/photo-1500534314209-a26db0f5f5b4"><div class="overlay"><h3>Sivaganga Palace</h3><p>Sivaganga</p><span>Palace</span></div></div>
+    <div class="card palace"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"><div class="overlay"><h3>Ettayapuram Palace</h3><p>Thoothukudi</p><span>Palace</span></div></div>
+    <div class="card palace"><img src="https://images.unsplash.com/photo-1529429617124-95b109e86bb8"><div class="overlay"><h3>Chepauk Palace</h3><p>Chennai</p><span>Palace</span></div></div>
+
+    MUSEUMS (6) -->
+     <a href="{% url 'place-detail' slug='governmentartscollegemuseum' %}">
+<div class="card museum" data-lat="10.9601" data-lon="79.3812">
+<img src=  "https://airial.travel/_next/image?url=https%3A%2F%2Fcoinventmediastorage.blob.core.windows.net%2Fmedia-storage-container%2Fgphoto_ChIJ0Z01JXrNqjsRKNXluyBPTCI_0.jpg&w=3840&q=75">
+<div class="overlay">
+<h4>Govt Arts College Museum</h4>
+<p>Kumbakonam</p>
+<span>Museum</span>
+</div></div></a>
+
+<!--
+    <div class="card museum"><img src="https://images.unsplash.com/photo-1529429617124-95b109e86bb8"><div class="overlay"><h3>Government Museum</h3><p>Chennai</p><span>Museum</span></div></div>
+    <div class="card museum"><img src="https://images.unsplash.com/photo-1558980394-0c8c5f8b6f9e"><div class="overlay"><h3>Poompuhar Heritage Museum</h3><p>Nagapattinam</p><span>Museum</span></div></div>
+    <div class="card museum"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"><div class="overlay"><h3>Railway Museum</h3><p>Chennai</p><span>Museum</span></div></div>
+    <div class="card museum"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7"><div class="overlay"><h3>DakshinaChitra Museum</h3><p>Chennai</p><span>Museum</span></div></div>
+    <div class="card museum"><img src="https://images.unsplash.com/photo-1500534314209-a26db0f5f5b4"><div class="overlay"><h3>Thanjavur Art Gallery</h3><p>Thanjavur</p><span>Museum</span></div></div>
+    <div class="card museum"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"><div class="overlay"><h3>Madurai Gandhi Memorial Museum</h3><p>Madurai</p><span>Museum</span></div></div>
+
+     NATURE (4) -->
+<a href="{% url 'place-detail' slug='marinabeach' %}">
+<div class="card nature" data-lat="13.0500" data-lon="80.2824">
+<img src=  "https://www.trawell.in/admin/images/upload/705431925Merina_Beach_Main.jpg">
+<div class="overlay">
+<h4>Marina Beach</h4>
+<p>Chennai</p>
+<span>Nature</span>
+</div></div></a>
+
+<a href="{% url 'place-detail' slug='potramaraikulam' %}">
+<div class="card nature" data-lat="9.9190" data-lon="78.1190">
+<img src=  "https://upload.wikimedia.org/wikipedia/commons/c/ca/Potramarai1.jpg">
+<div class="overlay">
+<h4>Portamarai Kulam</h4>
+<p>Madurai</p>
+<span>Heritage</span>
+</div></div></a>
+
+<a href="{% url 'place-detail' slug='kumbakonamtownhall' %}">
+<div class="card nature" data-lat="10.9620" data-lon="79.3845">
+<img src=  "https://i.ytimg.com/vi/hgv5Amor8GU/maxresdefault.jpg">
+<div class="overlay">
+<h4>Kumbakonam Town Hall</h4>
+<p>Kumbakonam</p>
+<span>Heritage</span>
+</div></div></a>
+
+ <!--
+
+    <div class="card nature"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470"><div class="overlay"><h3>Hogenakkal Falls</h3><p>Dharmapuri</p><span>Nature</span></div></div>
+    <div class="card nature"><img src="https://images.unsplash.com/photo-1500534314209-a26db0f5f5b4"><div class="overlay"><h3>Pichavaram Mangrove Forest</h3><p>Chidambaram</p><span>Nature</span></div></div>
+    <div class="card nature"><img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb"><div class="overlay"><h3>Pulicat Lake</h3><p>Tiruvallur</p><span>Nature</span></div></div>
+    <div class="card nature"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7"><div class="overlay"><h3>Courtallam Falls</h3><p>Tirunelveli</p><span>Nature</span></div></div>
+
+     HILL / LAKE (2) -->
+
+
+    <a href="{% url 'place-detail' slug='ootyudhagamandalam' %}">
+<div class="card hill" data-lat="11.4102" data-lon="76.6950">
+<img src=  "https://media-cdn.tripadvisor.com/media/photo-s/1b/7a/d6/df/ooty.jpg">
+<div class="overlay">
+<h4>Ooty (Udhagamandalam)</h4>
+<p>Nilgiris</p>
+<span>Hill</span>
+</div></div></a>
+
+<a href="{% url 'place-detail' slug='kodaikanal' %}">
+<div class="card hill" data-lat="10.2381" data-lon="77.4892">
+<img src=  "https://as1.ftcdn.net/jpg/02/46/15/42/1000_F_246154236_S8XQiYeoaPfCCAA1fNoWgcwi29arbVgt.jpg">
+<div class="overlay">
+<h4>Kodaikanal</h4>
+<p>Dindigul</p>
+<span>Hill</span>
+</div></div></a>
+
+<a href="{% url 'place-detail' slug='yercaud' %}">
+<div class="card hill" data-lat="11.7753" data-lon="78.2090">
+<img src=  "https://tamilnadutourisminfo.com/wp-content/uploads/2019/03/Yercaud-hill-station.webp">
+<div class="overlay">
+<h4>Yercaud</h4>
+<p>Salem</p>
+<span>Hill</span>
+</div></div></a>
+  </div>
+</div>
+<!-- ===== DUMMY CHATBOT ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+    <div class="bot-msg">This is a demo chatbot. Advanced version coming soon!</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+
+
+<script>
+
+/* ===== CATEGORY FILTER ===== */
+
+function filterCategory(category, btn){
+
+  const cards = document.querySelectorAll(".card");
+  const buttons = document.querySelectorAll(".categories button");
+
+  buttons.forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+
+  let delay = 0;
+
+  cards.forEach(card => {
+
+    if(category === "all" || card.classList.contains(category)){
+
+      card.classList.remove("hide");
+
+      setTimeout(()=>{
+        card.classList.add("show");
+      }, delay);
+
+      delay += 80;
+
+    }
+    else{
+      card.classList.remove("show");
+      card.classList.add("hide");
+    }
+
+  });
+
+}
+/* ===== SEARCH FUNCTION ===== */
+
+document.getElementById("searchInput").addEventListener("keyup", function(){
+
+  const value = this.value.toLowerCase();
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+
+    const text = card.innerText.toLowerCase();
+
+    if(text.includes(value)){
+      card.classList.remove("hide");
+    }
+    else{
+      card.classList.add("hide");
+    }
+
+  });
+
+});
+
+/* ===== CHATBOT ===== */
+
+function toggleChat(){
+
+  const chat = document.getElementById("chatbot");
+
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+
+}
+
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage(){
+
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+
+  if(msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+
+/* ===== PROFILE DROPDOWN ===== */
+
+function toggleProfile(){
+
+  const menu = document.getElementById("profileMenu");
+
+  menu.style.display = (menu.style.display === "block") ? "none" : "block";
+
+}
+
+
+/* ===== LOGOUT ===== */
+
+function logoutUser(){
+
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+
+  alert("👋 Logged out successfully");
+
+  window.location.href = "{% url 'accounts:login' %}";
+
+}
+
+
+/* ===== CLOSE DROPDOWN CLICK OUTSIDE ===== */
+
+document.addEventListener("click", function(e){
+
+  const dropdown = document.querySelector(".profile-dropdown");
+
+  if(dropdown && !dropdown.contains(e.target)){
+    document.getElementById("profileMenu").style.display = "none";
+  }
+
+});
+
+
+/* ===== NEAREST PLACES SYSTEM ===== */
+navigator.geolocation.getCurrentPosition(function(position){
+
+let userLat = position.coords.latitude;
+let userLon = position.coords.longitude;
+
+let cards = document.querySelectorAll(".card");
+
+let places = [];
+
+cards.forEach(card => {
+
+let placeLat = card.dataset.lat;
+let placeLon = card.dataset.lon;
+
+if(!placeLat || !placeLon) return;
+
+const R = 6371;
+
+const dLat = (placeLat-userLat) * Math.PI/180;
+const dLon = (placeLon-userLon) * Math.PI/180;
+
+const a =
+Math.sin(dLat/2) * Math.sin(dLat/2) +
+Math.cos(userLat * Math.PI/180) *
+Math.cos(placeLat * Math.PI/180) *
+Math.sin(dLon/2) * Math.sin(dLon/2);
+
+const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+let distance = R * c;
+
+places.push({card:card, distance:distance});
+
+});
+
+// sort nearest first
+places.sort((a,b)=>a.distance-b.distance);
+
+// show top 3 nearest
+const nearbyDiv = document.getElementById("nearby");
+
+places.slice(0,3).forEach(place => {
+
+let clone = place.card.cloneNode(true);
+
+let badge = clone.querySelector(".distance");
+
+if(badge){
+badge.innerText = place.distance.toFixed(1)+" km away";
+}
+
+nearbyDiv.appendChild(clone);
+
+});
+
+});
+
+
+window.addEventListener("DOMContentLoaded", () => {
+
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach((card, index) => {
+
+    setTimeout(() => {
+      card.classList.add("show");
+    }, index * 80);   // stagger animation
+
+  });
+
+});
+</script>
+</body>
+</html>

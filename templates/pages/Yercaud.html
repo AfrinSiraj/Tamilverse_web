@@ -1,0 +1,632 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Yercaud | Tamilverse</title>
+
+<link rel="stylesheet" href="{% static 'css/pages.css' %}">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <span>Tamilverse</span>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page">
+
+  <!-- READ BUTTON -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- IMAGE | CONTENT -->
+  <section class="split-section">
+
+    <!-- IMAGE -->
+<div class="image-slider">
+  <img id="slider-image"
+    src="https://tamilnadutourisminfo.com/wp-content/uploads/2019/03/Yercaud-hill-station.webp">
+
+  <div class="slider-buttons">
+    <button onclick="prevImage()">⟨</button>
+    <button onclick="nextImage()">⟩</button>
+  </div>
+</div>
+
+    <!-- CONTENT -->
+    <div class="place-card" id="desc-en">
+<h1>Yercaud – Salem</h1>
+
+<p><strong>Yercaud</strong> is a peaceful hill station located in the Shevaroy Hills of Salem district, Tamil Nadu.</p>
+
+<p>It is known for its cool climate, coffee plantations, and scenic viewpoints.</p>
+
+<p>Popular attractions include Yercaud Lake, Pagoda Point, and Botanical Garden.</p>
+
+<p>It is a budget-friendly and less crowded alternative to Ooty and Kodaikanal.</p>
+
+<p>Yercaud is perfect for nature lovers and a relaxing getaway.</p></div>
+
+  </section>
+
+  <!-- MAP + NEARBY -->
+  <section class="info-grid">
+
+    <div class="grid-box">
+      
+<iframe src="https://www.google.com/maps?q=Yercaud+Salem&output=embed"></iframe>    </div>
+
+    <!-- 🏨 Nearby Hotels -->
+<div class="grid-box">
+  <h3>🏨 Nearby Hotels</h3>
+
+  <div class="hotel-carousel">
+    <img id="hotel-carousel-img"
+      src="https://content.jdmagicbox.com/comp/kumbakonam/l6/9999px435.x435.121115170524.t6l6/catalogue/raya-s-grand-kumbakonam-3-star-hotels-gs2uf.jpg"
+      alt="Hotel">
+
+    <div class="hotel-carousel-name" id="hotel-carousel-name">
+      Hotel Raya’s Grand
+    </div>
+<div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <div class="slider-buttons">
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 📍 Nearby Places -->
+<div class="grid-box">
+  <h3>📍 Nearby Places</h3>
+
+  <div class="hotel-carousel">
+    <img id="place-carousel-img"
+      src="https://upload.wikimedia.org/wikipedia/commons/1/10/Gopuras_in_Kumbakonam_-_India.JPG"
+      alt="Nearby Place">
+
+    <div class="hotel-carousel-name" id="place-carousel-name">
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevPlace()">⟨</button>
+      <button onclick="nextPlace()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🍽️ Places to Eat -->
+<div class="grid-box">
+  <h3>🍽️ Places to Eat</h3>
+
+  <div class="hotel-carousel">
+    <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+
+  <center><a href="#" id="eat-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <img id="eat-carousel-img"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQulaUPUHvmrEfhI42Gq2_2cPcn5G3eDFHL_Q&s"
+      alt="Place to Eat">
+
+    <div class="hotel-carousel-name" id="eat-carousel-name">
+      Mangalambiga Coffee
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+  </div>
+</div>
+  </section>
+
+  <!-- ⭐ Reviews Section -->
+  <section class="reviews-section">
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.7</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+ <div class="review-card">
+  <strong>Kiran</strong>
+  <div class="stars">★★★★★</div>
+  <p>Yercaud is calm and less crowded. Perfect place to relax and enjoy nature.</p>
+</div>
+
+<div class="review-card">
+  <strong>Anitha</strong>
+  <div class="stars">★★★★☆</div>
+  <p>Beautiful hill station with great views and peaceful environment.</p>
+</div>
+    </div>
+
+    <form class="review-form" onsubmit="addReview(event)">
+  <input type="text" id="reviewName" placeholder="Your name" required>
+
+  <!-- ⭐ Star Rating -->
+  <div class="star-input" id="starInput">
+    <span onclick="setRating(1)">★</span>
+    <span onclick="setRating(2)">★</span>
+    <span onclick="setRating(3)">★</span>
+    <span onclick="setRating(4)">★</span>
+    <span onclick="setRating(5)">★</span>
+  </div>
+
+  <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+
+  <button type="submit">Add Review</button>
+</form>
+
+  </section>
+
+</div>
+
+<!-- ===== DUMMY CHATBOT ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<script>
+const profileBtn = document.querySelector(".profile-btn");
+const dropdown = document.querySelector(".dropdown-menu");
+
+profileBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdown.style.display =
+    dropdown.style.display === "flex" ? "none" : "flex";
+});
+
+document.addEventListener("click", () => {
+  dropdown.style.display = "none";
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("loggedInUser");
+  const userSpan = document.getElementById("nav-username");
+
+  if (username && userSpan) {
+      userSpan.textContent = "👤" + username;
+  }
+});
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("loggedInUser");
+  const userSpan = document.getElementById("nav-username");
+
+  if (username && userSpan) {
+    userSpan.textContent = "👤 " + username;
+  }
+});
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+
+  alert("👋 Logged out successfully");
+
+  window.location.href = "{% url 'accounts:login' %}";
+}
+function readEnglish() {
+  const text = document.getElementById("desc-en").innerText;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-IN";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+const images = [
+  "https://tamilnadutourisminfo.com/wp-content/uploads/2019/03/Yercaud-hill-station.webp",
+
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq5F5l85wdHur2fsWNLftZlBV466lIonGvUw&s",
+
+  "https://mediaindia.eu/wp-content/uploads/2021/09/1631168284610.jpg"
+];
+
+let current = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function slideTo(index, direction = "next") {
+  sliderImage.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    sliderImage.src = images[index];
+    sliderImage.style.transition = "none";
+    sliderImage.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      sliderImage.style.transition = "transform 0.8s ease-in-out";
+      sliderImage.style.transform = "translateX(0)";
+    });
+  }, 600);
+}
+
+function nextImage() {
+  current = (current + 1) % images.length;
+  slideTo(current, "next");
+}
+
+function prevImage() {
+  current = (current - 1 + images.length) % images.length;
+  slideTo(current, "prev");
+}
+
+
+const hotelCarousel = [
+{
+  name: "Sterling Yercaud",
+  img: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/416514648.jpg?k=49363a22fecb52540f21dbf6da6cba7cdce7a266d22b977084dd37da67ed56ca&o=",
+  location: "Lake View Road",
+  rating: "4.2 / 5",
+  distance: "1.5 km",
+  map: "https://www.google.com/maps?q=Sterling+Yercaud"
+},
+{
+  name: "Hotel Shevaroys",
+  img: "https://content.jdmagicbox.com/comp/yercaud/g5/9999p4181.4181.130330105139.w3g5/catalogue/shevaroys-hotel-yercaud-ho-yercaud-hotels-dihfcix9oj.jpg",
+  location: "Near Yercaud Lake",
+  rating: "4.0 / 5",
+  distance: "1.0 km",
+  map: "https://www.google.com/maps?q=Hotel+Shevaroys+Yercaud"
+},
+{
+  name: "Grand Palace Hotel & Spa",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/86/4d/fa/main-photo.jpg?w=900&h=-1&s=1",
+  location: "Pagoda Point Road",
+  rating: "4.3 / 5",
+  distance: "2.0 km",
+  map: "https://www.google.com/maps?q=Grand+Palace+Hotel+Yercaud"
+}
+];
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+
+function updateHotelPopup(index) {
+  hotelLocation.textContent = hotelCarousel[index].location;
+  hotelRating.textContent = hotelCarousel[index].rating;
+  hotelDistance.textContent = hotelCarousel[index].distance;
+  hotelMap.href = hotelCarousel[index].map;
+
+}
+
+
+const placeCarousel = [
+{
+  name: "Sankagiri Fort – Salem",
+  img: "https://www.hlimg.com/images/things2do/738X538/fort_1510752474t.jpg",
+  link: "{% url 'place-detail' slug='sankagirifort' %}"
+},
+{
+  name: "Vellore Fort – Vellore",
+  img: "https://www.trawell.in/admin/images/upload/548011903Vellore_Fort_Main.jpg",
+  link: "{% url 'place-detail' slug='vellorefort' %}"
+},
+{
+  name: "Marina Beach – Chennai",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/5c/20/a9/nice-places-to-see-at.jpg?w=1200&h=-1&s=1",
+  link: "{% url 'place-detail' slug='marinabeach' %}"
+}
+];
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+
+const eatCarousel = [
+{
+  name: "Sweet Rascal Restaurant",
+  img: "https://content.jdmagicbox.com/comp/yercaud/w8/9999p4181.4181.130519165318.a2w8/catalogue/sweet-rascal-yercaud-north-indian-restaurants-1yvp0k3by9.jpg",
+  location: "Yercaud",
+  rating: "4.2 / 5",
+  distance: "1.2 km",
+  map: "https://www.google.com/maps?q=Sweet+Rascal+Restaurant+Yercaud"
+},
+{
+  name: "The Orange Restaurant",
+  img: "https://c8.alamy.com/comp/2RH37DW/breakfast-table-near-lake-in-asian-resort-2RH37DW.jpg",
+  location: "Near Lake",
+  rating: "4.1 / 5",
+  distance: "1.0 km",
+  map: "https://www.google.com/maps?q=The+Orange+Restaurant+Yercaud"
+},
+{
+  name: "Green Park Restaurant",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/e9/6e/0f/20200216-153144-largejpg.jpg?w=800&h=800&s=1",
+  location: "Yercaud Town",
+  rating: "4.0 / 5",
+  distance: "1.3 km",
+  map: "https://www.google.com/maps?q=Green+Park+Restaurant+Yercaud"
+}
+];
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function updateEatPopup(index) {
+  eatLocation.textContent = eatCarousel[index].location;
+  eatRating.textContent = eatCarousel[index].rating;
+  eatDistance.textContent = eatCarousel[index].distance;
+  eatMap.href = eatCarousel[index].map;
+}
+
+
+function slide(el, newSrc, direction = "next") {
+  el.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    el.src = newSrc;
+    el.style.transition = "none";
+    el.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      el.style.transition = "transform 1.2s ease";
+      el.style.transform = "translateX(0)";
+    });
+  }, 500);
+}
+
+/* HOTELS */
+function nextHotel() {
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "next");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+function prevHotel() {
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "prev");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+
+/* PLACES */
+function updatePlace(index) {
+  placeImg.src = placeCarousel[index].img;
+  placeName.innerHTML = `
+    <a href="${placeCarousel[index].link}" class="place-link">
+      ${placeCarousel[index].name}
+    </a>
+  `;
+}
+
+// initialize first place
+updatePlace(placeIndex);
+
+function nextPlace() {
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "next");
+  updatePlace(placeIndex);
+}
+
+function prevPlace() {
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "prev");
+  updatePlace(placeIndex);
+}
+
+/* EAT */
+function nextEat() {
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "next");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+function prevEat() {
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "prev");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+
+
+let translated = false;
+let originalText = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalText = content.innerHTML;
+
+ content.innerHTML = `
+<h1>யேர்காடு – சேலம்</h1>
+
+<p><strong>யேர்காடு</strong> தமிழ்நாட்டின் சேலம் மாவட்டத்தில் உள்ள சேவராய் மலைப்பகுதியில் அமைந்துள்ள அமைதியான மலைநகரமாகும்.</p>
+
+<p>இது குளிர்ந்த காலநிலை, காப்பி தோட்டங்கள் மற்றும் அழகான காட்சிகளுக்காக பிரசித்தி பெற்றது.</p>
+
+<p>யேர்காடு ஏரி, பகோடா பாயிண்ட் மற்றும் தாவரவியல் பூங்கா போன்ற இடங்கள் முக்கியமானவை.</p>
+
+<p>இது ஊட்டி மற்றும் கொடைக்கானலை விட குறைந்த செலவில் அமைதியான சுற்றுலா இடமாகும்.</p>
+
+<p>இயற்கையை விரும்புவோருக்கு இது சிறந்த ஓய்வு இடமாகும்.</p>
+`;
+    translated = true;
+  } else {
+    content.innerHTML = originalText;
+    translated = false;
+  }
+}
+
+
+function toggleChat(){
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage(){
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if(msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  // User message
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+updateHotelPopup(0);
+updateEatPopup(0);
+let selectedRating = 0;
+
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    star.classList.toggle("active", index < rating);
+  });
+}
+
+function addReview(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    alert("Please add a star rating ⭐");
+    return;
+  }
+
+  const stars = "★".repeat(selectedRating) + "☆".repeat(5 - selectedRating);
+
+  const div = document.createElement("div");
+  div.className = "review-card";
+  div.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${stars}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(div);
+
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+  document.querySelectorAll("#starInput span").forEach(s => s.classList.remove("active"));
+}
+
+</script>
+</body>
+</html>

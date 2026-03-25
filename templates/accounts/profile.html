@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile | Tamilverse</title>
+  <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+</head>
+<body>
+  <div class="navbar">
+    <div class="nav-brand">
+      <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+      <span>Tamilverse</span>
+    </div>
+    <div class="nav-links">
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'explore' %}">Explore</a>
+      <a href="{% url 'about' %}">About</a>
+      <a href="{% url 'contact' %}">Contact</a>
+      <a href="{% url 'accounts:settings' %}">Settings</a>
+      <a href="{% url 'accounts:logout' %}">Logout</a>
+    </div>
+  </div>
+
+  <div class="page">
+    <section class="split-section" style="grid-template-columns: 220px 1fr;">
+      <div class="image-slider" style="height:220px;width:220px;border-radius:50%;margin:auto;">
+        {% if user.profile_image %}
+          <img src="{{ user.profile_image.url }}" alt="Profile image" style="border-radius:50%;">
+        {% else %}
+          <img src="{% static 'images/image.png' %}" alt="Default profile" style="border-radius:50%;">
+        {% endif %}
+      </div>
+      <div class="place-card" style="height:auto;">
+        <h1 style="margin-bottom:8px;">{{ user.get_full_name|default:user.username }}</h1>
+        <p><strong>Email:</strong> {{ user.email|default:"-" }}</p>
+        <p><strong>Bio:</strong> {{ user.bio|default:"No bio added yet." }}</p>
+        <p><strong>Location:</strong> {{ user.location|default:"Not set" }}</p>
+      </div>
+    </section>
+
+    <section class="reviews-section">
+      <h2>Liked Places</h2>
+      <div class="info-grid" style="grid-template-columns: repeat(auto-fit,minmax(240px,1fr));">
+        {% for item in liked_places %}
+          <div class="grid-box" style="padding:14px;min-height:120px;">
+            <h3><a href="{% url 'place-detail' item.place.slug %}" style="color:#ffd966;text-decoration:none;">{{ item.place.name }}</a></h3>
+            <p>{{ item.place.district }}</p>
+          </div>
+        {% empty %}
+          <div class="grid-box" style="padding:14px;min-height:120px;"><p>No liked places yet.</p></div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="reviews-section">
+      <h2>Visited Places</h2>
+      <div class="review-list">
+        {% for item in visited_places %}
+          <div class="review-card">
+            <strong><a href="{% url 'place-detail' item.place.slug %}" style="color:#ffd966;text-decoration:none;">{{ item.place.name }}</a></strong>
+            <p>{{ item.timestamp }}</p>
+          </div>
+        {% empty %}
+          <div class="review-card"><p>No visits yet.</p></div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="reviews-section">
+      <h2>Reviews</h2>
+      <div class="review-list">
+        {% for item in reviews %}
+          <div class="review-card">
+            <strong><a href="{% url 'place-detail' item.place.slug %}" style="color:#ffd966;text-decoration:none;">{{ item.place.name }}</a></strong>
+            <div class="stars">{{ item.rating }}/5</div>
+            <p>{{ item.comment }}</p>
+          </div>
+        {% empty %}
+          <div class="review-card"><p>No reviews yet.</p></div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="reviews-section">
+      <h2>Timeline</h2>
+      <div class="review-list">
+        {% for item in timeline %}
+          <div class="review-card">
+            <strong>{{ item.action|title }}</strong>
+            <p>{{ item.place_name }} — {{ item.timestamp }}</p>
+          </div>
+        {% empty %}
+          <div class="review-card"><p>No activity yet.</p></div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</body>
+</html>

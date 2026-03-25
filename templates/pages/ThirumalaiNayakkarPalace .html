@@ -1,0 +1,654 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Thirumalai Nayakkar Palace | Tamilverse</title>
+
+<link rel="stylesheet" href="{% static 'css/pages.css' %}" />
+</head>
+<body>
+
+<!-- ===== NAVBAR (UPDATED – PROFILE DROPDOWN) ===== -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <b><span>Tamilverse</span></b>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE CONTENT ===== -->
+<div class="page">
+
+  <!-- READ / TRANSLATE BUTTONS -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- ===== IMAGE + DESCRIPTION ===== -->
+  <section class="split-section">
+
+    <!-- IMAGE SLIDER -->
+    <div class="image-slider">
+      <img id="slider-image"
+        src="https://upload.wikimedia.org/wikipedia/commons/4/45/Thirumalai_Nayakkar_Palace_Madurai.jpg"
+        alt="Thirumalai Nayakkar Palace">
+
+      <div class="slider-buttons">
+        <button onclick="prevImage()">⟨</button>
+        <button onclick="nextImage()">⟩</button>
+      </div>
+    </div>
+
+    <!-- PLACE DESCRIPTION -->
+    <div class="place-card" id="desc-en">
+      <h1>Thirumalai Nayakkar Palace – Madurai</h1>
+
+      <p>
+        <strong>Thirumalai Nayakkar Palace</strong> is a magnificent 17th-century
+        palace located in Madurai, Tamil Nadu. It was built in 1636 by King
+        Thirumalai Nayak of the Nayak dynasty.
+      </p>
+
+      <p>
+        The palace is renowned for its grand Dravidian–Islamic architectural
+        style, featuring massive pillars, wide arches, and a majestic central
+        courtyard.
+      </p>
+
+      <p>
+        Originally four times larger than its present size, the palace once
+        served as the royal residence and administrative center of the Nayak
+        rulers.
+      </p>
+
+      <p>
+        Today, the palace is a protected monument and hosts a popular sound and
+        light show that narrates the history of Madurai and the Nayak dynasty.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ===== MAP + NEARBY INFO ===== -->
+  <section class="info-grid">
+
+    <!-- MAP -->
+    <div class="grid-box">
+      <iframe
+        src="https://www.google.com/maps?q=Thirumalai+Nayakkar+Palace+Madurai&output=embed"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- NEARBY HOTELS -->
+    <div class="grid-box">
+      <h3>🏨 Nearby Hotels</h3>
+
+      <div class="hotel-carousel">
+  <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+        <img id="hotel-carousel-img"
+          src="https://content.jdmagicbox.com/comp/madurai/k6/0452px452.x452.170210112257.t2k6/catalogue/hotel-heritage-madurai-hotels-1a4q3.jpg"
+          alt="Hotel Heritage Madurai">
+
+        <div class="hotel-carousel-name" id="hotel-carousel-name">
+          Heritage Madurai
+        </div>
+        <div class="slider-buttons">
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+    </div>
+      </div>
+    </div>
+
+    <!-- NEARBY PLACES -->
+    <div class="grid-box">
+      <h3>📍 Nearby Places</h3>
+
+      <div class="hotel-carousel">
+        <img id="place-carousel-img"
+          src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Meenakshi_Amman_Temple_Madurai.jpg"
+          alt="Meenakshi Amman Temple">
+
+        <div class="hotel-carousel-name" id="place-carousel-name">
+          Meenakshi Amman Temple
+        </div>
+      </div>
+    </div>
+
+    <!-- PLACES TO EAT -->
+    <div class="grid-box">
+      <h3>🍽️ Places to Eat</h3>
+
+      <div class="hotel-carousel">
+        <div class="hotel-popup">
+      <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+      <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+      <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+      <center>
+        <a href="#" id="eat-map" class="book-btn" target="_blank">Map</a>
+      </center>
+    </div>
+        <img id="eat-carousel-img"
+          src="https://content.jdmagicbox.com/comp/madurai/y6/0452px452.x452.170315114012.g8y6/catalogue/amman-restaurant-madurai-restaurants-1h3z6.jpg"
+          alt="Amman Restaurant">
+
+        <div class="hotel-carousel-name" id="eat-carousel-name">
+          Amman Restaurant
+        </div>
+        </div>
+           <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== REVIEWS SECTION (STRUCTURE ONLY) ===== -->
+  <section class="reviews-section">
+
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.8</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+      <div class="review-card">
+        <strong>Suresh</strong>
+        <div class="stars">★★★★★</div>
+        <p>Architectural masterpiece with stunning pillars and light show.</p>
+      </div>
+    </div>
+
+    <!-- ADD REVIEW FORM -->
+    <form class="review-form" onsubmit="addReview(event)">
+      <input type="text" id="reviewName" placeholder="Your name" required>
+
+      <div class="star-input" id="starInput">
+        <span onclick="setRating(1)">★</span>
+        <span onclick="setRating(2)">★</span>
+        <span onclick="setRating(3)">★</span>
+        <span onclick="setRating(4)">★</span>
+        <span onclick="setRating(5)">★</span>
+      </div>
+
+      <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+      <button type="submit">Add Review</button>
+    </form>
+
+  </section>
+
+</div>
+
+<!-- ===== CHATBOT (STRUCTURE ONLY) ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- FLOATING CHAT BUTTON -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<script>
+/* =====================================================
+   MAIN IMAGE SLIDER – THIRUMALAI NAYAKKAR PALACE
+===================================================== */
+const images = [
+  "https://upload.wikimedia.org/wikipedia/commons/4/45/Thirumalai_Nayakkar_Palace_Madurai.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/0/0e/Thirumalai_Nayakkar_Palace_Pillars.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/6/6d/Thirumalai_Nayakkar_Palace_Courtyard.jpg"
+];
+
+let imageIndex = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function nextImage() {
+  imageIndex = (imageIndex + 1) % images.length;
+  sliderImage.src = images[imageIndex];
+}
+
+function prevImage() {
+  imageIndex = (imageIndex - 1 + images.length) % images.length;
+  sliderImage.src = images[imageIndex];
+}
+
+/* =====================================================
+   NEARBY HOTELS CAROUSEL
+===================================================== */
+/* =====================================================
+   NEARBY HOTELS CAROUSEL – MADURAI
+===================================================== */
+const hotelCarousel = [
+  {
+    name: "Heritage Madurai",
+    img: "https://content.jdmagicbox.com/comp/madurai/k6/0452px452.x452.170210112257.t2k6/catalogue/hotel-heritage-madurai-hotels-1a4q3.jpg",
+    location: "Melur Road, Madurai",
+    rating: "4.6 / 5",
+    distance: "6.5 km",
+    map: "https://www.google.com/maps?q=Heritage+Madurai"
+  },
+  {
+    name: "The Gateway Hotel Pasumalai",
+    img: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/28139109.jpg",
+    location: "Pasumalai Hills, Madurai",
+    rating: "4.7 / 5",
+    distance: "4.2 km",
+    map: "https://www.google.com/maps?q=Gateway+Hotel+Pasumalai+Madurai"
+  },
+  {
+    name: "JC Residency",
+    img: "https://content.jdmagicbox.com/comp/madurai/n7/0452px452.x452.180522120116.g1n7/catalogue/jc-residency-madurai-hotels-1y4hk.jpg",
+    location: "Lady Doak College Road",
+    rating: "4.4 / 5",
+    distance: "3.1 km",
+    map: "https://www.google.com/maps?q=JC+Residency+Madurai"
+  }
+];
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+function renderHotel(){
+  const h = hotelCarousel[hotelIndex];
+  hotelImg.src = h.img;
+  hotelName.textContent = h.name;
+  hotelLocation.textContent = h.location;
+  hotelRating.textContent = h.rating;
+  hotelDistance.textContent = h.distance;
+  hotelMap.href = h.map;
+}
+
+function nextHotel(){
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  renderHotel();
+}
+
+function prevHotel(){
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  renderHotel();
+}
+
+renderHotel();
+
+/* =====================================================
+   NEARBY PLACES CAROUSEL – MADURAI
+===================================================== */
+const placeCarousel = [
+  {
+    name: "Meenakshi Amman Temple",
+    img: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Meenakshi_Amman_Temple_Madurai.jpg",
+        link: "{% url 'place-detail' slug='meenakshiammantemple' %}"
+
+  },
+  {
+    name: "Gandhi Memorial Museum",
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Gandhi_Memorial_Museum_Madurai.jpg"
+  },
+  {
+    name: "Teppakulam",
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/18/Mariamman_Teppakulam_Madurai.jpg"
+  }
+];
+
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+function renderPlace(){
+  placeImg.src = placeCarousel[placeIndex].img;
+  placeName.textContent = placeCarousel[placeIndex].name;
+}
+
+function nextPlace(){
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  renderPlace();
+}
+
+function prevPlace(){
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  renderPlace();
+}
+
+renderPlace();
+
+/* =====================================================
+   PLACES TO EAT CAROUSEL – MADURAI
+===================================================== */
+const eatCarousel = [
+  {
+    name: "Amman Restaurant",
+    img: "https://content.jdmagicbox.com/comp/madurai/y6/0452px452.x452.170315114012.g8y6/catalogue/amman-restaurant-madurai-restaurants-1h3z6.jpg",
+    location: "West Masi Street",
+    rating: "4.2 / 5",
+    distance: "0.6 km",
+    map: "https://www.google.com/maps?q=Amman+Restaurant+Madurai"
+  },
+  {
+    name: "Murugan Idli Shop",
+    img: "https://content.jdmagicbox.com/comp/madurai/c4/0452px452.x452.180120113745.i8c4/catalogue/murugan-idli-shop-madurai-restaurants-1e9z7.jpg",
+    location: "West Masi Street",
+    rating: "4.5 / 5",
+    distance: "0.4 km",
+    map: "https://www.google.com/maps?q=Murugan+Idli+Shop+Madurai"
+  },
+  {
+    name: "Sree Sabarees",
+    img: "https://content.jdmagicbox.com/comp/madurai/q4/0452px452.x452.190307122548.q8q4/catalogue/sree-sabarees-madurai-restaurants-1l5er.jpg",
+    location: "Town Hall Road",
+    rating: "4.3 / 5",
+    distance: "0.9 km",
+    map: "https://www.google.com/maps?q=Sree+Sabarees+Madurai"
+  }
+];
+
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function renderEat(){
+  const e = eatCarousel[eatIndex];
+  eatImg.src = e.img;
+  eatName.textContent = e.name;
+  eatLocation.textContent = e.location;
+  eatRating.textContent = e.rating;
+  eatDistance.textContent = e.distance;
+  eatMap.href = e.map;
+}
+
+function nextEat(){
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  renderEat();
+}
+
+function prevEat(){
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  renderEat();
+}
+
+renderEat();
+/* =====================================================
+   REVIEWS + STAR RATING
+===================================================== */
+
+let selectedRating = 0;
+
+/* ⭐ SET STAR RATING */
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    star.classList.toggle("active", index < rating);
+  });
+}
+
+/* ➕ ADD REVIEW */
+function addReview(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    alert("Please enter your name, review, and select a star rating ⭐");
+    return;
+  }
+
+  const stars =
+    "★".repeat(selectedRating) +
+    "☆".repeat(5 - selectedRating);
+
+  const reviewCard = document.createElement("div");
+  reviewCard.className = "review-card";
+
+  reviewCard.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${stars}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(reviewCard);
+
+  /* RESET FORM */
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+
+  document
+    .querySelectorAll("#starInput span")
+    .forEach(s => s.classList.remove("active"));
+}
+/* =====================================================
+   READ ALOUD (ENGLISH)
+===================================================== */
+function readEnglish() {
+  const content = document.getElementById("desc-en").innerText;
+  if (!content) return;
+
+  const utterance = new SpeechSynthesisUtterance(content);
+  utterance.lang = "en-IN";
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+/* =====================================================
+   TRANSLATE TOGGLE (EN ↔ TA)
+===================================================== */
+let translated = false;
+let originalHTML = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalHTML = content.innerHTML;
+
+    content.innerHTML = `
+      <h1>திருமலை நாயக்கர் அரண்மனை – மதுரை</h1>
+
+      <p>
+        <strong>திருமலை நாயக்கர் அரண்மனை</strong>
+        தமிழ்நாட்டின் மதுரை நகரில் அமைந்துள்ள
+        17-ஆம் நூற்றாண்டைச் சேர்ந்த பிரம்மாண்டமான
+        அரச அரண்மனையாகும்.
+      </p>
+
+      <p>
+        1636 ஆம் ஆண்டு நாயக்கர் வம்சத்தின்
+        மன்னர் திருமலை நாயக்கரால்
+        இந்த அரண்மனை கட்டப்பட்டது.
+      </p>
+
+      <p>
+        திராவிட மற்றும் இஸ்லாமிய
+        கட்டிடக்கலை கலவையுடன் அமைந்த
+        உயரமான தூண்கள், வளைந்த வாயில்கள்
+        இந்த அரண்மனையின் முக்கிய சிறப்பம்சங்களாகும்.
+      </p>
+
+      <p>
+        இன்றும் இந்த அரண்மனையில்
+        ஒளி-ஒலி நிகழ்ச்சி நடத்தப்பட்டு
+        மதுரையின் வரலாறையும்
+        நாயக்கர் கால வரலாறையும்
+        பார்வையாளர்களுக்கு எடுத்துரைக்கிறது.
+      </p>
+    `;
+    translated = true;
+  } else {
+    content.innerHTML = originalHTML;
+    translated = false;
+  }
+}
+/* =====================================================
+   CHATBOT TOGGLE + SEND MESSAGE (DEMO)
+===================================================== */
+function toggleChat() {
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage() {
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if (msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  // USER MESSAGE
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  // BOT REPLY (DEMO)
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+
+/* =====================================================
+   PROFILE DROPDOWN
+===================================================== */
+function toggleProfile() {
+  const menu = document.getElementById("profileMenu");
+  menu.classList.toggle("show");
+}
+
+/* CLOSE PROFILE WHEN CLICKING OUTSIDE */
+document.addEventListener("click", function (e) {
+  const dropdown = document.querySelector(".profile-dropdown");
+  const menu = document.getElementById("profileMenu");
+
+  if (dropdown && !dropdown.contains(e.target)) {
+    menu.classList.remove("show");
+  }
+});
+
+/* =====================================================
+   LOGOUT (DEMO)
+===================================================== */
+function logoutUser() {
+  alert("Logout successful (demo)");
+  // future real logout:
+  // window.location.href = "{% url 'accounts:login' %}";
+}
+  const profileBtn = document.querySelector(".profile-btn");
+  const dropdown = document.querySelector(".dropdown-menu");
+
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.style.display =
+      dropdown.style.display === "flex" ? "none" : "flex";
+  });
+
+  document.addEventListener("click", () => {
+    dropdown.style.display = "none";
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem("loggedInUser");
+    const userSpan = document.getElementById("nav-username");
+
+    if (username && userSpan) {
+        userSpan.textContent = "👤" + username;
+    }
+});
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+
+</script>
+</body>
+</html>

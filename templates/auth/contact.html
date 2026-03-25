@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact | Tamilverse</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- FONT AWESOME (REAL ICONS) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(180deg,#2f5f5b,#1f3f3c);
+  color:white;
+}
+
+/* NAVBAR */
+.navbar{
+  padding:18px 60px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(0,0,0,0.35);
+}
+
+.nav-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.nav-brand img{
+  width:35px;
+}
+
+.nav-links a{
+  margin-left:25px;
+  color:white;
+  text-decoration:none;
+}
+
+.nav-links a:hover{
+  color:#f4c430;
+}
+
+/* CONTAINER CENTER */
+.container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:60px 60px 60px 60px;
+  text-align:center;
+}
+
+/* FORM BOX */
+.contact-box{
+  width:60%;
+  max-width:500px;
+  background:rgba(0,0,0,0.3);
+  padding:30px;
+  border-radius:20px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* FORM */
+form{
+  width:80%;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+/* INPUTS */
+input, textarea{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  outline:none;
+  background:white;
+  font-family:inherit;
+}
+
+/* BUTTON */
+button{
+  padding:12px;
+  border:none;
+  border-radius:25px;
+  background:#f4c430;
+  color:#2f5f5b;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* CONTACT LINKS */
+.contact-links{
+  margin-top:30px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:15px;
+}
+
+/* LINK BOX */
+.contact-links a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  background:rgba(0,0,0,0.3);
+  padding:10px 16px;
+  border-radius:25px;
+  color:white;
+  font-size:14px;
+  transition:0.3s;
+}
+
+/* ICON STYLE */
+.contact-links i{
+  font-size:16px;
+}
+
+/* HOVER */
+.contact-links a:hover{
+  background:#f4c430;
+  color:#2f5f5b;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}">
+    <b>Tamilverse</b>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+  </div>
+</div>
+
+<div class="container">
+
+<h1>Contact Us 📩</h1>
+<p>We’d love to hear from you!</p>
+
+<!-- FORM -->
+<div class="contact-box">
+<form onsubmit="sendMsg(event)">
+
+<input type="text" placeholder="Your Name" required>
+<input type="email" placeholder="Your Email" required>
+<textarea rows="5" placeholder="Your Message" required></textarea>
+
+<button type="submit">Send Message</button>
+
+</form>
+</div>
+
+<!-- CONTACT LINKS -->
+<div class="contact-links">
+
+<a href="mailto:hello@tamilverse.ai">
+  <i class="fas fa-envelope"></i> Email: hello@tamilverse.ai
+</a>
+
+<a href="https://instagram.com/tamilverse" target="_blank">
+  <i class="fab fa-instagram"></i> Instagram: @tamilverse
+</a>
+
+<a href="https://twitter.com/tamilverse" target="_blank">
+  <i class="fab fa-twitter"></i> Twitter: @tamilverse
+</a>
+
+<a href="https://facebook.com/tamilverse" target="_blank">
+  <i class="fab fa-facebook"></i> Facebook: /tamilverse
+</a>
+
+<a href="https://linkedin.com/in/tamilverse" target="_blank">
+  <i class="fab fa-linkedin"></i> LinkedIn: /in/tamilverse
+</a>
+
+</div>
+
+</div>
+
+<script>
+function sendMsg(e){
+  e.preventDefault();
+  alert("Message sent successfully 🚀");
+}
+</script>
+
+</body>
+</html>

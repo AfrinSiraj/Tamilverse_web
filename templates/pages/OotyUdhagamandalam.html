@@ -1,0 +1,630 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Ooty Udhagamandalam | Tamilverse</title>
+<link rel="stylesheet" href="{% static 'css/pages.css' %}">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <span>Tamilverse</span>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page">
+
+  <!-- READ BUTTON -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- IMAGE | CONTENT -->
+  <section class="split-section">
+
+    <!-- IMAGE -->
+ <div class="image-slider">
+  <img id="slider-image"
+    src="https://media-cdn.tripadvisor.com/media/photo-s/1b/7a/d6/df/ooty.jpg">
+
+  <div class="slider-buttons">
+    <button onclick="prevImage()">⟨</button>
+    <button onclick="nextImage()">⟩</button>
+  </div>
+</div>
+
+    <!-- CONTENT -->
+    <div class="place-card" id="desc-en">
+    <h1>Ooty (Udhagamandalam) – Nilgiris</h1>
+
+<p><strong>Ooty</strong>, also known as Udhagamandalam, is a beautiful hill station located in the Nilgiri Hills of Tamil Nadu.</p>
+
+<p>It is famous for its cool climate, scenic landscapes, and lush green tea plantations.</p>
+
+<p>The town offers attractions like Ooty Lake, Botanical Gardens, and the Nilgiri Mountain Railway.</p>
+
+<p>It is one of the most popular tourist destinations in South India.</p>
+
+<p>With its natural beauty and peaceful atmosphere, Ooty is perfect for relaxation and travel.</p></div>
+
+  </section>
+
+  <!-- MAP + NEARBY -->
+  <section class="info-grid">
+
+    <div class="grid-box">
+      
+<iframe src="https://www.google.com/maps?q=Ooty+Udhagamandalam&output=embed"></iframe>    </div>
+
+    <!-- 🏨 Nearby Hotels -->
+<div class="grid-box">
+  <h3>🏨 Nearby Hotels</h3>
+
+  <div class="hotel-carousel">
+    <img id="hotel-carousel-img"
+      src="https://content.jdmagicbox.com/comp/kumbakonam/l6/9999px435.x435.121115170524.t6l6/catalogue/raya-s-grand-kumbakonam-3-star-hotels-gs2uf.jpg"
+      alt="Hotel">
+
+    <div class="hotel-carousel-name" id="hotel-carousel-name">
+      Hotel Raya’s Grand
+    </div>
+<div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <div class="slider-buttons">
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 📍 Nearby Places -->
+<div class="grid-box">
+  <h3>📍 Nearby Places</h3>
+
+  <div class="hotel-carousel">
+    <img id="place-carousel-img"
+      src="https://upload.wikimedia.org/wikipedia/commons/1/10/Gopuras_in_Kumbakonam_-_India.JPG"
+      alt="Nearby Place">
+
+    <div class="hotel-carousel-name" id="place-carousel-name">
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevPlace()">⟨</button>
+      <button onclick="nextPlace()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🍽️ Places to Eat -->
+<div class="grid-box">
+  <h3>🍽️ Places to Eat</h3>
+
+  <div class="hotel-carousel">
+    <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+
+  <center><a href="#" id="eat-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <img id="eat-carousel-img"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQulaUPUHvmrEfhI42Gq2_2cPcn5G3eDFHL_Q&s"
+      alt="Place to Eat">
+
+    <div class="hotel-carousel-name" id="eat-carousel-name">
+      Mangalambiga Coffee
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+  </div>
+</div>
+  </section>
+
+  <!-- ⭐ Reviews Section -->
+  <section class="reviews-section">
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.7</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+<div class="review-card">
+  <strong>Arun</strong>
+  <div class="stars">★★★★★</div>
+  <p>Ooty is breathtaking with cool climate and scenic beauty. Loved the peaceful vibe.</p>
+</div>
+
+<div class="review-card">
+  <strong>Divya</strong>
+  <div class="stars">★★★★☆</div>
+  <p>Beautiful hill station with amazing views and greenery. Perfect getaway place.</p>
+</div>
+    </div>
+
+    <form class="review-form" onsubmit="addReview(event)">
+  <input type="text" id="reviewName" placeholder="Your name" required>
+
+  <!-- ⭐ Star Rating -->
+  <div class="star-input" id="starInput">
+    <span onclick="setRating(1)">★</span>
+    <span onclick="setRating(2)">★</span>
+    <span onclick="setRating(3)">★</span>
+    <span onclick="setRating(4)">★</span>
+    <span onclick="setRating(5)">★</span>
+  </div>
+
+  <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+
+  <button type="submit">Add Review</button>
+</form>
+
+  </section>
+
+</div>
+
+<!-- ===== DUMMY CHATBOT ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<script>
+const profileBtn = document.querySelector(".profile-btn");
+const dropdown = document.querySelector(".dropdown-menu");
+
+profileBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdown.style.display =
+    dropdown.style.display === "flex" ? "none" : "flex";
+});
+
+document.addEventListener("click", () => {
+  dropdown.style.display = "none";
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("loggedInUser");
+  const userSpan = document.getElementById("nav-username");
+
+  if (username && userSpan) {
+      userSpan.textContent = "👤" + username;
+  }
+});
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("loggedInUser");
+  const userSpan = document.getElementById("nav-username");
+
+  if (username && userSpan) {
+    userSpan.textContent = "👤 " + username;
+  }
+});
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+
+  alert("👋 Logged out successfully");
+
+  window.location.href = "{% url 'accounts:login' %}";
+}
+function readEnglish() {
+  const text = document.getElementById("desc-en").innerText;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-IN";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+const images = [
+  "https://media-cdn.tripadvisor.com/media/photo-s/1b/7a/d6/df/ooty.jpg",
+
+  "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/3d/3d/ce/doddabetta-peak.jpg?w=500&h=500&s=1",
+
+  "https://magikindia.com/wp-content/uploads/2015/12/nilgiri.jpg"
+];
+
+let current = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function slideTo(index, direction = "next") {
+  sliderImage.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    sliderImage.src = images[index];
+    sliderImage.style.transition = "none";
+    sliderImage.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      sliderImage.style.transition = "transform 0.8s ease-in-out";
+      sliderImage.style.transform = "translateX(0)";
+    });
+  }, 600);
+}
+
+function nextImage() {
+  current = (current + 1) % images.length;
+  slideTo(current, "next");
+}
+
+function prevImage() {
+  current = (current - 1 + images.length) % images.length;
+  slideTo(current, "prev");
+}
+
+
+const hotelCarousel = [
+{
+  name: "Hotel Lakeview Ooty",
+  img: "https://ootytours.co.in/wp-content/uploads/2021/05/Hotel-Lakeview-1-1-e1668871098640.jpg",
+  location: "West Lake Road",
+  rating: "4.1 / 5",
+  distance: "1.5 km",
+  map: "https://www.google.com/maps?q=Hotel+Lakeview+Ooty"
+},
+{
+  name: "Hotel Preethi Palace",
+  img: "https://cf.bstatic.com/xdata/images/hotel/max500/112051422.jpg?k=5b9b2f83af115bc93508037da210d5352fb330f4ddf91f7dbfad7346f4651ab9&o=&hp=1",
+  location: "Ettines Road",
+  rating: "4.0 / 5",
+  distance: "1.2 km",
+  map: "https://www.google.com/maps?q=Hotel+Preethi+Palace+Ooty"
+},
+{
+  name: "Hotel Darshan",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2b/f4/5d/a7/caption.jpg?w=900&h=500&s=1",
+  location: "Near Railway Station",
+  rating: "3.9 / 5",
+  distance: "1.0 km",
+  map: "https://www.google.com/maps?q=Hotel+Darshan+Ooty"
+}
+];
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+
+function updateHotelPopup(index) {
+  hotelLocation.textContent = hotelCarousel[index].location;
+  hotelRating.textContent = hotelCarousel[index].rating;
+  hotelDistance.textContent = hotelCarousel[index].distance;
+  hotelMap.href = hotelCarousel[index].map;
+
+}
+
+
+const placeCarousel = [
+{
+  name: "Nilgiri Mountain Railway – Ooty",
+  img: "https://www.oyorooms.com/travel-guide/wp-content/uploads/2020/01/Train-on-Nilgiri-Railway-Track.jpg",
+  link: "NilgiriMountainRailway.html"
+},
+{
+  name: "Marina Beach – Chennai",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/5c/20/a9/nice-places-to-see-at.jpg?w=1200&h=-1&s=1",
+  link: "{% url 'place-detail' slug='marinabeach' %}"
+},
+{
+  name: "Yercaud – Salem",
+  img: "https://mangocalltaxi.com/wp-content/uploads/2023/12/yercaud.webp",
+  link: "{% url 'place-detail' slug='yercaud' %}"
+}
+];
+
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+const eatCarousel = [
+{
+  name: "Earl’s Secret Restaurant",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/16/df/a5/earl-s-secret.jpg?w=900&h=500&s=1",
+  location: "Ooty",
+  rating: "4.2 / 5",
+  distance: "1.3 km",
+  map: "https://www.google.com/maps?q=Earl’s+Secret+Restaurant+Ooty"
+},
+{
+  name: "Hyderabad Biryani House",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/23/c3/7f/e2/caption.jpg?w=900&h=500&s=1",
+  location: "Commercial Road",
+  rating: "4.0 / 5",
+  distance: "1.1 km",
+  map: "https://www.google.com/maps?q=Hyderabad+Biryani+House+Ooty"
+},
+{
+  name: "Place to Bee",
+  img: "https://lh3.googleusercontent.com/ce4WFrComfj9SKjeqfZOgtQn3tiYjTyHzo6l8RNXwtZH7p4WFI1rmxzs4nsvXyGdOFEEwaRk2AicIeQkvwIfntxNwA=w300-rw",
+  location: "Ooty",
+  rating: "4.1 / 5",
+  distance: "1.4 km",
+  map: "https://www.google.com/maps?q=Place+to+Bee+Ooty"
+}
+];
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function updateEatPopup(index) {
+  eatLocation.textContent = eatCarousel[index].location;
+  eatRating.textContent = eatCarousel[index].rating;
+  eatDistance.textContent = eatCarousel[index].distance;
+  eatMap.href = eatCarousel[index].map;
+}
+
+
+function slide(el, newSrc, direction = "next") {
+  el.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    el.src = newSrc;
+    el.style.transition = "none";
+    el.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      el.style.transition = "transform 1.2s ease";
+      el.style.transform = "translateX(0)";
+    });
+  }, 500);
+}
+
+/* HOTELS */
+function nextHotel() {
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "next");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+function prevHotel() {
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "prev");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+
+/* PLACES */
+function updatePlace(index) {
+  placeImg.src = placeCarousel[index].img;
+  placeName.innerHTML = `
+    <a href="${placeCarousel[index].link}" class="place-link">
+      ${placeCarousel[index].name}
+    </a>
+  `;
+}
+
+// initialize first place
+updatePlace(placeIndex);
+
+function nextPlace() {
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "next");
+  updatePlace(placeIndex);
+}
+
+function prevPlace() {
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "prev");
+  updatePlace(placeIndex);
+}
+
+/* EAT */
+function nextEat() {
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "next");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+function prevEat() {
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "prev");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+
+
+let translated = false;
+let originalText = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalText = content.innerHTML;
+content.innerHTML = `
+<h1>ஊட்டி (உதகமண்டலம்) – நீலகிரி</h1>
+
+<p><strong>ஊட்டி</strong> அல்லது உதகமண்டலம், தமிழ்நாட்டின் நீலகிரி மலைப்பகுதியில் அமைந்துள்ள அழகான மலைநகரமாகும்.</p>
+
+<p>இது குளிர்ந்த காலநிலை, பசுமையான இயற்கை மற்றும் தேயிலை தோட்டங்களுக்காக பிரசித்தி பெற்றது.</p>
+
+<p>ஊட்டி ஏரி, தாவரவியல் பூங்கா மற்றும் நீலகிரி மலை ரயில் போன்ற இடங்கள் முக்கியமானவை.</p>
+
+<p>இது தென்னிந்தியாவின் மிகவும் பிரபலமான சுற்றுலா தலங்களில் ஒன்றாகும்.</p>
+
+<p>இயற்கை அழகு மற்றும் அமைதியான சூழல் காரணமாக இது ஓய்விற்கு சிறந்த இடமாகும்.</p>
+`;
+    translated = true;
+  } else {
+    content.innerHTML = originalText;
+    translated = false;
+  }
+}
+
+
+function toggleChat(){
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage(){
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if(msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  // User message
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+updateHotelPopup(0);
+updateEatPopup(0);
+let selectedRating = 0;
+
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    star.classList.toggle("active", index < rating);
+  });
+}
+
+function addReview(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    alert("Please add a star rating ⭐");
+    return;
+  }
+
+  const stars = "★".repeat(selectedRating) + "☆".repeat(5 - selectedRating);
+
+  const div = document.createElement("div");
+  div.className = "review-card";
+  div.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${stars}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(div);
+
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+  document.querySelectorAll("#starInput span").forEach(s => s.classList.remove("active"));
+}
+
+</script>
+</body>
+</html>

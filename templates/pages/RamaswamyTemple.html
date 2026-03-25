@@ -1,0 +1,630 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Ramaswamy Temple | Tamilverse</title>
+
+<link rel="stylesheet" href="{% static 'css/pages.css' %}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <b><span>Tamilverse</span></b>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- READ BUTTON -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- IMAGE | CONTENT -->
+  <section class="split-section">
+
+    <!-- IMAGE -->
+ <div class="image-slider">
+  <img id="slider-image"
+    src="https://english.bharatexpress.com/wp-content/uploads/2024/01/%E0%AE%95%E0%AE%AE%E0%AE%AA%E0%AE%95%E0%AE%A3%E0%AE%AE-%E0%AE%87%E0%AE%B0%E0%AE%AE%E0%AE%9A%E0%AE%AE-%E0%AE%A4%E0%AE%B0%E0%AE%95%E0%AE%95%E0%AE%AF%E0%AE%B2-%E0%AE%A4%E0%AE%9E%E0%AE%9A%E0%AE%B5%E0%AE%B0.jpg">
+  
+  <div class="slider-buttons">
+    <button onclick="prevImage()">⟨</button>
+    <button onclick="nextImage()">⟩</button>
+  </div>
+</div>
+    <!-- CONTENT -->
+    <div class="place-card" id="desc-en">
+ <h1>Ramaswamy Temple – Kumbakonam</h1>
+
+      <p><strong>Ramaswamy Temple</strong> is located in Kumbakonam, Tamil Nadu, and is one of the important Vishnu temples in the region.</p>
+
+      <p>The temple was built in the 16th century CE during the Thanjavur Nayak period and is dedicated to Lord Rama.</p>
+
+      <p>The walls of the praakarams beautifully depict scenes from the Ramayanam, showcasing remarkable artistic and cultural heritage.</p>
+
+      <p>The temple was initiated by Achuthappa Nayak and completed during the reign of Raghunatha Nayak, and it is also one of the five prominent Vishnu temples associated with the Mahamaham festival held once every twelve years.</p>
+</div>
+
+
+  </section>
+
+  <!-- MAP + NEARBY -->
+  <section class="info-grid">
+
+    <div class="grid-box">
+      
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3917.0811247030138!2d79.37112907480764!3d10.957244539202733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3baacd86416b804f%3A0x8b555eb182383817!2sArulmigu%20Ramaswamy%20Temple!5e0!3m2!1sen!2sin!4v1769195281060!5m2!1sen!2sin" ></iframe> 
+   </div>
+
+
+    <!-- 🏨 Nearby Hotels -->
+<div class="grid-box">
+  <h3>🏨 Nearby Hotels</h3>
+
+  <div class="hotel-carousel">
+    <img id="hotel-carousel-img"
+      src="https://content.jdmagicbox.com/comp/kumbakonam/l6/9999px435.x435.121115170524.t6l6/catalogue/raya-s-grand-kumbakonam-3-star-hotels-gs2uf.jpg"
+      alt="Hotel">
+
+    <div class="hotel-carousel-name" id="hotel-carousel-name">
+      Hotel Raya’s Grand
+    </div>
+<div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <div class="slider-buttons">
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 📍 Nearby Places -->
+<div class="grid-box">
+  <h3>📍 Nearby Places</h3>
+
+  <div class="hotel-carousel">
+    <img id="place-carousel-img"
+      src="https://upload.wikimedia.org/wikipedia/commons/1/10/Gopuras_in_Kumbakonam_-_India.JPG"
+      alt="Nearby Place">
+
+    <div class="hotel-carousel-name" id="place-carousel-name">
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevPlace()">⟨</button>
+      <button onclick="nextPlace()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🍽️ Places to Eat -->
+<div class="grid-box">
+  <h3>🍽️ Places to Eat</h3>
+
+  <div class="hotel-carousel">
+    <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+
+  <center><a href="#" id="eat-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <img id="eat-carousel-img"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQulaUPUHvmrEfhI42Gq2_2cPcn5G3eDFHL_Q&s"
+      alt="Place to Eat">
+
+    <div class="hotel-carousel-name" id="eat-carousel-name">
+      Mangalambiga Coffee
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+  </div>
+</div>
+  </section>
+
+  <!-- ⭐ Reviews Section -->
+  <section class="reviews-section">
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.7</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+      <div class="review-card">
+        <strong>Malavika</strong>
+        <div class="stars">★★★★★</div>
+        <p>Peaceful atmosphere and stunning architecture. A must-visit in Kumbakonam.</p>
+      </div>
+
+      <div class="review-card">
+        <strong>Aravind</strong>
+        <div class="stars">★★★★☆</div>
+        <p>Very spiritual place. Can get crowded during festivals.</p>
+      </div>
+    </div>
+
+    <form class="review-form" onsubmit="addReview(event)">
+  <input type="text" id="reviewName" placeholder="Your name" required>
+
+  <!-- ⭐ Star Rating -->
+  <div class="star-input" id="starInput">
+    <span onclick="setRating(1)">★</span>
+    <span onclick="setRating(2)">★</span>
+    <span onclick="setRating(3)">★</span>
+    <span onclick="setRating(4)">★</span>
+    <span onclick="setRating(5)">★</span>
+  </div>
+
+  <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+
+  <button type="submit">Add Review</button>
+</form>
+
+  </section>
+
+</div>
+
+<!-- ===== DUMMY CHATBOT ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+    <div class="bot-msg">This is a demo chatbot. Advanced version coming soon!</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+
+
+
+
+
+
+<script>
+function readEnglish() {
+  const text = document.getElementById("desc-en").innerText;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-IN";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+const images = [
+  "https://english.bharatexpress.com/wp-content/uploads/2024/01/%E0%AE%95%E0%AE%AE%E0%AE%AA%E0%AE%95%E0%AE%A3%E0%AE%AE-%E0%AE%87%E0%AE%B0%E0%AE%AE%E0%AE%9A%E0%AE%AE-%E0%AE%A4%E0%AE%B0%E0%AE%95%E0%AE%95%E0%AE%AF%E0%AE%B2-%E0%AE%A4%E0%AE%9E%E0%AE%9A%E0%AE%B5%E0%AE%B0.jpg",
+  "https://live.staticflickr.com/8871/28354972091_a561a3f510_b.jpg",
+  "https://www.templepurohit.com/wp-content/uploads/2016/05/ramaswamy-temple-kumbakkonam.jpg"
+];
+
+
+let current = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function slideTo(index, direction = "next") {
+  sliderImage.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    sliderImage.src = images[index];
+    sliderImage.style.transition = "none";
+    sliderImage.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      sliderImage.style.transition = "transform 0.8s ease-in-out";
+      sliderImage.style.transform = "translateX(0)";
+    });
+  }, 600);
+}
+
+function nextImage() {
+  current = (current + 1) % images.length;
+  slideTo(current, "next");
+}
+
+function prevImage() {
+  current = (current - 1 + images.length) % images.length;
+  slideTo(current, "prev");
+}
+
+
+
+
+const hotelCarousel = [
+  {
+    name: "Hotel Annamalai International",
+    img: "https://www.hotelannamalai.com/wp-content/uploads/2025/10/mob1.jpg",
+    location: "Moondram Street, Kumbakonam",
+    rating: "4.3 / 5",
+    distance: "1.4 km",
+    map: "https://www.google.com/maps?q=Hotel+Annamalai+International+Kumbakonam"
+  },
+  {
+    name: "Jai Dharshini Palace",
+    img: "https://content3.jdmagicbox.com/comp/kumbakonam/h1/9999px435.x435.180324174142.f2h1/catalogue/jai-dharshini-palace-john-selvaraj-nagar-kumbakonam-hotels-rs-1001-to-rs-2000--260wdfc8mq.jpg",
+    location: "John Selvaraj Nagar",
+    rating: "3.9 / 5",
+    distance: "1.2 km",
+    map: "https://www.google.com/maps?q=Jai+Dharshini+Palace+Kumbakonam"
+  },
+  {
+    name: "Hotel Metro Park",
+    img: "https://metro.hotelsintamilnadu.com/data/Pics/OriginalPhoto/2054/205420/205420168/hotel-metro-kumbakonam-pic-22.JPEG",
+    location: "Old Bus Stand Road",
+    rating: "4.0 / 5",
+    distance: "1.1 km",
+    map: "https://www.google.com/maps?q=Hotel+Metro+Park+Kumbakonam"
+  }
+];
+
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+
+function updateHotelPopup(index) {
+  hotelLocation.textContent = hotelCarousel[index].location;
+  hotelRating.textContent = hotelCarousel[index].rating;
+  hotelDistance.textContent = hotelCarousel[index].distance;
+  hotelMap.href = hotelCarousel[index].map;
+
+}
+
+const placeCarousel = [
+  {
+    name: "Chakrapani Temple",
+    img: "https://upload.wikimedia.org/wikipedia/commons/8/80/Chakrapani_Temple%2C_Kumbakonam.JPG",
+    link: "{% url 'place-detail' slug='chakrapanitemple' %}"
+
+  },
+  {
+    name: "Someswarar Temple",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQToaXj3ybMPAc4P3rJYCmtgFf2F6n1HyZWDw&s",
+    link: "{% url 'place-detail' slug='someswarartemple' %}"
+
+  },
+  {
+    name: "Government Arts College Museum",
+    img: "https://airial.travel/_next/image?url=https%3A%2F%2Fcoinventmediastorage.blob.core.windows.net%2Fmedia-storage-container%2Fgphoto_ChIJ0Z01JXrNqjsRKNXluyBPTCI_0.jpg&w=3840&q=75",
+    link: "{% url 'place-detail' slug='governmentartscollegemuseum' %}"
+
+  }
+];
+
+
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+
+
+const eatCarousel = [
+  {
+    name: "Hotel Arun Bhavan",
+    img: "https://media-cdn.tripadvisor.com/media/photo-s/14/26/2d/e0/photo0jpg.jpg",
+    location: "Market Road",
+    rating: "4.1 / 5",
+    distance: "0.6 km",
+    map: "https://www.google.com/maps?q=Hotel+Arun+BhavanKumbakonam"
+  },
+  {
+    name: "Sri Balaji Bhavan",
+    img: "https://content.jdmagicbox.com/comp/kumbakonam/n3/9999PX435.X435.120306203416.G5N3/catalogue/sri-balaji-bhavan-kumbakonam-ho-kumbakonam-restaurants-3r499x8-250.jpg",
+    location: "Dharasuram Road",
+    rating: "4.2 / 5",
+    distance: "0.8 km",
+    map: "https://www.google.com/maps?q=Sri+Balaji+Bhavan+Kumbakonam"
+  },
+  {
+    name: "Gowri Krishna Bhavan",
+    img: "https://images.jdmagicbox.com/v2/comp/chennai/t1/044pxx44.xx44.220511080700.z6t1/catalogue/gowri-krishna-w-block-anna-nagar-chennai-restaurants-ngnx98hws8.jpg",
+    location: "Bazaar Street",
+    rating: "3.9 / 5",
+    distance: "1.0 km",
+    map: "https://www.google.com/maps?q=Gowri+Krishna+Bhavan+Kumbakonam"
+  }
+];
+
+
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function updateEatPopup(index) {
+  eatLocation.textContent = eatCarousel[index].location;
+  eatRating.textContent = eatCarousel[index].rating;
+  eatDistance.textContent = eatCarousel[index].distance;
+  eatMap.href = eatCarousel[index].map;
+}
+
+
+function slide(el, newSrc, direction = "next") {
+  el.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    el.src = newSrc;
+    el.style.transition = "none";
+    el.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      el.style.transition = "transform 1.2s ease";
+      el.style.transform = "translateX(0)";
+    });
+  }, 500);
+}
+
+/* HOTELS */
+function nextHotel() {
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "next");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+function prevHotel() {
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "prev");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+
+/* PLACES */
+function updatePlace(index) {
+  placeImg.src = placeCarousel[index].img;
+  placeName.innerHTML = `
+    <a href="${placeCarousel[index].link}" class="place-link">
+      ${placeCarousel[index].name}
+    </a>
+  `;
+}
+
+// initialize first place
+updatePlace(placeIndex);
+
+function nextPlace() {
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "next");
+  updatePlace(placeIndex);
+}
+
+function prevPlace() {
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "prev");
+  updatePlace(placeIndex);
+}
+
+/* EAT */
+function nextEat() {
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "next");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+function prevEat() {
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "prev");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+
+
+let translated = false;
+let originalText = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalText = content.innerHTML;
+
+   
+    content.innerHTML = `
+  <h1>ராமஸ்வாமி கோவில் – கும்பகோணம்</h1>
+
+  <p><strong>ராமஸ்வாமி கோவில்</strong> தமிழ்நாட்டின் கும்பகோணம் நகரில் அமைந்துள்ள முக்கியமான விஷ்ணு கோவில்களில் ஒன்றாகும்.</p>
+
+  <p>இந்த கோவில் கி.பி. 16ஆம் நூற்றாண்டில் தஞ்சாவூர் நாயக்கர் ஆட்சிக்காலத்தில் கட்டப்பட்டதாகும் மற்றும் ஸ்ரீ ராமரை பிரதான தெய்வமாகக் கொண்டு வழிபடப்படுகிறது.</p>
+
+  <p>கோவிலின் பிராகார சுவர்களில் ராமாயணக் கதைகள் அழகாகச் சிற்பங்களாக வடிக்கப்பட்டுள்ளன; இது சிறந்த கலை மற்றும் பண்பாட்டு பாரம்பரியத்தை வெளிப்படுத்துகிறது.</p>
+
+  <p>இந்த கோவில் அச்சுதப்ப நாயக்கரால் தொடங்கப்பட்டு, ரகுநாத நாயக்கரின் ஆட்சிக்காலத்தில் நிறைவு பெற்றது. மேலும், 12 ஆண்டுகளுக்கு ஒருமுறை நடைபெறும் மகாமகம் திருவிழாவுடன் தொடர்புடைய ஐந்து முக்கிய விஷ்ணு கோவில்களில் இதுவும் ஒன்றாகும்.</p>
+`;
+
+    translated = true;
+  } else {
+    content.innerHTML = originalText;
+    translated = false;
+  }
+}
+
+
+function toggleChat(){
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage(){
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if(msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  // User message
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+updateHotelPopup(0);
+updateEatPopup(0);
+let selectedRating = 0;
+
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    star.classList.toggle("active", index < rating);
+  });
+}
+
+function addReview(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    alert("Please add a star rating ⭐");
+    return;
+  }
+
+  const stars = "★".repeat(selectedRating) + "☆".repeat(5 - selectedRating);
+
+  const div = document.createElement("div");
+  div.className = "review-card";
+  div.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${stars}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(div);
+
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+  document.querySelectorAll("#starInput span").forEach(s => s.classList.remove("active"));
+}
+
+  const profileBtn = document.querySelector(".profile-btn");
+  const dropdown = document.querySelector(".dropdown-menu");
+
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.style.display =
+      dropdown.style.display === "flex" ? "none" : "flex";
+  });
+
+  document.addEventListener("click", () => {
+    dropdown.style.display = "none";
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem("loggedInUser");
+    const userSpan = document.getElementById("nav-username");
+
+    if (username && userSpan) {
+        userSpan.textContent = "👤" + username;
+    }
+});
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,634 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Chidambaram Nataraja Temple | Tamilverse</title>
+
+<link rel="stylesheet" href="{% static 'css/pages.css' %}">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <span>Tamilverse</span>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page">
+
+  <!-- READ BUTTON -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- IMAGE | CONTENT -->
+  <section class="split-section">
+
+    <!-- IMAGE -->
+    <div class="image-slider">
+      <img id="slider-image"
+src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/80/f6/19/chidambaram-nataraja.jpg?w=1200&h=-1&s=1">
+      <div class="slider-buttons">
+        <button onclick="prevImage()">⟨</button>
+        <button onclick="nextImage()">⟩</button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="place-card" id="desc-en">
+      <h1>Chidambaram Nataraja Temple – Chidambaram</h1>
+
+      <p><strong>Chidambaram Nataraja Temple</strong> is a famous and ancient temple located in Chidambaram, Tamil Nadu.</p>
+
+      <p>It is dedicated to Lord Nataraja, the cosmic dancer form of Lord Shiva.</p>
+
+      <p>The temple is renowned for its unique architecture, sacred Chidambara Rahasyam, and beautiful golden roof.</p>
+
+      <p>It is one of the Pancha Bhoota Sthalams, representing the element of space (Akasha).</p>
+
+      <p>With its deep spiritual meaning and rich cultural heritage, the temple attracts devotees and tourists from across the world.</p>
+</div>
+  </section>
+
+  <!-- MAP + NEARBY -->
+  <section class="info-grid">
+
+    <div class="grid-box">
+      
+<iframe src="https://www.google.com/maps?q=Chidambaram+Nataraja+Temple&output=embed"></iframe>
+    </div>
+
+    <!-- 🏨 Nearby Hotels -->
+<div class="grid-box">
+  <h3>🏨 Nearby Hotels</h3>
+
+  <div class="hotel-carousel">
+    <img id="hotel-carousel-img"
+      src="https://content.jdmagicbox.com/comp/kumbakonam/l6/9999px435.x435.121115170524.t6l6/catalogue/raya-s-grand-kumbakonam-3-star-hotels-gs2uf.jpg"
+      alt="Hotel">
+
+    <div class="hotel-carousel-name" id="hotel-carousel-name">
+      Hotel Raya’s Grand
+    </div>
+<div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <div class="slider-buttons">
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 📍 Nearby Places -->
+<div class="grid-box">
+  <h3>📍 Nearby Places</h3>
+
+  <div class="hotel-carousel">
+    <img id="place-carousel-img"
+      src="https://upload.wikimedia.org/wikipedia/commons/1/10/Gopuras_in_Kumbakonam_-_India.JPG"
+      alt="Nearby Place">
+
+    <div class="hotel-carousel-name" id="place-carousel-name">
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevPlace()">⟨</button>
+      <button onclick="nextPlace()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🍽️ Places to Eat -->
+<div class="grid-box">
+  <h3>🍽️ Places to Eat</h3>
+
+  <div class="hotel-carousel">
+    <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+
+  <center><a href="#" id="eat-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <img id="eat-carousel-img"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQulaUPUHvmrEfhI42Gq2_2cPcn5G3eDFHL_Q&s"
+      alt="Place to Eat">
+
+    <div class="hotel-carousel-name" id="eat-carousel-name">
+      Mangalambiga Coffee
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+  </div>
+</div>
+  </section>
+
+  <!-- ⭐ Reviews Section -->
+  <section class="reviews-section">
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.7</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+      <div class="review-card">
+<strong>Vignesh</strong>
+<div class="stars">★★★★★</div>
+<p>The famous Chidambara Rahasyam and Nataraja idol make this temple very unique.</p>
+</div>
+
+<div class="review-card">
+<strong>Harini</strong>
+<div class="stars">★★★★☆</div>
+<p>A very sacred temple dedicated to Lord Shiva in dancing form.</p>
+</div>
+    </div>
+
+    <form class="review-form" onsubmit="addReview(event)">
+  <input type="text" id="reviewName" placeholder="Your name" required>
+
+  <!-- ⭐ Star Rating -->
+  <div class="star-input" id="starInput">
+    <span onclick="setRating(1)">★</span>
+    <span onclick="setRating(2)">★</span>
+    <span onclick="setRating(3)">★</span>
+    <span onclick="setRating(4)">★</span>
+    <span onclick="setRating(5)">★</span>
+  </div>
+
+  <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+
+  <button type="submit">Add Review</button>
+</form>
+
+  </section>
+
+</div>
+
+<!-- ===== DUMMY CHATBOT ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<script>
+const profileBtn = document.querySelector(".profile-btn");
+const dropdown = document.querySelector(".dropdown-menu");
+
+profileBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdown.style.display =
+    dropdown.style.display === "flex" ? "none" : "flex";
+});
+
+document.addEventListener("click", () => {
+  dropdown.style.display = "none";
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("loggedInUser");
+  const userSpan = document.getElementById("nav-username");
+
+  if (username && userSpan) {
+      userSpan.textContent = "👤" + username;
+  }
+});
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("loggedInUser");
+  const userSpan = document.getElementById("nav-username");
+
+  if (username && userSpan) {
+    userSpan.textContent = "👤 " + username;
+  }
+});
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+
+  alert("👋 Logged out successfully");
+
+  window.location.href = "{% url 'accounts:login' %}";
+}
+function readEnglish() {
+  const text = document.getElementById("desc-en").innerText;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-IN";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+const images = [
+  "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/80/f6/19/chidambaram-nataraja.jpg?w=1200&h=-1&s=1",
+  "https://www.travelescape.in/wp-content/uploads/2021/07/Chidambaram-Temple-Travel-guide.jpg",
+  "https://behindeverytemple.org/wp-content/uploads/2021/04/dreamstimemaximum_31684045-scaled.jpg"
+];
+
+
+
+let current = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function slideTo(index, direction = "next") {
+  sliderImage.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    sliderImage.src = images[index];
+    sliderImage.style.transition = "none";
+    sliderImage.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      sliderImage.style.transition = "transform 0.8s ease-in-out";
+      sliderImage.style.transform = "translateX(0)";
+    });
+  }, 600);
+}
+
+function nextImage() {
+  current = (current + 1) % images.length;
+  slideTo(current, "next");
+}
+
+function prevImage() {
+  current = (current - 1 + images.length) % images.length;
+  slideTo(current, "prev");
+}
+
+
+const hotelCarousel = [
+{
+  name: "Hotel Saradharam",
+  img: "https://gos3.ibcdn.com/969319a66f3b11e78c5b0a4cef95d023.jpg",
+  location: "S.P. Koil Street",
+  rating: "4.1 / 5",
+  distance: "0.8 km",
+  map: "https://www.google.com/maps?q=Hotel+Saradharam+Chidambaram"
+},
+{
+  name: "Hotel Jayaram",
+  img: "https://pix10.agoda.net/property/56119415/0/79cb9efb96e5b8b7b528b008073fbb0a.jpeg?ce=0&s=414x232",
+  location: "East Car Street",
+  rating: "3.9 / 5",
+  distance: "0.6 km",
+  map: "https://www.google.com/maps?q=Hotel+Jayaram+Chidambaram"
+},
+{
+  name: "Meera Lodge",
+  img: "https://gos3.ibcdn.com/9e1cd0bd-4d7a-4a85-ad2c-0eb6b5120394.jpg",
+  location: "South Car Street",
+  rating: "3.7 / 5",
+  distance: "0.7 km",
+  map: "https://www.google.com/maps?q=Meera+Lodge+Chidambaram"
+}
+];
+
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+
+function updateHotelPopup(index) {
+  hotelLocation.textContent = hotelCarousel[index].location;
+  hotelRating.textContent = hotelCarousel[index].rating;
+  hotelDistance.textContent = hotelCarousel[index].distance;
+  hotelMap.href = hotelCarousel[index].map;
+
+}
+
+
+const placeCarousel = [
+{
+  name: "Pichavaram Mangrove Forest – Chidambaram",
+  img: "https://mediaim.expedia.com/localexpert/1134540/9d4ddece-85d9-49aa-b81b-9a7aba4dc4a0.jpg",
+  link: "PichavaramMangroveForest.html"
+},
+{
+  name: "Mahabalipuram Monuments – Chengalpattu",
+  img: "https://tailormadejourney.com/wp-content/uploads/2021/03/Shore-Temple-Mahabalipuram-India-1.jpg",
+  link: "MahabalipuramMonuments.html"
+},
+{
+  name: "Gingee Fort – Villupuram",
+  img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD10z-M5A51S4EYxLBjdZvO0wJF_y7cCk1Kg&s",
+  link: "{% url 'place-detail' slug='gingeefort' %}"
+}
+];
+
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+
+const eatCarousel = [
+{
+  name: "Krishna Vilas Restaurant",
+  img: "https://tb-static.uber.com/prod/image-proc/processed_images/f935273e16cb943d323ce5be617725f2/fb86662148be855d931b37d6c1e5fcbe.jpeg",
+  location: "East Car Street",
+  rating: "4.0 / 5",
+  distance: "0.5 km",
+  map: "https://www.google.com/maps?q=Krishna+Vilas+Restaurant+Chidambaram"
+},
+{
+  name: "Akshaya Bhavan",
+  img: "https://content.jdmagicbox.com/v2/comp/coimbatore/n2/0422px422.x422.181122133625.c6n2/catalogue/akshaya-bhavan-saravanampatti-coimbatore-restaurants-474JpnqD0o.jpg",
+  location: "S.P. Koil Street",
+  rating: "3.9 / 5",
+  distance: "0.6 km",
+  map: "https://www.google.com/maps?q=Akshaya+Bhavan+Chidambaram"
+},
+{
+  name: "Hotel Grand Park Restaurant",
+  img: "https://images.trvl-media.com/lodging/38000000/37800000/37796600/37796542/140e8352.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill",
+  location: "Vandigate",
+  rating: "4.1 / 5",
+  distance: "1.2 km",
+  map: "https://www.google.com/maps?q=Hotel+Grand+Park+Restaurant+Chidambaram"
+}
+];
+
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function updateEatPopup(index) {
+  eatLocation.textContent = eatCarousel[index].location;
+  eatRating.textContent = eatCarousel[index].rating;
+  eatDistance.textContent = eatCarousel[index].distance;
+  eatMap.href = eatCarousel[index].map;
+}
+
+
+function slide(el, newSrc, direction = "next") {
+  el.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    el.src = newSrc;
+    el.style.transition = "none";
+    el.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      el.style.transition = "transform 1.2s ease";
+      el.style.transform = "translateX(0)";
+    });
+  }, 500);
+}
+
+/* HOTELS */
+function nextHotel() {
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "next");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+function prevHotel() {
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "prev");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+
+/* PLACES */
+function updatePlace(index) {
+  placeImg.src = placeCarousel[index].img;
+  placeName.innerHTML = `
+    <a href="${placeCarousel[index].link}" class="place-link">
+      ${placeCarousel[index].name}
+    </a>
+  `;
+}
+
+// initialize first place
+updatePlace(placeIndex);
+
+function nextPlace() {
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "next");
+  updatePlace(placeIndex);
+}
+
+function prevPlace() {
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "prev");
+  updatePlace(placeIndex);
+}
+
+/* EAT */
+function nextEat() {
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "next");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+function prevEat() {
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "prev");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+
+
+let translated = false;
+let originalText = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalText = content.innerHTML;
+
+    content.innerHTML = `
+      <h1>சிதம்பரம் நடராஜர் கோவில் – சிதம்பரம்</h1>
+
+<p><strong>சிதம்பரம் நடராஜர் கோவில்</strong> தமிழ்நாட்டின் சிதம்பரத்தில் அமைந்துள்ள ஒரு பிரபலமான மற்றும் பழமையான கோவில் ஆகும்.</p>
+
+<p>இந்த கோவில் சிவபெருமானின் நடராஜர் வடிவத்திற்கு அர்ப்பணிக்கப்பட்டது, அவர் பிரபஞ்ச நடனத்தை ஆடும் வடிவமாக கருதப்படுகிறார்.</p>
+
+<p>இந்த கோவில் அதன் தனித்துவமான கட்டிடக்கலை, புனிதமான சிதம்பர ரகசியம் மற்றும் அழகான பொற்கூரை காரணமாக மிகவும் பிரசித்தி பெற்றது.</p>
+
+<p>இது பஞ்ச பூத ஸ்தலங்களில் ஒன்றாகும் மற்றும் ஆகாயத் தத்துவத்தை (ஆகாசம்) குறிக்கிறது.</p>
+
+<p>அதன் ஆழமான ஆன்மீக அர்த்தமும் செழுமையான கலாச்சார பாரம்பரியமும் காரணமாக, இந்த கோவில் உலகம் முழுவதும் இருந்து வரும் பக்தர்களையும் சுற்றுலா பயணிகளையும் ஈர்க்கிறது.</p>
+    `;
+    translated = true;
+  } else {
+    content.innerHTML = originalText;
+    translated = false;
+  }
+}
+
+
+function toggleChat(){
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage(){
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if(msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  // User message
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+updateHotelPopup(0);
+updateEatPopup(0);
+let selectedRating = 0;
+
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    star.classList.toggle("active", index < rating);
+  });
+}
+
+function addReview(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    alert("Please add a star rating ⭐");
+    return;
+  }
+
+  const stars = "★".repeat(selectedRating) + "☆".repeat(5 - selectedRating);
+
+  const div = document.createElement("div");
+  div.className = "review-card";
+  div.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${stars}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(div);
+
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+  document.querySelectorAll("#starInput span").forEach(s => s.classList.remove("active"));
+}
+
+</script>
+</body>
+</html>

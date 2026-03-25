@@ -1,0 +1,633 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>St. Thomas Mount Church | Tamilverse</title>
+
+<link rel="stylesheet" href="{% static 'css/pages.css' %}" />
+</head><body>
+
+<!-- ===== NAVBAR (UPDATED – PROFILE DROPDOWN) ===== -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <b><span>Tamilverse</span></b>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE CONTENT ===== -->
+<div class="page">
+
+  <!-- READ / TRANSLATE BUTTONS -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- ===== IMAGE + DESCRIPTION ===== -->
+  <section class="split-section">
+
+    <!-- IMAGE SLIDER -->
+    <div class="image-slider">
+      <img id="slider-image"
+        src="https://tse4.mm.bing.net/th/id/OIP.H8TAnxxbT-x1JEj8nP_RfAHaFj?pid=Api&P=0&h=180"
+        alt="St. Thomas Mount Church">
+
+      <div class="slider-buttons">
+        <button onclick="prevImage()">⟨</button>
+        <button onclick="nextImage()">⟩</button>
+      </div>
+    </div>
+
+    <!-- PLACE DESCRIPTION -->
+    <div class="place-card" id="desc-en">
+      <h1>St. Thomas Mount Church – Chennai</h1>
+
+      <p>
+        <strong>St. Thomas Mount Church</strong> is one of the most important
+        Christian pilgrimage sites in Tamil Nadu.
+      </p>
+
+      <p>
+        This sacred hilltop church is believed to be the place where
+        Saint Thomas the Apostle was martyred in 72 AD.
+      </p>
+
+      <p>
+        The location offers a calm spiritual atmosphere along with
+        breathtaking panoramic views of Chennai city.
+      </p>
+
+      <p>
+        The site stands as a symbol of faith, peace, and historical significance.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ===== MAP + NEARBY INFO ===== -->
+  <section class="info-grid">
+
+    <!-- MAP -->
+    <div class="grid-box">
+      <iframe
+        src="https://www.google.com/maps?q=St+Thomas+Mount+Church+Chennai&output=embed"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- NEARBY HOTELS -->
+    <div class="grid-box">
+      <h3>🏨 Nearby Hotels</h3>
+
+      <div class="hotel-carousel">
+        <img id="hotel-carousel-img"
+          src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/270371536.jpg"
+          alt="ITC Grand Chola">
+
+        <div class="hotel-carousel-name" id="hotel-carousel-name">
+          ITC Grand Chola
+        </div>
+        <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+        <div class="slider-buttons">
+          <button onclick="prevHotel()">⟨</button>
+          <button onclick="nextHotel()">⟩</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEARBY PLACES -->
+    <div class="grid-box">
+      <h3>📍 Nearby Places</h3>
+
+      <div class="hotel-carousel">
+        <img id="place-carousel-img"
+          src="https://upload.wikimedia.org/wikipedia/commons/2/25/Guindy_National_Park.jpg"
+          alt="Guindy National Park">
+
+        <div class="hotel-carousel-name" id="place-carousel-name">
+          Guindy National Park
+        </div>
+      </div>
+    </div>
+
+    <!-- PLACES TO EAT -->
+    <div class="grid-box">
+      <h3>🍽️ Places to Eat</h3>
+
+      <div class="hotel-carousel">
+        <div class="hotel-popup">
+      <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+      <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+      <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+      <center>
+        <a href="#" id="eat-map" class="book-btn" target="_blank">Map</a>
+      </center>
+    </div>
+        <img id="eat-carousel-img"
+          src="https://content.jdmagicbox.com/comp/chennai/p3/044pxx44.xx44.180208125025.g6p3/catalogue/palmshore-restaurant-chennai.jpg"
+          alt="Palmshore Restaurant">
+
+        <div class="hotel-carousel-name" id="eat-carousel-name">
+          Palmshore Restaurant
+        </div>
+         </div>
+           <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== REVIEWS SECTION (STRUCTURE ONLY) ===== -->
+  <section class="reviews-section">
+
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.8</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+      <div class="review-card">
+        <strong>Joseph</strong>
+        <div class="stars">★★★★★</div>
+        <p>Peaceful place with amazing city views.</p>
+      </div>
+    </div>
+
+    <!-- ADD REVIEW FORM -->
+    <form class="review-form" onsubmit="addReview(event)">
+      <input type="text" id="reviewName" placeholder="Your name" required>
+
+      <div class="star-input" id="starInput">
+        <span onclick="setRating(1)">★</span>
+        <span onclick="setRating(2)">★</span>
+        <span onclick="setRating(3)">★</span>
+        <span onclick="setRating(4)">★</span>
+        <span onclick="setRating(5)">★</span>
+      </div>
+
+      <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+      <button type="submit">Add Review</button>
+    </form>
+
+  </section>
+
+</div>
+
+<!-- ===== CHATBOT (STRUCTURE ONLY) ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- FLOATING CHAT BUTTON -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<script>
+/* =====================================================
+   IMAGE SLIDER (MAIN PLACE IMAGES)
+===================================================== */
+const images = [
+  "https://www.hlimg.com/images/things2do/738X538/ttd_1523334639m3.jpg",
+  "https://2.bp.blogspot.com/-bvq8kGNY6SE/WIK_6Aik10I/AAAAAAAADxw/kBpknDwYyfUkJJEc3UKESn4AA7S6ma7oQCLcB/s1600/st%2Bthomas%2Bmt%2Bchurch.jpg",
+  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjFASa40z_CvxoOHYm10AeCBt1Hp_9D4qQJdC0xNYOmYxiXfrIVq7ZbRPRTW1lbROxsmBS5vAWxNbLCvhvbaU-FqpAl5ZW98JP_4pPdAlRzKjdwZgO3uLefedpgsWlZ520Jqhy9qL5ENUPq/s1600/StThomasMount+%25281%2529.JPG"
+];
+
+let imageIndex = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function nextImage() {
+  imageIndex = (imageIndex + 1) % images.length;
+  sliderImage.src = images[imageIndex];
+}
+
+function prevImage() {
+  imageIndex = (imageIndex - 1 + images.length) % images.length;
+  sliderImage.src = images[imageIndex];
+}
+
+/* =====================================================
+   NEARBY HOTELS CAROUSEL – CHENNAI
+===================================================== */
+const hotelCarousel = [
+  {
+    name: "ITC Grand Chola",
+    img: "https://tse1.mm.bing.net/th/id/OIP.DNPhPuSgKB5KZrhIB56fJAHaDF?pid=Api&P=0&h=180",
+    location: "Guindy, Chennai",
+    rating: "4.6 / 5",
+    distance: "3.2 km",
+    map: "https://www.google.com/maps?q=ITC+Grand+Chola+Chennai"
+  },
+  {
+    name: "Le Royal Méridien",
+    img: "https://tse4.mm.bing.net/th/id/OIP.LXoe4DAO6OufbH2VIGDpnwHaEJ?pid=Api&P=0&h=180",
+    location: "St. Thomas Mount, Chennai",
+    rating: "4.4 / 5",
+    distance: "1.5 km",
+    map: "https://www.google.com/maps?q=Le+Royal+Meridien+Chennai"
+  },
+  {
+    name: "Radisson Blu",
+    img: "https://media.radissonhotels.net/image/radisson-blu-hotel-conakry/exterior/16256-124837-f82053350_4k.jpg?impolicy=HomeHero",
+    location: "GST Road, Chennai",
+    rating: "4.5 / 5",
+    distance: "4.0 km",
+    map: "https://www.google.com/maps?q=Radisson+Blu+Chennai"
+  }
+];
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+function renderHotel() {
+  const h = hotelCarousel[hotelIndex];
+  hotelImg.src = h.img;
+  hotelName.textContent = h.name;
+  hotelLocation.textContent = h.location;
+  hotelRating.textContent = h.rating;
+  hotelDistance.textContent = h.distance;
+  hotelMap.href = h.map;
+}
+
+function nextHotel() {
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  renderHotel();
+}
+
+function prevHotel() {
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  renderHotel();
+}
+
+renderHotel();
+
+/* =====================================================
+   NEARBY PLACES CAROUSEL – CHENNAI
+===================================================== */
+const placeCarousel = [
+  {
+    name: "Guindy National Park",
+    img: "https://upload.wikimedia.org/wikipedia/commons/2/25/Guindy_National_Park.jpg"
+  },
+  {
+    name: "Little Mount Church",
+    img: "https://upload.wikimedia.org/wikipedia/commons/5/55/Little_Mount_Church_Chennai.jpg"
+  },
+  {
+    name: "Phoenix Marketcity",
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Phoenix_Marketcity_Chennai.jpg"
+  }
+];
+
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+function renderPlace() {
+  placeImg.src = placeCarousel[placeIndex].img;
+  placeName.textContent = placeCarousel[placeIndex].name;
+}
+
+function nextPlace() {
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  renderPlace();
+}
+
+function prevPlace() {
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  renderPlace();
+}
+
+renderPlace();
+
+/* =====================================================
+   PLACES TO EAT CAROUSEL – CHENNAI
+===================================================== */
+const eatCarousel = [
+  {
+    name: "Palmshore Restaurant",
+    img: "https://i.ytimg.com/vi/Pp4TSFtJIIk/maxresdefault.jpg",
+    location: "Anna Nagar, Chennai",
+    rating: "4.3 / 5",
+    distance: "5.2 km",
+    map: "https://www.google.com/maps?q=Palmshore+Restaurant+Chennai"
+  },
+  {
+    name: "Anjappar",
+    img: "https://tse4.mm.bing.net/th/id/OIP.E4v8DeRbuhG1SAmNVtFOzQHaC9?pid=Api&P=0&h=180",
+    location: "Guindy, Chennai",
+    rating: "4.2 / 5",
+    distance: "2.1 km",
+    map: "https://www.google.com/maps?q=Anjappar+Restaurant+Chennai"
+  },
+  {
+    name: "Sangeetha Veg",
+    img: "https://soyafoods.org/wp-content/uploads/2024/02/SVR-Sangeetha-Veg-Restaurant-is-Best-Vegan-Restaurants-in-Chennai.jpg",
+    location: "T. Nagar, Chennai",
+    rating: "4.4 / 5",
+    distance: "4.6 km",
+    map: "https://www.google.com/maps?q=Sangeetha+Veg+Restaurant+Chennai"
+  }
+];
+
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function renderEat() {
+  const e = eatCarousel[eatIndex];
+  eatImg.src = e.img;
+  eatName.textContent = e.name;
+  eatLocation.textContent = e.location;
+  eatRating.textContent = e.rating;
+  eatDistance.textContent = e.distance;
+  eatMap.href = e.map;
+}
+
+function nextEat() {
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  renderEat();
+}
+
+function prevEat() {
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  renderEat();
+}
+
+renderEat();
+
+
+/* =====================================================
+   REVIEWS + STAR RATING
+===================================================== */
+
+let selectedRating = 0;
+
+/* ⭐ STAR CLICK */
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    if (index < rating) {
+      star.classList.add("active");
+    } else {
+      star.classList.remove("active");
+    }
+  });
+}
+
+/* ➕ ADD REVIEW */
+function addReview(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (name === "" || text === "" || selectedRating === 0) {
+    alert("Please enter name, review and select star rating ⭐");
+    return;
+  }
+
+  const starText =
+    "★".repeat(selectedRating) +
+    "☆".repeat(5 - selectedRating);
+
+  const reviewCard = document.createElement("div");
+  reviewCard.className = "review-card";
+
+  reviewCard.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${starText}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(reviewCard);
+
+  /* RESET FORM */
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+
+  document
+    .querySelectorAll("#starInput span")
+    .forEach(star => star.classList.remove("active"));
+}
+/* =====================================================
+   READ ALOUD (ENGLISH)
+===================================================== */
+function readEnglish() {
+  const text = document.getElementById("desc-en").innerText;
+
+  if (!text) return;
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-IN";
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+/* =====================================================
+   TRANSLATE TOGGLE (EN ↔ TA)
+===================================================== */
+let translated = false;
+let originalContent = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalContent = content.innerHTML;
+
+    content.innerHTML = `
+      <h1>செயின்ட் தாமஸ் மவுண்ட் தேவாலயம் – சென்னை</h1>
+
+      <p><strong>செயின்ட் தாமஸ் மவுண்ட் தேவாலயம்</strong>
+      தமிழ்நாட்டின் முக்கியமான கிறிஸ்தவ புனித தலங்களில் ஒன்றாகும்.</p>
+
+      <p>புனித தோமா திருத்தூதர்
+      கி.பி. 72 ஆம் ஆண்டில் மர்த்திரமான இடமாக இது கருதப்படுகிறது.</p>
+
+      <p>அமைதியான ஆன்மிக சூழலுடன்
+      சென்னை நகரத்தின் அழகிய காட்சிகளையும் வழங்குகிறது.</p>
+
+      <p>இந்த இடம் நம்பிக்கை,
+      அமைதி மற்றும் வரலாற்று முக்கியத்துவத்தை பிரதிபலிக்கிறது.</p>
+    `;
+    translated = true;
+  } else {
+    content.innerHTML = originalContent;
+    translated = false;
+  }
+}
+/* =====================================================
+   CHATBOT TOGGLE + MESSAGE (DEMO)
+===================================================== */
+function toggleChat() {
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage() {
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if (msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  /* USER MESSAGE */
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  /* BOT REPLY (DEMO) */
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+
+/* =====================================================
+   PROFILE DROPDOWN
+===================================================== */
+function toggleProfile() {
+  const menu = document.getElementById("profileMenu");
+  menu.classList.toggle("show");
+}
+
+/* CLOSE PROFILE WHEN CLICK OUTSIDE */
+document.addEventListener("click", function (e) {
+  const dropdown = document.querySelector(".profile-dropdown");
+  if (!dropdown.contains(e.target)) {
+    document.getElementById("profileMenu").classList.remove("show");
+  }
+});
+
+/* =====================================================
+   LOGOUT (DEMO)
+===================================================== */
+function logoutUser() {
+  alert("Logged out successfully (demo)");
+  // future: redirect to login page
+}
+  const profileBtn = document.querySelector(".profile-btn");
+  const dropdown = document.querySelector(".dropdown-menu");
+
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.style.display =
+      dropdown.style.display === "flex" ? "none" : "flex";
+  });
+
+  document.addEventListener("click", () => {
+    dropdown.style.display = "none";
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem("loggedInUser");
+    const userSpan = document.getElementById("nav-username");
+
+    if (username && userSpan) {
+        userSpan.textContent = "👤" + username;
+    }
+});
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+
+</script>
+</body>
+</html>
+
+

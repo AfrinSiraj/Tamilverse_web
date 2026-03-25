@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | Tamilverse</title>
+  <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+</head>
+<body>
+  <div class="navbar">
+    <div class="nav-brand">
+      <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+      <span>Tamilverse</span>
+    </div>
+    <div class="nav-links">
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'accounts:profile' %}">Profile</a>
+      <a href="{% url 'accounts:logout' %}">Logout</a>
+    </div>
+  </div>
+
+  <div class="page">
+    <section class="reviews-section" style="max-width:900px;margin:0 auto;">
+      <h2>Account Settings</h2>
+      {% if messages %}
+        {% for message in messages %}
+          <div class="review-card"><p>{{ message }}</p></div>
+        {% endfor %}
+      {% endif %}
+      <form method="post" enctype="multipart/form-data" class="review-form">
+        {% csrf_token %}
+        <h3 style="color:#ffd966;margin:8px 0;">Profile Editing</h3>
+        <input type="text" name="first_name" value="{{ user.first_name }}" placeholder="Name">
+        <input type="email" name="email" value="{{ user.email }}" placeholder="Email">
+        <textarea name="bio" placeholder="Bio">{{ user.bio }}</textarea>
+        <input type="text" name="location" value="{{ user.location }}" placeholder="Location">
+        <input type="file" name="profile_image" accept="image/*">
+
+        <h3 style="color:#ffd966;margin:8px 0;">Preferences</h3>
+        <select name="preferred_theme" style="background: rgba(0,0,0,0.45);border:none;border-radius:10px;padding:0.6rem 0.8rem;color:#fff;">
+          <option value="dark" {% if user.preferred_theme == 'dark' %}selected{% endif %}>Dark</option>
+          <option value="light" {% if user.preferred_theme == 'light' %}selected{% endif %}>Light</option>
+        </select>
+        <select name="preferred_language" style="background: rgba(0,0,0,0.45);border:none;border-radius:10px;padding:0.6rem 0.8rem;color:#fff;">
+          <option value="en" {% if user.preferred_language == 'en' %}selected{% endif %}>English</option>
+          <option value="ta" {% if user.preferred_language == 'ta' %}selected{% endif %}>Tamil</option>
+        </select>
+
+        <div style="display:flex;gap:10px;">
+          <button type="submit">Save Changes</button>
+          <a href="{% url 'accounts:profile' %}" class="book-btn">Cancel</a>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

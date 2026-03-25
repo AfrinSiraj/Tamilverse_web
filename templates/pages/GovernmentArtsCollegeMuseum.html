@@ -1,0 +1,632 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Government Arts College Museum | Tamilverse</title>
+
+<link rel="stylesheet" href="{% static 'css/pages.css' %}">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <span>Tamilverse</span>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page">
+
+  <!-- READ BUTTON -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- IMAGE | CONTENT -->
+  <section class="split-section">
+
+    <!-- IMAGE -->
+ <div class="image-slider">
+  <img id="slider-image"
+    src="https://airial.travel/_next/image?url=https%3A%2F%2Fcoinventmediastorage.blob.core.windows.net%2Fmedia-storage-container%2Fgphoto_ChIJ0Z01JXrNqjsRKNXluyBPTCI_0.jpg&w=3840&q=75">
+
+  <div class="slider-buttons">
+    <button onclick="prevImage()">⟨</button>
+    <button onclick="nextImage()">⟩</button>
+  </div>
+</div>
+
+    <!-- CONTENT -->
+    <div class="place-card" id="desc-en">
+ <h1>Government Arts College Museum – Kumbakonam</h1>
+
+<p><strong>Government Arts College Museum</strong> is a cultural and historical museum located in Kumbakonam.</p>
+
+<p>The museum showcases ancient artifacts, sculptures, and historical collections.</p>
+
+<p>It provides insight into the region’s heritage, art, and traditions.</p>
+
+<p>Students and visitors can explore valuable exhibits related to history and archaeology.</p>
+
+<p>It is a must-visit place for those interested in culture and education.</p></div>
+
+  </section>
+
+  <!-- MAP + NEARBY -->
+  <section class="info-grid">
+
+    <div class="grid-box">
+      
+<iframe src="https://www.google.com/maps?q=Government+Arts+College+Museum+Kumbakonam&output=embed"></iframe>    </div>
+
+    <!-- 🏨 Nearby Hotels -->
+<div class="grid-box">
+  <h3>🏨 Nearby Hotels</h3>
+
+  <div class="hotel-carousel">
+    <img id="hotel-carousel-img"
+      src="https://content.jdmagicbox.com/comp/kumbakonam/l6/9999px435.x435.121115170524.t6l6/catalogue/raya-s-grand-kumbakonam-3-star-hotels-gs2uf.jpg"
+      alt="Hotel">
+
+    <div class="hotel-carousel-name" id="hotel-carousel-name">
+      Hotel Raya’s Grand
+    </div>
+<div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <div class="slider-buttons">
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 📍 Nearby Places -->
+<div class="grid-box">
+  <h3>📍 Nearby Places</h3>
+
+  <div class="hotel-carousel">
+    <img id="place-carousel-img"
+      src="https://upload.wikimedia.org/wikipedia/commons/1/10/Gopuras_in_Kumbakonam_-_India.JPG"
+      alt="Nearby Place">
+
+    <div class="hotel-carousel-name" id="place-carousel-name">
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevPlace()">⟨</button>
+      <button onclick="nextPlace()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🍽️ Places to Eat -->
+<div class="grid-box">
+  <h3>🍽️ Places to Eat</h3>
+
+  <div class="hotel-carousel">
+    <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+
+  <center><a href="#" id="eat-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <img id="eat-carousel-img"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQulaUPUHvmrEfhI42Gq2_2cPcn5G3eDFHL_Q&s"
+      alt="Place to Eat">
+
+    <div class="hotel-carousel-name" id="eat-carousel-name">
+      Mangalambiga Coffee
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+  </div>
+</div>
+  </section>
+
+  <!-- ⭐ Reviews Section -->
+  <section class="reviews-section">
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.7</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+   <div class="review-card">
+  <strong>Karthik</strong>
+  <div class="stars">★★★★★</div>
+  <p>Great place to learn about history and culture. Very informative.</p>
+</div>
+
+<div class="review-card">
+  <strong>Anitha</strong>
+  <div class="stars">★★★★☆</div>
+  <p>Nice museum with good collections. Worth visiting for students.</p>
+</div>
+    </div>
+
+    <form class="review-form" onsubmit="addReview(event)">
+  <input type="text" id="reviewName" placeholder="Your name" required>
+
+  <!-- ⭐ Star Rating -->
+  <div class="star-input" id="starInput">
+    <span onclick="setRating(1)">★</span>
+    <span onclick="setRating(2)">★</span>
+    <span onclick="setRating(3)">★</span>
+    <span onclick="setRating(4)">★</span>
+    <span onclick="setRating(5)">★</span>
+  </div>
+
+  <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+
+  <button type="submit">Add Review</button>
+</form>
+
+  </section>
+
+</div>
+
+<!-- ===== DUMMY CHATBOT ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<script>
+const profileBtn = document.querySelector(".profile-btn");
+const dropdown = document.querySelector(".dropdown-menu");
+
+profileBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdown.style.display =
+    dropdown.style.display === "flex" ? "none" : "flex";
+});
+
+document.addEventListener("click", () => {
+  dropdown.style.display = "none";
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("loggedInUser");
+  const userSpan = document.getElementById("nav-username");
+
+  if (username && userSpan) {
+      userSpan.textContent = "👤" + username;
+  }
+});
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("loggedInUser");
+  const userSpan = document.getElementById("nav-username");
+
+  if (username && userSpan) {
+    userSpan.textContent = "👤 " + username;
+  }
+});
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+
+  alert("👋 Logged out successfully");
+
+  window.location.href = "{% url 'accounts:login' %}";
+}
+function readEnglish() {
+  const text = document.getElementById("desc-en").innerText;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-IN";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+const images = [
+  "https://airial.travel/_next/image?url=https%3A%2F%2Fcoinventmediastorage.blob.core.windows.net%2Fmedia-storage-container%2Fgphoto_ChIJ0Z01JXrNqjsRKNXluyBPTCI_0.jpg&w=3840&q=75",
+
+  "https://www.collegebatch.com/static/clg-gallery/government-arts-college-autonomous-kumbakonam-214950.webp",
+
+  "https://abped-college-dashboard.s3.us-east-2.amazonaws.com/tted/college-backend/college/f51f1c2a-cd0e-4e72-b99a-f80ef895db5c.jpg"
+];
+
+
+let current = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function slideTo(index, direction = "next") {
+  sliderImage.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    sliderImage.src = images[index];
+    sliderImage.style.transition = "none";
+    sliderImage.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      sliderImage.style.transition = "transform 0.8s ease-in-out";
+      sliderImage.style.transform = "translateX(0)";
+    });
+  }, 600);
+}
+
+function nextImage() {
+  current = (current + 1) % images.length;
+  slideTo(current, "next");
+}
+
+function prevImage() {
+  current = (current - 1 + images.length) % images.length;
+  slideTo(current, "prev");
+}
+
+
+const hotelCarousel = [
+{
+  name: "Hotel Metro",
+  img: "https://images.trvl-media.com/lodging/1000000/110000/106200/106144/143eb8ea.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill",
+  location: "60 Feet Road",
+  rating: "4.0 / 5",
+  distance: "1.3 km",
+  map: "https://www.google.com/maps?q=Hotel+Metro+Kumbakonam"
+},
+{
+  name: "Hotel Aishwariyam",
+  img: "https://r2imghtlak.mmtcdn.com/r2-mmt-htl-image/htl-imgs/202101241928008771-aec0a2e8854011ed80af0a58a9feac02.jpg",
+  location: "Kumbakonam Town",
+  rating: "3.9 / 5",
+  distance: "1.1 km",
+  map: "https://www.google.com/maps?q=Hotel+Aishwariyam+Kumbakonam"
+},
+{
+  name: "Hotel Le Garden",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/05/62/87/73/getlstd-property-photo.jpg?w=900&h=500&s=1",
+  location: "New Railway Road",
+  rating: "4.2 / 5",
+  distance: "1.4 km",
+  map: "https://www.google.com/maps?q=Hotel+Le+Garden+Kumbakonam"
+}
+];
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+
+function updateHotelPopup(index) {
+  hotelLocation.textContent = hotelCarousel[index].location;
+  hotelRating.textContent = hotelCarousel[index].rating;
+  hotelDistance.textContent = hotelCarousel[index].distance;
+  hotelMap.href = hotelCarousel[index].map;
+
+}
+
+const placeCarousel = [
+{
+  name: "Banapureswar Temple – Kumbakonam",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/87/4f/d8/adi-kumbeswarar-temple.jpg?w=1200&h=1200&s=1",
+  link: "{% url 'place-detail' slug='banapureswartemple' %}"
+},
+{
+  name: "Mahamaham Tank – Kumbakonam",
+  img: "https://upload.wikimedia.org/wikipedia/commons/d/d2/9_Indian_rivers_sangam%2C_Mahamaham_tank%2C_Kumbh_tirtha_site_Kumbhakonam_Tamil_Nadu_3.jpg",
+  link: "{% url 'place-detail' slug='mahamahamtank' %}"
+},
+{
+  name: "Ramaswamy Temple – Kumbakonam",
+  img: "https://sribalajigrandkumbakonam.com/wp-content/uploads/2022/06/Ramaswamy_card.jpg",
+  link: "{% url 'place-detail' slug='ramaswamytemple' %}"
+}
+];
+
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+const eatCarousel = [
+{
+  name: "Thanmayi Restaurant",
+  img: "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/yseikhjzgjxkuchyrowx",
+  location: "60 Feet Road",
+  rating: "4.1 / 5",
+  distance: "1.0 km",
+  map: "https://www.google.com/maps?q=Thanmayi+Restaurant+Kumbakonam"
+},
+{
+  name: "Shamby’s Café",
+  img: "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/onaxhdvida5tkhsihulo",
+  location: "Kumbakonam",
+  rating: "4.0 / 5",
+  distance: "0.9 km",
+  map: "https://www.google.com/maps?q=Shamby’s+Cafe+Kumbakonam"
+},
+{
+  name: "Rice & Spice Restaurant",
+  img: "https://content.jdmagicbox.com/v2/comp/hyderabad/n9/040pxx40.xx40.100909152053.n2n9/catalogue/rice-n-spice-jubilee-hills-hyderabad-restaurants-zokwtu5zch.jpg",
+  location: "Kumbakonam",
+  rating: "4.0 / 5",
+  distance: "1.2 km",
+  map: "https://www.google.com/maps?q=Rice+and+Spice+Kumbakonam"
+}
+];
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function updateEatPopup(index) {
+  eatLocation.textContent = eatCarousel[index].location;
+  eatRating.textContent = eatCarousel[index].rating;
+  eatDistance.textContent = eatCarousel[index].distance;
+  eatMap.href = eatCarousel[index].map;
+}
+
+
+function slide(el, newSrc, direction = "next") {
+  el.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    el.src = newSrc;
+    el.style.transition = "none";
+    el.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      el.style.transition = "transform 1.2s ease";
+      el.style.transform = "translateX(0)";
+    });
+  }, 500);
+}
+
+/* HOTELS */
+function nextHotel() {
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "next");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+function prevHotel() {
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "prev");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+
+/* PLACES */
+function updatePlace(index) {
+  placeImg.src = placeCarousel[index].img;
+  placeName.innerHTML = `
+    <a href="${placeCarousel[index].link}" class="place-link">
+      ${placeCarousel[index].name}
+    </a>
+  `;
+}
+
+// initialize first place
+updatePlace(placeIndex);
+
+function nextPlace() {
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "next");
+  updatePlace(placeIndex);
+}
+
+function prevPlace() {
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "prev");
+  updatePlace(placeIndex);
+}
+
+/* EAT */
+function nextEat() {
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "next");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+function prevEat() {
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "prev");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+
+
+let translated = false;
+let originalText = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalText = content.innerHTML;
+
+   content.innerHTML = `
+<h1>அரசு கலைக்கல்லூரி அருங்காட்சியகம் – கும்பகோணம்</h1>
+
+<p><strong>அரசு கலைக்கல்லூரி அருங்காட்சியகம்</strong> கும்பகோணத்தில் அமைந்துள்ள ஒரு கலாச்சார மற்றும் வரலாற்று அருங்காட்சியகம் ஆகும்.</p>
+
+<p>இங்கு பழமையான பொருட்கள், சிற்பங்கள் மற்றும் வரலாற்று சேமிப்புகள் காணப்படுகின்றன.</p>
+
+<p>இது அந்த பகுதியின் பாரம்பரியம் மற்றும் கலாச்சாரத்தை வெளிப்படுத்துகிறது.</p>
+
+<p>மாணவர்கள் மற்றும் பார்வையாளர்கள் வரலாற்று தகவல்களை அறிய இங்கு வருகிறார்கள்.</p>
+
+<p>கலாச்சாரம் மற்றும் வரலாற்றில் ஆர்வமுள்ளவர்களுக்கு இது ஒரு சிறந்த இடமாகும்.</p>
+`;
+    translated = true;
+  } else {
+    content.innerHTML = originalText;
+    translated = false;
+  }
+}
+
+
+function toggleChat(){
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage(){
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if(msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  // User message
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+updateHotelPopup(0);
+updateEatPopup(0);
+let selectedRating = 0;
+
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    star.classList.toggle("active", index < rating);
+  });
+}
+
+function addReview(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    alert("Please add a star rating ⭐");
+    return;
+  }
+
+  const stars = "★".repeat(selectedRating) + "☆".repeat(5 - selectedRating);
+
+  const div = document.createElement("div");
+  div.className = "review-card";
+  div.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${stars}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(div);
+
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+  document.querySelectorAll("#starInput span").forEach(s => s.classList.remove("active"));
+}
+
+</script>
+</body>
+</html>

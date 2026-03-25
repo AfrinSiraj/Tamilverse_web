@@ -1,0 +1,641 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sankagiri Fort | Tamilverse</title>
+<link rel="stylesheet" href="{% static 'css/pages.css' %}" />
+</head>
+<body>
+
+<!-- ===== NAVBAR (UPDATED – PROFILE DROPDOWN) ===== -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <b><span>Tamilverse</span></b>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE CONTENT ===== -->
+<div class="page">
+
+  <!-- READ / TRANSLATE BUTTONS -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- ===== IMAGE + DESCRIPTION ===== -->
+  <section class="split-section">
+
+    <!-- IMAGE SLIDER -->
+    <div class="image-slider">
+      <img id="slider-image"
+        src="https://venkatarangan.com/blog/wp-content/uploads/2021/12/2021-12-22-Sankagiri-Fort-TamilNadu-Temple-FootHill-707x530.jpg"
+        alt="Sankagiri Fort">
+
+      <div class="slider-buttons">
+        <button onclick="prevImage()">⟨</button>
+        <button onclick="nextImage()">⟩</button>
+      </div>
+    </div>
+
+    <!-- PLACE DESCRIPTION -->
+    <div class="place-card" id="desc-en">
+      <h1>Sankagiri Fort – Salem</h1>
+
+      <p>
+        <strong>Sankagiri Fort</strong> is a historic hill fort located in Salem
+        district of Tamil Nadu. It stands atop Sankagiri hill and played a key
+        role in South Indian military history.
+      </p>
+
+      <p>
+        The fort was used by several rulers including the Vijayanagara Empire,
+        Madurai Nayaks, Hyder Ali, Tipu Sultan, and later the British.
+      </p>
+
+      <p>
+        Known for its strong ramparts, multiple gateways, granaries, and watch
+        towers, Sankagiri Fort served as an important strategic defense point.
+      </p>
+
+      <p>
+        Today, the fort is a protected monument and offers panoramic views of
+        the surrounding Salem region.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ===== MAP + NEARBY INFO ===== -->
+  <section class="info-grid">
+
+    <!-- MAP -->
+    <div class="grid-box">
+      <iframe
+        src="https://www.google.com/maps?q=Sankagiri+Fort+Salem+Tamil+Nadu&output=embed"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- NEARBY HOTELS -->
+    <div class="grid-box">
+      <h3>🏨 Nearby Hotels</h3>
+        <div class="hotel-popup">
+      <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+      <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+      <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+      <center>
+        <a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a>
+      </center>
+    </div>
+    
+      <div class="hotel-carousel">
+        <img id="hotel-carousel-img"
+          src="https://content.jdmagicbox.com/comp/salem/p4/0427px427.x427.170626133657.n7p4/catalogue/hotel-sivaraj-holidays-inn-salem-hotels-1o7ue.jpg"
+          alt="Hotel Sivaraj Inn">
+
+        <div class="hotel-carousel-name" id="hotel-carousel-name">
+          Hotel Sivaraj Inn
+        </div>
+        <div class="slider-buttons">
+          
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEARBY PLACES -->
+    <div class="grid-box">
+      <h3>📍 Nearby Places</h3>
+
+      <div class="hotel-carousel">
+        
+        <img id="place-carousel-img"
+          src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Yercaud_Lake_Salem.jpg"
+          alt="Yercaud">
+
+        <div class="hotel-carousel-name" id="place-carousel-name">
+          Yercaud
+        </div>
+      </div>
+    </div>
+
+    <!-- PLACES TO EAT -->
+    <div class="grid-box">
+      <h3>🍽️ Places to Eat</h3>
+<div class="hotel-popup">
+      <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+      <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+      <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+      <center>
+        <a href="#" id="eat-map" class="book-btn" target="_blank">Map</a>
+      </center>
+    </div>
+      <div class="hotel-carousel">
+        <img id="eat-carousel-img"
+          src="https://tse2.mm.bing.net/th/id/OIP.gRC4G8d9OOou1WUF1RGW1AHaEK?pid=Api&P=0&h=180"
+          alt="Selvi Mess">
+
+        <div class="hotel-carousel-name" id="eat-carousel-name">
+          Selvi Mess
+        </div>
+        <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== REVIEWS SECTION (STRUCTURE ONLY) ===== -->
+  <section class="reviews-section">
+
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.5</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+      <div class="review-card">
+        <strong>Karthik</strong>
+        <div class="stars">★★★★★</div>
+        <p>Historic fort with great views. Worth the climb!</p>
+      </div>
+    </div>
+
+    <!-- ADD REVIEW FORM -->
+    <form class="review-form" onsubmit="addReview(event)">
+      <input type="text" id="reviewName" placeholder="Your name" required>
+
+      <div class="star-input" id="starInput">
+        <span onclick="setRating(1)">★</span>
+        <span onclick="setRating(2)">★</span>
+        <span onclick="setRating(3)">★</span>
+        <span onclick="setRating(4)">★</span>
+        <span onclick="setRating(5)">★</span>
+      </div>
+
+      <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+      <button type="submit">Add Review</button>
+    </form>
+
+  </section>
+
+</div>
+
+<!-- ===== CHATBOT (STRUCTURE ONLY) ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- FLOATING CHAT BUTTON -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<script>
+/* =====================================================
+   MAIN IMAGE SLIDER – SANKAGIRI FORT
+===================================================== */
+const images = [
+  "https://venkatarangan.com/blog/wp-content/uploads/2021/12/2021-12-22-Sankagiri-Fort-TamilNadu-Temple-FootHill-707x530.jpg",
+  "https://3.bp.blogspot.com/-wMUPycuVeGk/V1HY-0IytMI/AAAAAAAAjKc/Lnn9BCf1BJIYwYKIN1oVrF77-vLQA8CjwCLcB/s1600/76581340.jpg",
+  "https://venkatarangan.com/blog/wp-content/uploads/2021/12/2021-12-22-Sankagiri-Fort-TamilNadu-Hanuman-Temple-758x530.jpg"
+];
+
+let imageIndex = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function nextImage() {
+  imageIndex = (imageIndex + 1) % images.length;
+  sliderImage.src = images[imageIndex];
+}
+
+function prevImage() {
+  imageIndex = (imageIndex - 1 + images.length) % images.length;
+  sliderImage.src = images[imageIndex];
+}
+
+/* =====================================================
+   NEARBY HOTELS CAROUSEL – SALEM
+===================================================== */
+const hotelCarousel = [
+  {
+    name: "Hotel Sivaraj Inn",
+    img: "https://tse3.mm.bing.net/th/id/OIP.mY4_N6GujyiQsHY0RPtlhgHaFj?pid=Api&P=0&h=180",
+    location: "Omalur Main Road, Salem",
+    rating: "4.0 / 5",
+    distance: "1.1 km",
+    map: "https://www.google.com/maps?q=Hotel+Sivaraj+Inn+Salem"
+  },
+  {
+    name: "CJ Pallazzio",
+    img: "https://tse4.mm.bing.net/th/id/OIP.c-PCHOC_Nq1K6b9EXw23iAHaE8?pid=Api&P=0&h=180",
+    location: "Four Roads, Salem",
+    rating: "4.3 / 5",
+    distance: "0.8 km",
+    map: "https://www.google.com/maps?q=CJ+Pallazzio+Salem"
+  },
+  {
+    name: "Radisson Salem",
+    img: "https://tse2.mm.bing.net/th/id/OIP.r7r92Y6WYGrZYOjKnohaMgHaEH?pid=Api&P=0&h=180",
+    location: "Bangalore Bypass Road",
+    rating: "4.5 / 5",
+    distance: "3.6 km",
+    map: "https://www.google.com/maps?q=Radisson+Salem"
+  }
+];
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+function renderHotel() {
+  const h = hotelCarousel[hotelIndex];
+  hotelImg.src = h.img;
+  hotelName.textContent = h.name;
+  hotelLocation.textContent = h.location;
+  hotelRating.textContent = h.rating;
+  hotelDistance.textContent = h.distance;
+  hotelMap.href = h.map;
+}
+
+function nextHotel() {
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  renderHotel();
+}
+
+function prevHotel() {
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  renderHotel();
+}
+
+renderHotel();
+
+/* =====================================================
+   NEARBY PLACES CAROUSEL – SALEM
+===================================================== */
+const placeCarousel = [
+  {
+    name: "Yercaud",
+    img: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Yercaud_Lake_Salem.jpg",
+    link: "{% url 'place-detail' slug='yercaud' %}"
+
+  },
+  {
+    name: "Mettur Dam",
+    img: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Mettur_Dam_Salem.jpg"
+  },
+  {
+    name: "1008 Lingam Temple",
+    img: "https://upload.wikimedia.org/wikipedia/commons/5/5e/1008_Lingam_Temple_Salem.jpg"
+  }
+];
+
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+function renderPlace() {
+  placeImg.src = placeCarousel[placeIndex].img;
+  placeName.textContent = placeCarousel[placeIndex].name;
+}
+
+function nextPlace() {
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  renderPlace();
+}
+
+function prevPlace() {
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  renderPlace();
+}
+
+renderPlace();
+
+/* =====================================================
+   PLACES TO EAT CAROUSEL – SALEM
+===================================================== */
+const eatCarousel = [
+  {
+    name: "Selvi Mess",
+    img: "https://tse2.mm.bing.net/th/id/OIP.gRC4G8d9OOou1WUF1RGW1AHaEK?pid=Api&P=0&h=180",
+    location: "Gugai Area, Salem",
+    rating: "4.4 / 5",
+    distance: "1.3 km",
+    map: "https://www.google.com/maps?q=Selvi+Mess+Salem"
+  },
+  {
+    name: "Sri Saravana Bhavan",
+    img: "https://tse1.mm.bing.net/th/id/OIP.Jf5c9ZTIhcVBfeptixXbRwHaDm?pid=Api&P=0&h=180",
+    location: "Four Roads, Salem",
+    rating: "4.1 / 5",
+    distance: "0.9 km",
+    map: "https://www.google.com/maps?q=Sri+Saravana+Bhavan+Salem"
+  },
+  {
+    name: "Mangala Vilas",
+    img: "https://tse3.mm.bing.net/th/id/OIP.L_tmXNhbzGtxLAyzw34k8QHaEK?pid=Api&P=0&h=180",
+    location: "Old Bus Stand Area",
+    rating: "4.0 / 5",
+    distance: "1.0 km",
+    map: "https://www.google.com/maps?q=Mangala+Vilas+Salem"
+  }
+];
+
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function renderEat() {
+  const e = eatCarousel[eatIndex];
+  eatImg.src = e.img;
+  eatName.textContent = e.name;
+  eatLocation.textContent = e.location;
+  eatRating.textContent = e.rating;
+  eatDistance.textContent = e.distance;
+  eatMap.href = e.map;
+}
+
+function nextEat() {
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  renderEat();
+}
+
+function prevEat() {
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  renderEat();
+}
+
+renderEat();
+
+/* =====================================================
+   REVIEWS + STAR RATING
+===================================================== */
+
+let selectedRating = 0;
+
+/* ⭐ STAR CLICK */
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    star.classList.toggle("active", index < rating);
+  });
+}
+
+/* ➕ ADD REVIEW */
+function addReview(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    alert("Please enter your name, review, and select a star rating ⭐");
+    return;
+  }
+
+  const stars =
+    "★".repeat(selectedRating) +
+    "☆".repeat(5 - selectedRating);
+
+  const reviewCard = document.createElement("div");
+  reviewCard.className = "review-card";
+
+  reviewCard.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${stars}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(reviewCard);
+
+  /* RESET FORM */
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+
+  document
+    .querySelectorAll("#starInput span")
+    .forEach(s => s.classList.remove("active"));
+}
+/* =====================================================
+   READ ALOUD (ENGLISH)
+===================================================== */
+function readEnglish() {
+  const content = document.getElementById("desc-en").innerText;
+  if (!content) return;
+
+  const utterance = new SpeechSynthesisUtterance(content);
+  utterance.lang = "en-IN";
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+/* =====================================================
+   TRANSLATE TOGGLE (EN ↔ TA)
+===================================================== */
+let translated = false;
+let originalHTML = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalHTML = content.innerHTML;
+
+    content.innerHTML = `
+      <h1>சங்ககிரி கோட்டை – சேலம்</h1>
+
+      <p><strong>சங்ககிரி கோட்டை</strong>
+      தமிழ்நாட்டின் சேலம் மாவட்டத்தில் அமைந்துள்ள
+      முக்கியமான வரலாற்றுச் சிறப்பு வாய்ந்த மலைக்கோட்டையாகும்.</p>
+
+      <p>
+      இந்த கோட்டை விஜயநகர பேரரசு, மதுரை நாயக்கர்கள்,
+      ஹைதர் அலி, டிப்பு சுல்தான் மற்றும் ஆங்கிலேயர்கள்
+      ஆகியோரின் ஆட்சியை கண்டுள்ளது.
+      </p>
+
+      <p>
+      வலுவான மதில்கள், பல நுழைவாயில்கள்,
+      காவல் கோபுரங்கள் மற்றும் தானியக் களஞ்சியங்கள்
+      இந்த கோட்டையின் சிறப்பம்சங்களாகும்.
+      </p>
+
+      <p>
+      இன்றும் சங்ககிரி கோட்டை ஒரு பாதுகாக்கப்பட்ட
+      தொல்லியல் நினைவுச் சின்னமாக இருந்து
+      சுற்றுலாப் பயணிகளை ஈர்க்கிறது.
+      </p>
+    `;
+    translated = true;
+  } else {
+    content.innerHTML = originalHTML;
+    translated = false;
+  }
+}
+/* =====================================================
+   CHATBOT TOGGLE + SEND MESSAGE (DEMO)
+===================================================== */
+function toggleChat() {
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage() {
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if (msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  // USER MESSAGE
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  // BOT REPLY (DEMO)
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+
+/* =====================================================
+   PROFILE DROPDOWN
+===================================================== */
+function toggleProfile() {
+  const menu = document.getElementById("profileMenu");
+  menu.classList.toggle("show");
+}
+
+/* CLOSE PROFILE WHEN CLICKING OUTSIDE */
+document.addEventListener("click", function (e) {
+  const dropdown = document.querySelector(".profile-dropdown");
+  const menu = document.getElementById("profileMenu");
+
+  if (dropdown && !dropdown.contains(e.target)) {
+    menu.classList.remove("show");
+  }
+});
+
+/* =====================================================
+   LOGOUT (DEMO)
+===================================================== */
+function logoutUser() {
+  alert("Logout successful (demo)");
+  // later: window.location.href = "{% url 'accounts:login' %}";
+}
+  const profileBtn = document.querySelector(".profile-btn");
+  const dropdown = document.querySelector(".dropdown-menu");
+
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.style.display =
+      dropdown.style.display === "flex" ? "none" : "flex";
+  });
+
+  document.addEventListener("click", () => {
+    dropdown.style.display = "none";
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem("loggedInUser");
+    const userSpan = document.getElementById("nav-username");
+
+    if (username && userSpan) {
+        userSpan.textContent = "👤" + username;
+    }
+});
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+
+</script>

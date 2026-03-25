@@ -1,0 +1,608 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vellore Fort | Tamilverse</title>
+
+<link rel="stylesheet" href="{% static 'css/pages.css' %}" />
+</head>
+<body>
+
+<!-- ===== NAVBAR (UPDATED – PROFILE DROPDOWN) ===== -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <b><span>Tamilverse</span></b>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE CONTENT ===== -->
+<div class="page">
+
+  <!-- READ / TRANSLATE BUTTONS -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- ===== IMAGE + DESCRIPTION ===== -->
+  <section class="split-section">
+
+    <!-- IMAGE SLIDER -->
+    <div class="image-slider">
+      <img id="slider-image"
+        src="http://www.rangalayaroyal.in/images/vellore-sites/vellore-fort-big.jpg"
+        alt="Vellore Fort">
+
+      <div class="slider-buttons">
+        <button onclick="prevImage()">⟨</button>
+        <button onclick="nextImage()">⟩</button>
+      </div>
+    </div>
+
+    <!-- PLACE DESCRIPTION -->
+    <div class="place-card" id="desc-en">
+      <h1>Vellore Fort – Vellore</h1>
+
+      <p>
+        <strong>Vellore Fort</strong> is a magnificent 16th-century fort located
+        in Vellore city, Tamil Nadu. It is one of the finest examples of
+        South Indian military architecture.
+      </p>
+
+      <p>
+        Built by the Vijayanagara rulers, the fort is known for its massive
+        granite walls, deep moat, and robust defensive structures.
+      </p>
+
+      <p>
+        Inside the fort complex lies the historic Jalakandeswarar Temple,
+        along with a mosque and a church, symbolizing religious harmony.
+      </p>
+
+      <p>
+        Vellore Fort is also historically significant for the
+        <strong>Vellore Mutiny of 1806</strong>, one of the earliest uprisings
+        against British rule in India.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ===== MAP + NEARBY INFO ===== -->
+  <section class="info-grid">
+
+    <!-- MAP -->
+    <div class="grid-box">
+      <iframe
+        src="https://www.google.com/maps?q=Vellore+Fort+Tamil+Nadu&output=embed"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- NEARBY HOTELS -->
+    <div class="grid-box">
+      <h3>🏨 Nearby Hotels</h3>
+
+      <div class="hotel-carousel">
+           
+        <img id="hotel-carousel-img"
+          src="https://content.jdmagicbox.com/comp/vellore/z6/9999px416.x416.180608125152.y5z6/catalogue/hotel-aavanaa-inn-vellore-hotels-1s7q3.jpg"
+          alt="Hotel Aavanaa Inn">
+
+        <div class="hotel-carousel-name" id="hotel-carousel-name">
+          Hotel Aavanaa Inn
+        </div>
+    
+           <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+ </div>
+    <div class="slider-buttons">
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+    </div> 
+    </div>
+
+    <!-- NEARBY PLACES -->
+    <div class="grid-box">
+      <h3>📍 Nearby Places</h3>
+
+      <div class="hotel-carousel">
+        <img id="place-carousel-img"
+          src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Golden_Temple_Vellore.jpg"
+          alt="Sripuram Golden Temple">
+
+        <div class="hotel-carousel-name" id="place-carousel-name">
+          Sripuram Golden Temple
+        </div>
+      </div>
+    </div>
+
+    <!-- PLACES TO EAT -->
+    <div class="grid-box">
+      <h3>🍽️ Places to Eat</h3>
+
+    <div class="hotel-carousel">
+      <div class="hotel-popup">
+      <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+      <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+      <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+      <center>
+        <a href="#" id="eat-map" class="book-btn" target="_blank">Map</a>
+      </center>
+    </div>
+   
+        <img id="eat-carousel-img"
+          src="https://media-cdn.tripadvisor.com/media/photo-s/1b/31/15/47/photo2jpg.jpg"
+          alt="Annalakshmi Restaurant">
+
+        <div class="hotel-carousel-name" id="eat-carousel-name">
+          Annalakshmi Restaurant
+        </div>
+          <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ===== REVIEWS SECTION (STRUCTURE ONLY) ===== -->
+  <section class="reviews-section">
+
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.7</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+      <div class="review-card">
+        <strong>Suresh</strong>
+        <div class="stars">★★★★★</div>
+        <p>Well-preserved fort with rich history and impressive architecture.</p>
+      </div>
+    </div>
+
+    <!-- ADD REVIEW FORM -->
+    <form class="review-form" onsubmit="addReview(event)">
+      <input type="text" id="reviewName" placeholder="Your name" required>
+
+      <div class="star-input" id="starInput">
+        <span onclick="setRating(1)">★</span>
+        <span onclick="setRating(2)">★</span>
+        <span onclick="setRating(3)">★</span>
+        <span onclick="setRating(4)">★</span>
+        <span onclick="setRating(5)">★</span>
+      </div>
+
+      <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+      <button type="submit">Add Review</button>
+    </form>
+
+  </section>
+
+</div>
+
+<!-- ===== CHATBOT (STRUCTURE ONLY) ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- FLOATING CHAT BUTTON -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+
+
+
+<script>
+/* =====================================================
+   READ ALOUD (ENGLISH)
+===================================================== */
+function readEnglish() {
+  const content = document.getElementById("desc-en")?.innerText;
+  if (!content) return;
+
+  const u = new SpeechSynthesisUtterance(content);
+  u.lang = "en-IN";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+/* =====================================================
+   MAIN IMAGE SLIDER – VELLORE FORT (WITH ANIMATION)
+===================================================== */
+const images = [
+  "https://avanigo.com/wp-content/uploads/2020/11/Vellore-fort.jpg",
+  "https://as1.ftcdn.net/v2/jpg/04/94/60/22/1000_F_494602288_e0yaLb4jBhgQj4La8mcGiSH4k7y0FjGK.jpg",
+  "https://as1.ftcdn.net/v2/jpg/04/92/25/80/1000_F_492258033_yBeQC9UkSm73UrAgWlhJMqpWzzVnOUFH.jpg"
+];
+
+let imageIndex = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function slideMain(index, direction = "next") {
+  sliderImage.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    sliderImage.src = images[index];
+    sliderImage.style.transition = "none";
+    sliderImage.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      sliderImage.style.transition = "transform 0.8s ease";
+      sliderImage.style.transform = "translateX(0)";
+    });
+  }, 500);
+}
+
+function nextImage() {
+  imageIndex = (imageIndex + 1) % images.length;
+  slideMain(imageIndex, "next");
+}
+
+function prevImage() {
+  imageIndex = (imageIndex - 1 + images.length) % images.length;
+  slideMain(imageIndex, "prev");
+}
+
+/* =====================================================
+   REUSABLE SLIDE (HOTEL / PLACE / EAT)
+===================================================== */
+function slide(el, src, direction = "next") {
+  el.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    el.src = src;
+    el.style.transition = "none";
+    el.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      el.style.transition = "transform 1s ease";
+      el.style.transform = "translateX(0)";
+    });
+  }, 450);
+}
+
+const hotelCarousel = [
+  {
+    name: "Hotel Aavanaa Inn",
+    img: "https://media-cdn.tripadvisor.com/media/photo-s/1b/31/15/47/photo2jpg.jpg",
+    location: "Katpadi Road, Vellore",
+    rating: "4.2 / 5",
+    distance: "1.0 km",
+    map: "https://www.google.com/maps?q=Hotel+Aavanaa+Inn+Vellore"
+  },
+  {
+    name: "Hotel Darling Residency",
+    img: "https://www.darlingresidency.com/img/about-darling-accommodation.jpg",
+    location: "Officers Line, Vellore",
+    rating: "4.0 / 5",
+    distance: "1.4 km",
+    map: "https://www.google.com/maps?q=Hotel+Darling+Residency+Vellore"
+  },
+  {
+    name: "Poppys Anukula Residency",
+    img: "https://blessingsonthenet.com/img/uploads/hotels/roomgallery/aim_bn_1_1468401054.jpg",
+    location: "Gandhi Nagar, Vellore",
+    rating: "4.1 / 5",
+    distance: "2.0 km",
+    map: "https://www.google.com/maps?q=Poppys+Anukula+Residency+Vellore"
+  }
+];
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+function renderHotel(){
+  const h = hotelCarousel[hotelIndex];
+  hotelImg.src = h.img;
+  hotelName.textContent = h.name;
+  hotelLocation.textContent = h.location;
+  hotelRating.textContent = h.rating;
+  hotelDistance.textContent = h.distance;
+  hotelMap.href = h.map;
+}
+
+function nextHotel(){
+  hotelIndex = (hotelIndex+1)%hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img,"next");
+  renderHotel();
+}
+function prevHotel(){
+  hotelIndex = (hotelIndex-1+hotelCarousel.length)%hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img,"prev");
+  renderHotel();
+}
+renderHotel();
+
+/* =====================================================
+   NEARBY PLACES
+===================================================== */
+const placeCarousel = [
+  { name:"Sripuram Golden Temple", img:"https://upload.wikimedia.org/wikipedia/commons/3/3c/Golden_Temple_Vellore.jpg"},
+  { name:"Jalakandeswarar Temple", img:"https://upload.wikimedia.org/wikipedia/commons/3/3c/Jalakandeswarar_Temple_Vellore.jpg"},
+  { name:"Yelagiri Hills", img:"https://upload.wikimedia.org/wikipedia/commons/5/5a/Yelagiri_Hills_Tamil_Nadu.jpg"}
+];
+
+let placeIndex=0;
+const placeImg=document.getElementById("place-carousel-img");
+const placeName=document.getElementById("place-carousel-name");
+
+function renderPlace(){
+  placeImg.src=placeCarousel[placeIndex].img;
+  placeName.textContent=placeCarousel[placeIndex].name;
+}
+function nextPlace(){
+  placeIndex=(placeIndex+1)%placeCarousel.length;
+  slide(placeImg,placeCarousel[placeIndex].img,"next");
+  renderPlace();
+}
+function prevPlace(){
+  placeIndex=(placeIndex-1+placeCarousel.length)%placeCarousel.length;
+  slide(placeImg,placeCarousel[placeIndex].img,"prev");
+  renderPlace();
+}
+renderPlace();
+
+/* =====================================================
+   PLACES TO EAT – FULL DETAILS
+===================================================== */
+const eatCarousel = [
+  {
+    name: "Annalakshmi Restaurant",
+    img: "https://i.ytimg.com/vi/dYXQpQCpk1k/maxresdefault.jpg",
+    location: "Katpadi Road",
+    rating: "4.3 / 5",
+    distance: "1.1 km",
+    map: "https://www.google.com/maps?q=Annalakshmi+Restaurant+Vellore"
+  },
+  {
+    name: "Hundreds Heritage",
+    img: "https://annalakshmi.com.my/wp-content/uploads/2023/12/DSC_0946-2-2048x1272.jpg",
+    location: "Officer Line",
+    rating: "4.2 / 5",
+    distance: "1.6 km",
+    map: "https://www.google.com/maps?q=Hundreds+Heritage+Vellore"
+  },
+  {
+    name: "Zaitoon Restaurant",
+    img: "https://c.regencyholidays.com/blog/2023/9/191717_Zaitoon%20Restaurant%20Medina%20-%20Hero%20Image.webp",
+    location: "Gandhi Nagar",
+    rating: "4.0 / 5",
+    distance: "2.3 km",
+    map: "https://www.google.com/maps?q=Zaitoon+Restaurant+Vellore"
+  }
+];
+
+let eatIndex=0;
+const eatImg=document.getElementById("eat-carousel-img");
+const eatName=document.getElementById("eat-carousel-name");
+const eatLocation=document.getElementById("eat-location");
+const eatRating=document.getElementById("eat-rating");
+const eatDistance=document.getElementById("eat-distance");
+const eatMap=document.getElementById("eat-map");
+
+function renderEat(){
+  const e=eatCarousel[eatIndex];
+  eatImg.src=e.img;
+  eatName.textContent=e.name;
+  eatLocation.textContent=e.location;
+  eatRating.textContent=e.rating;
+  eatDistance.textContent=e.distance;
+  eatMap.href=e.map;
+}
+function nextEat(){
+  eatIndex=(eatIndex+1)%eatCarousel.length;
+  slide(eatImg,eatCarousel[eatIndex].img,"next");
+  renderEat();
+}
+function prevEat(){
+  eatIndex=(eatIndex-1+eatCarousel.length)%eatCarousel.length;
+  slide(eatImg,eatCarousel[eatIndex].img,"prev");
+  renderEat();
+}
+renderEat();
+
+/* =====================================================
+   REVIEWS + STAR RATING
+===================================================== */
+let selectedRating = 0;
+
+function setRating(rating) {
+  selectedRating = rating;
+  document
+    .querySelectorAll("#starInput span")
+    .forEach((s, i) => s.classList.toggle("active", i < rating));
+}
+
+function addReview(e) {
+  e.preventDefault();
+
+  const name = reviewName.value.trim();
+  const text = reviewText.value.trim();
+
+  if (!name || !text || !selectedRating) {
+    alert("Please add a star rating ⭐");
+    return;
+  }
+
+  const stars = "★".repeat(selectedRating) + "☆".repeat(5 - selectedRating);
+
+  reviewList.insertAdjacentHTML(
+    "afterbegin",
+    `<div class="review-card">
+      <strong>${name}</strong>
+      <div class="stars">${stars}</div>
+      <p>${text}</p>
+    </div>`
+  );
+
+  reviewName.value = "";
+  reviewText.value = "";
+  selectedRating = 0;
+  document.querySelectorAll("#starInput span").forEach(s => s.classList.remove("active"));
+}
+
+/* =====================================================
+   TRANSLATE TOGGLE (EN ↔ TA)
+===================================================== */
+let translated = false;
+let originalHTML = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalHTML = content.innerHTML;
+    content.innerHTML = `
+      <h1>வேலூர் கோட்டை – வேலூர்</h1>
+      <p>விஜயநகர அரசர்களால் கட்டப்பட்ட
+      16ஆம் நூற்றாண்டு வரலாற்றுச் சிறப்பு வாய்ந்த கோட்டை.</p>
+    `;
+    translated = true;
+  } else {
+    content.innerHTML = originalHTML;
+    translated = false;
+  }
+}
+
+/* =====================================================
+   CHATBOT (DEMO)
+===================================================== */
+function toggleChat() {
+  chatbot.style.display = chatbot.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage() {
+  const msg = chatText.value.trim();
+  if (!msg) return;
+
+  chatBody.insertAdjacentHTML("beforeend", `<div class="user-msg">${msg}</div>`);
+  chatText.value = "";
+
+  setTimeout(() => {
+    chatBody.insertAdjacentHTML(
+      "beforeend",
+      `<div class="bot-msg">🤖 Demo reply. AI assistant coming soon!</div>`
+    );
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }, 600);
+}
+
+
+function toggleProfile(){
+    const menu = document.getElementById("profileMenu");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+
+function logoutUser(){
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("loggedInUser");
+    alert("👋 Logged out successfully");
+    window.location.href = "{% url 'accounts:login' %}";
+}
+
+// close dropdown when clicking outside
+document.addEventListener("click", function(e){
+    const dropdown = document.querySelector(".profile-dropdown");
+    if(dropdown && !dropdown.contains(e.target)){
+        document.getElementById("profileMenu").style.display = "none";
+    }
+});
+
+  const profileBtn = document.querySelector(".profile-btn");
+  const dropdown = document.querySelector(".dropdown-menu");
+
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.style.display =
+      dropdown.style.display === "flex" ? "none" : "flex";
+  });
+
+  document.addEventListener("click", () => {
+    dropdown.style.display = "none";
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem("loggedInUser");
+    const userSpan = document.getElementById("nav-username");
+
+    if (username && userSpan) {
+        userSpan.textContent = "👤" + username;
+    }
+});
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+
+
+</script>

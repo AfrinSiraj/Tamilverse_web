@@ -1,0 +1,644 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gingee Fort | Tamilverse</title>
+
+<link rel="stylesheet" href="{% static 'css/pages.css' %}" />
+</head>
+<body>
+
+<!-- ===== NAVBAR (UPDATED – PROFILE DROPDOWN) ===== -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <b><span>Tamilverse</span></b>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE CONTENT ===== -->
+<div class="page">
+
+  <!-- READ / TRANSLATE BUTTONS -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- ===== IMAGE + DESCRIPTION ===== -->
+  <section class="split-section">
+
+    <!-- IMAGE SLIDER -->
+    <div class="image-slider">
+      <img id="slider-image"
+        src="https://www.sterlingholidays.com/activities/tiruvannamalai/bannerimage/gingee-fort-experience-activity.jpg.imgw.1280.1280.jpeg"
+        alt="Gingee Fort">
+
+      <div class="slider-buttons">
+        <button onclick="prevImage()">⟨</button>
+        <button onclick="nextImage()">⟩</button>
+      </div>
+    </div>
+
+    <!-- PLACE DESCRIPTION -->
+    <div class="place-card" id="desc-en">
+      <h1>Gingee Fort – Villupuram</h1>
+
+      <p>
+        <strong>Gingee Fort</strong>, also known as Senji Fort, is one of the most
+        impregnable and historically significant forts in South India.
+      </p>
+
+      <p>
+        Located in Villupuram district of Tamil Nadu, the fort complex consists
+        of three hill forts—Rajagiri, Krishnagiri, and Chandrayandurg.
+      </p>
+
+      <p>
+        Built and expanded by various dynasties including the Cholas, Vijayanagara
+        rulers, Marathas, and the Nawabs, Gingee Fort reflects a rich military
+        and architectural heritage.
+      </p>
+
+      <p>
+        Often called the <strong>“Troy of the East”</strong>, the fort offers
+        breathtaking views and stands as a symbol of strategic brilliance.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ===== MAP + NEARBY INFO ===== -->
+  <section class="info-grid">
+
+    <!-- MAP -->
+    <div class="grid-box">
+      <iframe
+        src="https://www.google.com/maps?q=Gingee+Fort+Tamil+Nadu&output=embed"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- NEARBY HOTELS -->
+    <div class="grid-box">
+      <h3>🏨 Nearby Hotels</h3>
+
+      <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+      <div class="hotel-carousel">
+        <img id="hotel-carousel-img"
+          src="https://content.jdmagicbox.com/comp/villupuram/c6/9999px414.x414.180417181727.m8c6/catalogue/hotel-selvam-villupuram-hotels-2f5b9p6.jpg"
+          alt="Hotel Selvam">
+
+        <div class="hotel-carousel-name" id="hotel-carousel-name">
+          Hotel Selvam
+        </div>
+        <div class="slider-buttons">
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+    </div> 
+      </div>
+    </div>
+
+    <!-- NEARBY PLACES -->
+    <div class="grid-box">
+      <h3>📍 Nearby Places</h3>
+
+      <div class="hotel-carousel">
+        <img id="place-carousel-img"
+          src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Mailam_Murugan_Temple.jpg"
+          alt="Mailam Murugan Temple">
+
+        <div class="hotel-carousel-name" id="place-carousel-name">
+          Mailam Murugan Temple
+        </div>
+      </div>
+    </div>
+
+    <!-- PLACES TO EAT -->
+    <div class="grid-box">
+      <h3>🍽️ Places to Eat</h3>
+      <div class="hotel-popup">
+       <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+      <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+      <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+      <center>
+        <a href="#" id="eat-map" class="book-btn" target="_blank">Map</a>
+      </center>
+    </div>
+
+      <div class="hotel-carousel">
+        <img id="eat-carousel-img"
+          src="https://i.ytimg.com/vi/fcviCEr3dFY/maxresdefault.jpg"
+          alt="Anantha Bhavan">
+
+        <div class="hotel-carousel-name" id="eat-carousel-name">
+          Anantha Bhavan
+        </div>
+        <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+      </div>
+
+
+  </section>
+
+  <!-- ===== REVIEWS SECTION (STRUCTURE ONLY) ===== -->
+  <section class="reviews-section">
+
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.6</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+      <div class="review-card">
+        <strong>Karthik</strong>
+        <div class="stars">★★★★★</div>
+        <p>Massive fort with breathtaking views. A must-visit for history lovers.</p>
+      </div>
+    </div>
+
+    <!-- ADD REVIEW FORM -->
+    <form class="review-form" onsubmit="addReview(event)">
+      <input type="text" id="reviewName" placeholder="Your name" required>
+
+      <div class="star-input" id="starInput">
+        <span onclick="setRating(1)">★</span>
+        <span onclick="setRating(2)">★</span>
+        <span onclick="setRating(3)">★</span>
+        <span onclick="setRating(4)">★</span>
+        <span onclick="setRating(5)">★</span>
+      </div>
+
+      <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+      <button type="submit">Add Review</button>
+    </form>
+
+  </section>
+
+</div>
+
+<!-- ===== CHATBOT (STRUCTURE ONLY) ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- FLOATING CHAT BUTTON -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<script>
+/* =====================================================
+   MAIN IMAGE SLIDER – GINGEE FORT
+===================================================== */
+const images = [
+  "https://media-cdn.tripadvisor.com/media/photo-s/03/05/53/62/gingee-fort.jpg",
+  "http://2.bp.blogspot.com/-PNoctBZaHH8/VIXs1IhNHCI/AAAAAAAAA64/ceY3vH-Kifk/s1600/gingee%2Bfort%2B%2Bflat%2C550x550%2C075%2Cf.u2.jpg",
+  "https://media-cdn.tripadvisor.com/media/photo-s/1a/ed/a2/e8/gingee-fort-krishnagiri.jpg"
+];
+
+let imageIndex = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function nextImage() {
+  imageIndex = (imageIndex + 1) % images.length;
+  sliderImage.src = images[imageIndex];
+}
+
+function prevImage() {
+  imageIndex = (imageIndex - 1 + images.length) % images.length;
+  sliderImage.src = images[imageIndex];
+}
+
+/* =====================================================
+   PROFILE DROPDOWN TOGGLE
+
+===================================================== */
+function toggleProfile() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+function logoutUser() {
+  alert("Logging out...");
+  // Add actual logout logic here
+}
+
+/* =====================================================
+   NEARBY HOTELS CAROUSEL – VILLUPURAM
+===================================================== */
+const hotelCarousel = [
+  {
+    name: "Hotel Selvam",
+    img: "https://i.ytimg.com/vi/hon72nPHxUw/maxresdefault.jpg",
+    location: "Tindivanam Road, Villupuram",
+    rating: "4.0 / 5",
+    distance: "1.2 km",
+    map: "https://www.google.com/maps?q=Hotel+Selvam+Villupuram"
+  },
+  {
+    name: "Hotel Sri Balaji",
+    img: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/474030498.jpg?k=de59bdd2a79333e2c9fd9713cea8d604fd48a0007f040a4b1306f4ced469aa04&o=&hp=1",
+    location: "Near Villupuram Bus Stand",
+    rating: "3.9 / 5",
+    distance: "0.6 km",
+    map: "https://www.google.com/maps?q=Hotel+Sri+Balaji+Villupuram"
+  },
+  {
+    name: "Hotel Aishwarya",
+    img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/b0/c2/b2/aishwarya-hotel.jpg?w=500&h=400&s=1",
+    location: "Salem Main Road",
+    rating: "4.1 / 5",
+    distance: "1.8 km",
+    map: "https://www.google.com/maps?q=Hotel+Aishwarya+Villupuram"
+  }
+];
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+function renderHotel() {
+  const h = hotelCarousel[hotelIndex];
+  hotelImg.src = h.img;
+  hotelName.textContent = h.name;
+  hotelLocation.textContent = h.location;
+  hotelRating.textContent = h.rating;
+  hotelDistance.textContent = h.distance;
+  hotelMap.href = h.map;
+}
+
+function nextHotel() {
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  renderHotel();
+}
+
+function prevHotel() {
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  renderHotel();
+}
+
+renderHotel();
+
+/* =====================================================
+   NEARBY PLACES CAROUSEL – VILLUPURAM / GINGEE
+===================================================== */
+const placeCarousel = [
+  {
+    name: "Mailam Murugan Temple",
+    img: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Mailam_Murugan_Temple.jpg"
+  },
+  {
+    name: "Rajagiri Hill Fort (Gingee)",
+    img: "https://upload.wikimedia.org/wikipedia/commons/8/86/Rajagiri_Fort_Gingee.jpg"
+  },
+  {
+    name: "Krishnagiri Fort (Gingee)",
+    img: "https://upload.wikimedia.org/wikipedia/commons/3/36/Krishnagiri_Fort_Gingee.jpg"
+  }
+];
+
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+function renderPlace() {
+  placeImg.src = placeCarousel[placeIndex].img;
+  placeName.textContent = placeCarousel[placeIndex].name;
+}
+
+function nextPlace() {
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  renderPlace();
+}
+
+function prevPlace() {
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  renderPlace();
+}
+
+renderPlace();
+
+/* =====================================================
+   PLACES TO EAT CAROUSEL – VILLUPURAM
+===================================================== */
+const eatCarousel = [
+  {
+    name: "Anantha Bhavan",
+    img: "https://tse4.mm.bing.net/th/id/OIP.j22EVcaWIVR3a93oQ4c8EwHaFj?pid=Api&P=0&h=180",
+    location: "Near Bus Stand",
+    rating: "4.2 / 5",
+    distance: "0.7 km",
+    map: "https://www.google.com/maps?q=Anantha+Bhavan+Villupuram"
+  },
+  {
+    name: "Sri Saravana Bhavan",
+    img: "https://tse2.mm.bing.net/th/id/OIP.b31UyEqOEuMNBWse7Aa4yQHaEo?pid=Api&P=0&h=180",
+    location: "Tindivanam Road",
+    rating: "4.0 / 5",
+    distance: "1.1 km",
+    map: "https://www.google.com/maps?q=Sri+Saravana+Bhavan+Villupuram"
+  },
+  {
+    name: "Hotel Sri Krishna",
+    img: "https://tse4.mm.bing.net/th/id/OIP.uLRhzi_6ThkiEIyydkRKjQHaFj?pid=Api&P=0&h=180",
+    location: "Salem Main Road",
+    rating: "3.9 / 5",
+    distance: "1.5 km",
+    map: "https://www.google.com/maps?q=Hotel+Sri+Krishna+Villupuram"
+  }
+];
+
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function renderEat() {
+  const e = eatCarousel[eatIndex];
+  eatImg.src = e.img;
+  eatName.textContent = e.name;
+  eatLocation.textContent = e.location;
+  eatRating.textContent = e.rating;
+  eatDistance.textContent = e.distance;
+  eatMap.href = e.map;
+}
+
+function nextEat() {
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  renderEat();
+}
+
+function prevEat() {
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  renderEat();
+}
+
+renderEat();
+
+
+/* =====================================================
+   REVIEWS + STAR RATING
+===================================================== */
+
+let selectedRating = 0;
+
+/* ⭐ STAR CLICK */
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    star.classList.toggle("active", index < rating);
+  });
+}
+
+/* ➕ ADD REVIEW */
+function addReview(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    alert("Please enter your name, review, and select a star rating ⭐");
+    return;
+  }
+
+  const stars =
+    "★".repeat(selectedRating) +
+    "☆".repeat(5 - selectedRating);
+
+  const reviewCard = document.createElement("div");
+  reviewCard.className = "review-card";
+  reviewCard.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${stars}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(reviewCard);
+
+  /* RESET FORM */
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+  document.querySelectorAll("#starInput span")
+    .forEach(s => s.classList.remove("active"));
+}
+/* =====================================================
+   READ ALOUD (ENGLISH)
+===================================================== */
+function readEnglish() {
+  const content = document.getElementById("desc-en").innerText;
+  if (!content) return;
+
+  const utterance = new SpeechSynthesisUtterance(content);
+  utterance.lang = "en-IN";
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+/* =====================================================
+   TRANSLATE TOGGLE (EN ↔ TA)
+===================================================== */
+let translated = false;
+let originalHTML = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalHTML = content.innerHTML;
+
+    content.innerHTML = `
+      <h1>ஜிஞ்சி கோட்டை – விழுப்புரம்</h1>
+
+      <p><strong>ஜிஞ்சி கோட்டை</strong>, தென்னிந்தியாவின்
+      மிக முக்கியமான மற்றும் வலுவான வரலாற்றுச் சிறப்பு மிக்க கோட்டைகளில் ஒன்றாகும்.</p>
+
+      <p>இந்த கோட்டை, ராஜகிரி, கிருஷ்ணகிரி மற்றும் சந்திரயான்துர்க் எனப்படும்
+      மூன்று மலைக் கோட்டைகளைக் கொண்டதாகும்.</p>
+
+      <p>சோழர்கள், விஜயநகர அரசர்கள், மராத்தியர்கள் மற்றும் நவாபுகள் ஆகியோரால்
+      கட்டப்பட்டு விரிவாக்கப்பட்ட இந்த கோட்டை,
+      சிறந்த இராணுவ மற்றும் கட்டிடக்கலை பாரம்பரியத்தை பிரதிபலிக்கிறது.</p>
+
+      <p>“கிழக்கின் ட்ராய்” என அழைக்கப்படும் இந்த கோட்டை,
+      அதன் மூலோபாய சிறப்பிற்கும் அழகிய காட்சிகளுக்கும் புகழ்பெற்றது.</p>
+    `;
+    translated = true;
+  } else {
+    content.innerHTML = originalHTML;
+    translated = false;
+  }
+}
+/* =====================================================
+   CHATBOT TOGGLE + SEND MESSAGE (DEMO)
+===================================================== */
+function toggleChat() {
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage() {
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if (msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  /* USER MESSAGE */
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  /* BOT REPLY (DEMO) */
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+
+/* =====================================================
+   PROFILE DROPDOWN
+===================================================== */
+function toggleProfile() {
+  const menu = document.getElementById("profileMenu");
+  menu.classList.toggle("show");
+}
+
+/* CLOSE PROFILE WHEN CLICK OUTSIDE */
+document.addEventListener("click", function (e) {
+  const dropdown = document.querySelector(".profile-dropdown");
+  const menu = document.getElementById("profileMenu");
+
+  if (!dropdown.contains(e.target)) {
+    menu.classList.remove("show");
+  }
+});
+
+/* =====================================================
+   LOGOUT (DEMO)
+===================================================== */
+function logoutUser() {
+  alert("Logged out successfully (demo)");
+  // future: redirect to login page
+}
+  const profileBtn = document.querySelector(".profile-btn");
+  const dropdown = document.querySelector(".dropdown-menu");
+
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.style.display =
+      dropdown.style.display === "flex" ? "none" : "flex";
+  });
+
+  document.addEventListener("click", () => {
+    dropdown.style.display = "none";
+  });
+document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem("loggedInUser");
+    const userSpan = document.getElementById("nav-username");
+
+    if (username && userSpan) {
+        userSpan.textContent = "👤" + username;
+    }
+});
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+
+
+</script>
+</body>
+</html>
+

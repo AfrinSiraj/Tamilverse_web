@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ place.name }} | Tamilverse{% endblock %}
+{% block head %}<link rel="stylesheet" href="{% static 'css/pages.css' %}">{% endblock %}
+{% block content %}
+<div class="navbar"><div class="nav-brand"><img src="{% static 'images/image.png' %}" alt="Tamilverse Logo"><span>Tamilverse</span></div><div class="nav-links"><a href="{% url 'home' %}">Home</a><a href="{% url 'explore' %}">Explore</a><a href="{% url 'about' %}">About</a><a href="{% url 'contact' %}">Contact</a></div></div>
+<div class="page">
+<div style="padding:12px 24px;color:#fff;">{% if weather %}Weather: {{ weather.temperature }}?C, {{ weather.description }}{% endif %}</div>
+<section class="split-section"><div class="image-slider"><img id="slider-image" src="{% if place.image %}{{ place.image.url }}{% else %}https://picsum.photos/1000/700{% endif %}"></div>
+<div class="place-card" id="desc-en"><h1>{{ place.name }} - {{ place.district }}</h1><p>{{ place.description }}</p><p><b>Category:</b> {{ place.category }}</p><p><b>Crowded:</b> {% if place.is_crowded %}Yes{% else %}No{% endif %}</p><p><b>Visits:</b> {{ place.visit_count }}</p>
+<form method="post" action="{% url 'visit-place' place.slug %}">{% csrf_token %}<button type="submit">Mark Visited</button></form>
+<form method="post" action="{% url 'toggle-like' place.slug %}">{% csrf_token %}<button type="submit">{% if liked %}Unlike ??{% else %}Like ??{% endif %}</button></form>
+</div></section>
+<section class="reviews-section"><h2>Reviews</h2><div class="review-list">{% for rv in reviews %}<div class="review-card"><strong>{{ rv.user.username }}</strong><div class="stars">{{ rv.rating }}/5</div><p>{{ rv.comment }}</p></div>{% empty %}<p>No reviews yet.</p>{% endfor %}</div>
+<form class="review-form" method="post" action="{% url 'add-review' place.slug %}">{% csrf_token %}<input name="rating" type="number" min="1" max="5" required><textarea name="comment" required></textarea><button type="submit">Add Review</button></form>
+</section>
+</div>
+{% endblock %}

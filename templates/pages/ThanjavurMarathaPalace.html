@@ -1,0 +1,656 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Thanjavur Maratha Palace | Tamilverse</title>
+
+
+<link rel="stylesheet" href="{% static 'css/pages.css' %}" />
+
+
+</head>
+<body>
+
+<!-- ===== NAVBAR (UPDATED – PROFILE DROPDOWN) ===== -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <b><span>Tamilverse</span></b>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE CONTENT ===== -->
+<div class="page">
+
+  <!-- READ / TRANSLATE BUTTONS -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- ===== IMAGE + DESCRIPTION ===== -->
+  <section class="split-section">
+
+    <!-- IMAGE SLIDER -->
+    <div class="image-slider">
+      <img id="slider-image"
+        src="https://1.bp.blogspot.com/-1RHZ7RuoZPA/Vyzg52AZhkI/AAAAAAAAgd0/SQYwX1CGkqcTf26NbLdJQiuys_1OCP-HwCLcB/s1600/5002419271_576034cd60_b.jpg"
+        alt="Thanjavur Maratha Palace">
+
+      <div class="slider-buttons">
+        <button onclick="prevImage()">⟨</button>
+        <button onclick="nextImage()">⟩</button>
+      </div>
+    </div>
+
+    <!-- PLACE DESCRIPTION -->
+    <div class="place-card" id="desc-en">
+      <h1>Thanjavur Maratha Palace – Thanjavur</h1>
+
+      <p>
+        <strong>Thanjavur Maratha Palace</strong> is a historic royal complex
+        located in the heart of Thanjavur city, Tamil Nadu. It served as the
+        residence of the Maratha rulers who governed Thanjavur from the
+        17th century onwards.
+      </p>
+
+      <p>
+        The palace complex includes several notable structures such as the
+        Durbar Hall, Queen’s Courtyard, and the Saraswathi Mahal Library,
+        one of the oldest libraries in Asia.
+      </p>
+
+      <p>
+        Known for its blend of Maratha, Nayak, and European architectural
+        elements, the palace reflects the cultural richness and political
+        history of the Thanjavur region.
+      </p>
+
+      <p>
+        Today, the palace is a major tourist attraction and houses museums
+        that showcase royal artifacts, paintings, manuscripts, and weapons.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ===== MAP + NEARBY INFO ===== -->
+  <section class="info-grid">
+
+    <!-- MAP -->
+    <div class="grid-box">
+      <iframe
+        src="https://www.google.com/maps?q=Thanjavur+Maratha+Palace&output=embed"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- NEARBY HOTELS -->
+    <div class="grid-box">
+      <h3>🏨 Nearby Hotels</h3>
+
+      <div class="hotel-carousel">
+        <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+        <img id="hotel-carousel-img"
+          src="https://content.jdmagicbox.com/comp/thanjavur/f6/9999px436.x436.180604120828.z7f6/catalogue/hotel-gnanam-thanjavur-hotels-1z4x3.jpg"
+          alt="Hotel Gnanam">
+
+        <div class="hotel-carousel-name" id="hotel-carousel-name">
+          Hotel Gnanam
+        </div>
+          <div class="slider-buttons">
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+    </div>
+      </div>
+    </div>
+
+    <!-- NEARBY PLACES -->
+    <div class="grid-box">
+      <h3>📍 Nearby Places</h3>
+
+      <div class="hotel-carousel">
+        <img id="place-carousel-img"
+          src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Brihadeeswarar_Temple_Thanjavur.jpg"
+          alt="Brihadeeswarar Temple">
+
+        <div class="hotel-carousel-name" id="place-carousel-name">
+          Brihadeeswarar Temple
+        </div>
+      </div>
+    </div>
+
+    <!-- PLACES TO EAT -->
+    <div class="grid-box">
+      <h3>🍽️ Places to Eat</h3>
+
+      <div class="hotel-carousel">
+        <div class="hotel-popup">
+      <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+      <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+      <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+      <center>
+        <a href="#" id="eat-map" class="book-btn" target="_blank">Map</a>
+      </center>
+    </div>
+        <img id="eat-carousel-img"
+          src="https://content.jdmagicbox.com/comp/thanjavur/m8/9999px436.x436.170302124509.q3m8/catalogue/sree-ariyas-thanjavur-restaurants-1h2p6.jpg"
+          alt="Sree Ariyas">
+
+        <div class="hotel-carousel-name" id="eat-carousel-name">
+          Sree Ariyas
+        </div>
+        <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== REVIEWS SECTION (STRUCTURE ONLY) ===== -->
+  <section class="reviews-section">
+
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.7</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+      <div class="review-card">
+        <strong>Raghavan</strong>
+        <div class="stars">★★★★★</div>
+        <p>Rich heritage and fascinating museum collections inside the palace.</p>
+      </div>
+    </div>
+
+    <!-- ADD REVIEW FORM -->
+    <form class="review-form" onsubmit="addReview(event)">
+      <input type="text" id="reviewName" placeholder="Your name" required>
+
+      <div class="star-input" id="starInput">
+        <span onclick="setRating(1)">★</span>
+        <span onclick="setRating(2)">★</span>
+        <span onclick="setRating(3)">★</span>
+        <span onclick="setRating(4)">★</span>
+        <span onclick="setRating(5)">★</span>
+      </div>
+
+      <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+      <button type="submit">Add Review</button>
+    </form>
+
+  </section>
+
+</div>
+
+<!-- ===== CHATBOT (STRUCTURE ONLY) ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- FLOATING CHAT BUTTON -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<script>
+/* =====================================================
+   MAIN IMAGE SLIDER – THANJAVUR MARATHA PALACE
+===================================================== */
+const images = [
+  "https://thumbs.dreamstime.com/b/arch-view-bell-tower-thanjavur-maratha-palace-thanjavur-maratha-palace-complex-known-locally-as-aranmanai-98786819.jpg",
+  "https://thumbs.dreamstime.com/b/thanjavur-maratha-palace-entrance-tower-thanjavur-maratha-palace-complex-known-locally-as-aranmanai-official-98687661.jpg",
+  "https://image.shutterstock.com/image-photo/thanjavur-maratha-palace-more-popularly-260nw-1763479436.jpg"
+];
+
+let imageIndex = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function nextImage() {
+  imageIndex = (imageIndex + 1) % images.length;
+  sliderImage.src = images[imageIndex];
+}
+
+function prevImage() {
+  imageIndex = (imageIndex - 1 + images.length) % images.length;
+  sliderImage.src = images[imageIndex];
+}
+
+/* =====================================================
+   NEARBY HOTELS CAROUSEL – THANJAVUR
+===================================================== */
+const hotelCarousel = [
+  {
+    name: "Hotel Gnanam",
+    img: "https://tse2.mm.bing.net/th/id/OIP.pysEZa201QdA9N1wAXq27wHaD8?pid=Api&P=0&h=180",
+    location: "Pudukkottai Road, Thanjavur",
+    rating: "4.3 / 5",
+    distance: "1.1 km",
+    map: "https://www.google.com/maps?q=Hotel+Gnanam+Thanjavur"
+  },
+  {
+    name: "Hotel Parisutham",
+    img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/9f/d1/eb/pool-view.jpg?w=1000&h=-1&s=1",
+    location: "Near New Bus Stand, Thanjavur",
+    rating: "4.4 / 5",
+    distance: "0.8 km",
+    map: "https://www.google.com/maps?q=Hotel+Parisutham+Thanjavur"
+  },
+  {
+    name: "Ideal River View Resort",
+    img: "https://live.staticflickr.com/4461/36829584043_6fc1a1a08d_z.jpg",
+    location: "Vennar River Bank, Thanjavur",
+    rating: "4.1 / 5",
+    distance: "2.6 km",
+    map: "https://www.google.com/maps?q=Ideal+River+View+Resort+Thanjavur"
+  }
+];
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+function renderHotel(){
+  const h = hotelCarousel[hotelIndex];
+  hotelImg.src = h.img;
+  hotelName.textContent = h.name;
+  hotelLocation.textContent = h.location;
+  hotelRating.textContent = h.rating;
+  hotelDistance.textContent = h.distance;
+  hotelMap.href = h.map;
+}
+
+function nextHotel(){
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  renderHotel();
+}
+
+function prevHotel(){
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  renderHotel();
+}
+
+renderHotel();
+
+/* =====================================================
+   NEARBY PLACES CAROUSEL – THANJAVUR
+===================================================== */
+const placeCarousel = [
+  {
+    name: "Brihadeeswarar Temple",
+    img: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Brihadeeswarar_Temple_Thanjavur.jpg",
+        link: "{% url 'place-detail' slug='brihadeeswarartemple' %}"
+
+  },
+  {
+    name: "Sivaganga Park",
+    img: "https://upload.wikimedia.org/wikipedia/commons/7/72/Sivaganga_Park_Thanjavur.jpg"
+  },
+  {
+    name: "Schwartz Church",
+    img: "https://upload.wikimedia.org/wikipedia/commons/3/35/Schwartz_Church_Thanjavur.jpg"
+  }
+];
+
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+function renderPlace(){
+  placeImg.src = placeCarousel[placeIndex].img;
+  placeName.textContent = placeCarousel[placeIndex].name;
+}
+
+function nextPlace(){
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  renderPlace();
+}
+
+function prevPlace(){
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  renderPlace();
+}
+
+renderPlace();
+
+/* =====================================================
+   PLACES TO EAT CAROUSEL – THANJAVUR
+===================================================== */
+const eatCarousel = [
+  {
+    name: "Sree Ariyas",
+    img: "https://tse1.mm.bing.net/th/id/OIP.1rFfADZQjkCNbQbxks9x2QHaDq?pid=Api&P=0&h=180",
+    location: "South Rampart Road, Thanjavur",
+    rating: "4.2 / 5",
+    distance: "0.7 km",
+    map: "https://www.google.com/maps?q=Sree+Ariyas+Thanjavur"
+  },
+  {
+    name: "Hotel Sri Krishna Bhavan",
+    img: "https://i.travelapi.com/lodging/96000000/95740000/95739200/95739193/de81cfca_z.jpg",
+    location: "East Main Street, Thanjavur",
+    rating: "4.1 / 5",
+    distance: "0.9 km",
+    map: "https://www.google.com/maps?q=Sri+Krishna+Bhavan+Thanjavur"
+  },
+  {
+    name: "Banana Leaf Restaurant",
+    img: "https://tse1.mm.bing.net/th/id/OIP.VT_ItQkZANMBPzAvRrcWswHaHV?pid=Api&P=0&h=180",
+    location: "Near Medical College Road",
+    rating: "4.0 / 5",
+    distance: "1.4 km",
+    map: "https://www.google.com/maps?q=Banana+Leaf+Restaurant+Thanjavur"
+  }
+];
+
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function renderEat(){
+  const e = eatCarousel[eatIndex];
+  eatImg.src = e.img;
+  eatName.textContent = e.name;
+  eatLocation.textContent = e.location;
+  eatRating.textContent = e.rating;
+  eatDistance.textContent = e.distance;
+  eatMap.href = e.map;
+}
+
+function nextEat(){
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  renderEat();
+}
+
+function prevEat(){
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  renderEat();
+}
+
+renderEat();
+
+
+/* =====================================================
+   REVIEWS + STAR RATING
+===================================================== */
+
+let selectedRating = 0;
+
+/* ⭐ SET STAR RATING */
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    star.classList.toggle("active", index < rating);
+  });
+}
+
+/* ➕ ADD REVIEW */
+function addReview(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    alert("Please enter your name, review, and select a star rating ⭐");
+    return;
+  }
+
+  const stars =
+    "★".repeat(selectedRating) +
+    "☆".repeat(5 - selectedRating);
+
+  const reviewCard = document.createElement("div");
+  reviewCard.className = "review-card";
+
+  reviewCard.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${stars}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(reviewCard);
+
+  /* RESET FORM */
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+
+  document
+    .querySelectorAll("#starInput span")
+    .forEach(s => s.classList.remove("active"));
+}
+/* =====================================================
+   READ ALOUD (ENGLISH)
+===================================================== */
+function readEnglish() {
+  const content = document.getElementById("desc-en").innerText;
+  if (!content) return;
+
+  const utterance = new SpeechSynthesisUtterance(content);
+  utterance.lang = "en-IN";
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+/* =====================================================
+   TRANSLATE TOGGLE (EN ↔ TA)
+===================================================== */
+let translated = false;
+let originalHTML = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalHTML = content.innerHTML;
+
+    content.innerHTML = `
+      <h1>தஞ்சாவூர் மராத்தா அரண்மனை – தஞ்சாவூர்</h1>
+
+      <p>
+        <strong>தஞ்சாவூர் மராத்தா அரண்மனை</strong>
+        தமிழ்நாட்டின் தஞ்சாவூர் நகரின் மைய பகுதியில் அமைந்துள்ள
+        ஒரு முக்கியமான வரலாற்றுச் சிறப்புமிக்க அரச அரண்மனையாகும்.
+      </p>
+
+      <p>
+        17-ஆம் நூற்றாண்டில் தஞ்சாவூரை ஆட்சி செய்த
+        மராத்தா அரசர்களின் வாசஸ்தலமாக இந்த அரண்மனை
+        பயன்படுத்தப்பட்டது.
+      </p>
+
+      <p>
+        இந்த அரண்மனை வளாகத்தில்
+        தர்பார் ஹால், ராணியின் வளாகம்,
+        சரஸ்வதி மகால் நூலகம் போன்ற
+        முக்கிய கட்டிடங்கள் உள்ளன.
+      </p>
+
+      <p>
+        மராத்தா, நாயக்கர் மற்றும் ஐரோப்பிய
+        கட்டிடக்கலை கலவையை பிரதிபலிக்கும்
+        இந்த அரண்மனை இன்று ஒரு முக்கியமான
+        சுற்றுலா மற்றும் பாரம்பரிய மையமாக உள்ளது.
+      </p>
+    `;
+    translated = true;
+  } else {
+    content.innerHTML = originalHTML;
+    translated = false;
+  }
+}
+/* =====================================================
+   CHATBOT TOGGLE + SEND MESSAGE (DEMO)
+===================================================== */
+function toggleChat() {
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage() {
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if (msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  // USER MESSAGE
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  // BOT REPLY (DEMO)
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+
+/* =====================================================
+   PROFILE DROPDOWN
+===================================================== */
+function toggleProfile() {
+  const menu = document.getElementById("profileMenu");
+  menu.classList.toggle("show");
+}
+
+/* CLOSE PROFILE WHEN CLICKING OUTSIDE */
+document.addEventListener("click", function (e) {
+  const dropdown = document.querySelector(".profile-dropdown");
+  const menu = document.getElementById("profileMenu");
+
+  if (dropdown && !dropdown.contains(e.target)) {
+    menu.classList.remove("show");
+  }
+});
+
+/* =====================================================
+   LOGOUT (DEMO)
+===================================================== */
+function logoutUser() {
+  alert("Logout successful (demo)");
+  // later:
+  // window.location.href = "{% url 'accounts:login' %}";
+}
+  const profileBtn = document.querySelector(".profile-btn");
+  const dropdown = document.querySelector(".dropdown-menu");
+
+  profileBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.style.display =
+      dropdown.style.display === "flex" ? "none" : "flex";
+  });
+
+  document.addEventListener("click", () => {
+    dropdown.style.display = "none";
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const username = localStorage.getItem("loggedInUser");
+    const userSpan = document.getElementById("nav-username");
+
+    if (username && userSpan) {
+        userSpan.textContent = "👤" + username;
+    }
+});
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+
+</script>
+</body>
+</html>
+
+

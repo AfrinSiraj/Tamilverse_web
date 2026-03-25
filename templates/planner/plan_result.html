@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Travel Plan{% endblock %}
+{% block content %}
+<div style="padding:20px;font-family:Arial,sans-serif;">
+  <h1>Travel Plan for {{ district }}</h1>
+  <p><b>Days:</b> {{ days }} | <b>People:</b> {{ people }} | <b>Budget:</b> {{ budget }}</p>
+  {% for day in itinerary %}
+  <div style="border:1px solid #ddd;padding:12px;margin:12px 0;border-radius:8px;">
+    <h3>Day {{ day.day }}</h3>
+    <ul>
+      {% for stop in day.stops %}<li>{{ stop }}</li>{% endfor %}
+    </ul>
+    <p><b>Transport:</b> {{ day.transport }}</p>
+    <p><b>Stay:</b> {{ day.stay }}</p>
+    <p><b>Food:</b> {{ day.food }}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

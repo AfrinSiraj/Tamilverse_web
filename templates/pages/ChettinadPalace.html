@@ -1,0 +1,633 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Chettinad Palace | Tamilverse</title>
+
+<link rel="stylesheet" href="{% static 'css/pages.css' %}">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-brand">
+    <img src="{% static 'images/image.png' %}" alt="Tamilverse Logo">
+    <span>Tamilverse</span>
+  </div>
+
+  <div class="nav-links">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'explore' %}">Explore</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact</a>
+
+    <div class="profile-dropdown">
+      <div class="profile-btn" onclick="toggleProfile()">
+        <span id="nav-username">👤 User</span>
+        <span class="arrow">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="profileMenu">
+        <a href="{% url 'accounts:profile' %}">Profile</a>
+        <a href="{% url 'accounts:settings' %}">Settings</a>
+        <a href="{% url 'accounts:logout' %}" onclick="logoutUser()">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page">
+
+  <!-- READ BUTTON -->
+  <div class="voice-controls">
+    <button onclick="readEnglish()">🔊 Read Aloud</button>
+    <button onclick="toggleTranslate()">🌐 Translate</button>
+  </div>
+
+  <!-- IMAGE | CONTENT -->
+  <section class="split-section">
+
+    <!-- IMAGE -->
+ <div class="image-slider">
+  <img id="slider-image"
+    src="https://www.theparkhotels.com/images/site-specific/the-lotus-palace-chettinad/home/banner-1.jpg">
+
+  <div class="slider-buttons">
+    <button onclick="prevImage()">⟨</button>
+    <button onclick="nextImage()">⟩</button>
+  </div>
+</div>
+
+    <!-- CONTENT -->
+    <div class="place-card" id="desc-en">
+<h1>Chettinad Palace – Karaikudi</h1>
+
+<p><strong>Chettinad Palace</strong> is a magnificent heritage mansion located in Karaikudi, Tamil Nadu.</p>
+
+<p>It showcases the rich culture and lifestyle of the Chettiar community.</p>
+
+<p>The palace is famous for its grand architecture, teak wood interiors, and antique decorations.</p>
+
+<p>It reflects a blend of Indian and European architectural styles.</p>
+
+<p>Visitors are amazed by its elegance, heritage, and timeless beauty.</p></div>
+
+  </section>
+
+  <!-- MAP + NEARBY -->
+  <section class="info-grid">
+
+    <div class="grid-box">
+      
+<iframe src="https://www.google.com/maps?q=Chettinad+Palace+Karaikudi&output=embed"></iframe>
+    <!-- 🏨 Nearby Hotels -->
+<div class="grid-box">
+  <h3>🏨 Nearby Hotels</h3>
+
+  <div class="hotel-carousel">
+    <img id="hotel-carousel-img"
+      src="https://content.jdmagicbox.com/comp/kumbakonam/l6/9999px435.x435.121115170524.t6l6/catalogue/raya-s-grand-kumbakonam-3-star-hotels-gs2uf.jpg"
+      alt="Hotel">
+
+    <div class="hotel-carousel-name" id="hotel-carousel-name">
+      Hotel Raya’s Grand
+    </div>
+<div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="hotel-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="hotel-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="hotel-distance"></span></p>
+
+  <center><a href="#" id="hotel-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <div class="slider-buttons">
+      <button onclick="prevHotel()">⟨</button>
+      <button onclick="nextHotel()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 📍 Nearby Places -->
+<div class="grid-box">
+  <h3>📍 Nearby Places</h3>
+
+  <div class="hotel-carousel">
+    <img id="place-carousel-img"
+      src="https://upload.wikimedia.org/wikipedia/commons/1/10/Gopuras_in_Kumbakonam_-_India.JPG"
+      alt="Nearby Place">
+
+    <div class="hotel-carousel-name" id="place-carousel-name">
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevPlace()">⟨</button>
+      <button onclick="nextPlace()">⟩</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🍽️ Places to Eat -->
+<div class="grid-box">
+  <h3>🍽️ Places to Eat</h3>
+
+  <div class="hotel-carousel">
+    <div class="hotel-popup">
+  <p><strong>📍 Location:</strong> <span id="eat-location"></span></p>
+  <p><strong>⭐ Rating:</strong> <span id="eat-rating"></span></p>
+  <p><strong>📏 Distance:</strong> <span id="eat-distance"></span></p>
+
+  <center><a href="#" id="eat-map" class="book-btn" target="_blank">Map</a></center>
+</div>
+
+    <img id="eat-carousel-img"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQulaUPUHvmrEfhI42Gq2_2cPcn5G3eDFHL_Q&s"
+      alt="Place to Eat">
+
+    <div class="hotel-carousel-name" id="eat-carousel-name">
+      Mangalambiga Coffee
+    </div>
+
+    <div class="slider-buttons">
+      <button onclick="prevEat()">⟨</button>
+      <button onclick="nextEat()">⟩</button>
+    </div>
+  </div>
+</div>
+  </section>
+
+  <!-- ⭐ Reviews Section -->
+  <section class="reviews-section">
+    <h2>⭐ Visitor Reviews</h2>
+
+    <div class="review-summary">
+      <div class="review-score">4.7</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <small>Based on visitor experiences</small>
+      </div>
+    </div>
+
+    <div class="review-list" id="reviewList">
+<div class="review-card">
+  <strong>Karthik</strong>
+  <div class="stars">★★★★★</div>
+  <p>Beautiful heritage palace with rich Chettinad culture. Felt like going back in time.</p>
+</div>
+
+<div class="review-card">
+  <strong>Revathi</strong>
+  <div class="stars">★★★★☆</div>
+  <p>Stunning architecture and peaceful surroundings. A must visit place in Karaikudi.</p>
+</div>
+    </div>
+
+    <form class="review-form" onsubmit="addReview(event)">
+  <input type="text" id="reviewName" placeholder="Your name" required>
+
+  <!-- ⭐ Star Rating -->
+  <div class="star-input" id="starInput">
+    <span onclick="setRating(1)">★</span>
+    <span onclick="setRating(2)">★</span>
+    <span onclick="setRating(3)">★</span>
+    <span onclick="setRating(4)">★</span>
+    <span onclick="setRating(5)">★</span>
+  </div>
+
+  <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+
+  <button type="submit">Add Review</button>
+</form>
+
+  </section>
+
+</div>
+
+<!-- ===== DUMMY CHATBOT ===== -->
+<div id="chatbot">
+  <div id="chat-header">Tamilverse Chat</div>
+
+  <div id="chat-body">
+    <div class="bot-msg">👋 Hi! I am Tamilverse Assistant.</div>
+  </div>
+
+  <div id="chat-input">
+    <input type="text" id="chatText" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Floating Button -->
+<div id="chat-toggle" onclick="toggleChat()">💬</div>
+<script>
+const profileBtn = document.querySelector(".profile-btn");
+const dropdown = document.querySelector(".dropdown-menu");
+
+profileBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  dropdown.style.display =
+    dropdown.style.display === "flex" ? "none" : "flex";
+});
+
+document.addEventListener("click", () => {
+  dropdown.style.display = "none";
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("loggedInUser");
+  const userSpan = document.getElementById("nav-username");
+
+  if (username && userSpan) {
+      userSpan.textContent = "👤" + username;
+  }
+});
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+  alert("👋 Logged out successfully");
+  window.location.href = "{% url 'accounts:login' %}";
+}
+document.addEventListener("DOMContentLoaded", function () {
+  const username = localStorage.getItem("loggedInUser");
+  const userSpan = document.getElementById("nav-username");
+
+  if (username && userSpan) {
+    userSpan.textContent = "👤 " + username;
+  }
+});
+
+function logoutUser() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("loggedInUser");
+
+  alert("👋 Logged out successfully");
+
+  window.location.href = "{% url 'accounts:login' %}";
+}
+function readEnglish() {
+  const text = document.getElementById("desc-en").innerText;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-IN";
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+const images = [
+  "https://www.theparkhotels.com/images/site-specific/the-lotus-palace-chettinad/home/banner-1.jpg",
+
+  "https://images.trvl-media.com/lodging/110000000/109790000/109782400/109782316/1f0c5410.jpg?impolicy=resizecrop&rw=575&rh=575&ra=fill",
+
+  "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/2a/43/89/the-lotus-palace-chettinad.jpg?w=900&h=500&s=1"
+];
+
+
+
+let current = 0;
+const sliderImage = document.getElementById("slider-image");
+
+function slideTo(index, direction = "next") {
+  sliderImage.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    sliderImage.src = images[index];
+    sliderImage.style.transition = "none";
+    sliderImage.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      sliderImage.style.transition = "transform 0.8s ease-in-out";
+      sliderImage.style.transform = "translateX(0)";
+    });
+  }, 600);
+}
+
+function nextImage() {
+  current = (current + 1) % images.length;
+  slideTo(current, "next");
+}
+
+function prevImage() {
+  current = (current - 1 + images.length) % images.length;
+  slideTo(current, "prev");
+}
+
+
+const hotelCarousel = [
+{
+  name: "Chidambara Vilas",
+  img: "https://edge.media.datahc.com/HI354650469.jpg",
+  location: "Kanadukathan",
+  rating: "4.5 / 5",
+  distance: "3.0 km",
+  map: "https://www.google.com/maps?q=Chidambara+Vilas+Karaikudi"
+},
+{
+  name: "Visalam Heritage Hotel",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/df/b1/0e/you-can-explore-chettinad.jpg?w=900&h=500&s=1",
+  location: "Kanadukathan",
+  rating: "4.4 / 5",
+  distance: "3.2 km",
+  map: "https://www.google.com/maps?q=Visalam+Heritage+Hotel+Karaikudi"
+},
+{
+  name: "Hotel Subhalakshmi Palace",
+  img: "https://gos3.ibcdn.com/ab50a3a1-df8b-434b-8f34-e8ff570ac12f.jpeg",
+  location: "Karaikudi Town",
+  rating: "4.0 / 5",
+  distance: "2.5 km",
+  map: "https://www.google.com/maps?q=Hotel+Subhalakshmi+Palace+Karaikudi"
+}
+];
+
+let hotelIndex = 0;
+const hotelImg = document.getElementById("hotel-carousel-img");
+const hotelName = document.getElementById("hotel-carousel-name");
+const hotelLocation = document.getElementById("hotel-location");
+const hotelRating = document.getElementById("hotel-rating");
+const hotelDistance = document.getElementById("hotel-distance");
+const hotelMap = document.getElementById("hotel-map");
+
+
+function updateHotelPopup(index) {
+  hotelLocation.textContent = hotelCarousel[index].location;
+  hotelRating.textContent = hotelCarousel[index].rating;
+  hotelDistance.textContent = hotelCarousel[index].distance;
+  hotelMap.href = hotelCarousel[index].map;
+
+}
+
+const placeCarousel = [
+{
+  name: "Ramanathaswamy Temple – Rameswaram",
+  img: "https://www.daiwikhotels.com/wp-content/uploads/2024/07/newone.jpg",
+  link: "{% url 'place-detail' slug='ramanathaswamytemple' %}"
+},
+{
+  name: "Meenakshi Amman Temple – Madurai",
+  img: "https://temple.yatradham.org/public/Product/temple/temple_yfwq7VLj_202507011505060.webp",
+  link: "{% url 'place-detail' slug='meenakshiammantemple' %}"
+},
+{
+  name: "Thirumalai Nayakkar Palace – Madurai",
+  img: "https://www.laurewanders.com/wp-content/uploads/2023/09/Thirumalai-Nayakar-Palace-00001-1024x683.jpg",
+  link: "{% url 'place-detail' slug='thirumalainayakkarpalace' %}"
+}
+];
+let placeIndex = 0;
+const placeImg = document.getElementById("place-carousel-img");
+const placeName = document.getElementById("place-carousel-name");
+
+const eatCarousel = [
+{
+  name: "The Bangala Restaurant",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/08/f9/2f/84/the-bangala.jpg?w=900&h=500&s=1",
+  location: "Karaikudi",
+  rating: "4.5 / 5",
+  distance: "2.8 km",
+  map: "https://www.google.com/maps?q=The+Bangala+Restaurant+Karaikudi"
+},
+{
+  name: "Chola Heritage Restaurant",
+  img: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/31/34/b5/4b/caption.jpg?w=1100&h=1100&s=1",
+  location: "Karaikudi",
+  rating: "4.2 / 5",
+  distance: "3.0 km",
+  map: "https://www.google.com/maps?q=Chola+Heritage+Restaurant+Karaikudi"
+},
+{
+  name: "Hotel Saffron Restaurant",
+  img: "https://resizer.otstatic.com/v2/photos/large/3/91404957.jpg",
+  location: "Karaikudi Town",
+  rating: "4.0 / 5",
+  distance: "2.5 km",
+  map: "https://www.google.com/maps?q=Hotel+Saffron+Restaurant+Karaikudi"
+}
+];
+
+
+let eatIndex = 0;
+const eatImg = document.getElementById("eat-carousel-img");
+const eatName = document.getElementById("eat-carousel-name");
+const eatLocation = document.getElementById("eat-location");
+const eatRating = document.getElementById("eat-rating");
+const eatDistance = document.getElementById("eat-distance");
+const eatMap = document.getElementById("eat-map");
+
+function updateEatPopup(index) {
+  eatLocation.textContent = eatCarousel[index].location;
+  eatRating.textContent = eatCarousel[index].rating;
+  eatDistance.textContent = eatCarousel[index].distance;
+  eatMap.href = eatCarousel[index].map;
+}
+
+
+function slide(el, newSrc, direction = "next") {
+  el.style.transform =
+    direction === "next" ? "translateX(-100%)" : "translateX(100%)";
+
+  setTimeout(() => {
+    el.src = newSrc;
+    el.style.transition = "none";
+    el.style.transform =
+      direction === "next" ? "translateX(100%)" : "translateX(-100%)";
+
+    requestAnimationFrame(() => {
+      el.style.transition = "transform 1.2s ease";
+      el.style.transform = "translateX(0)";
+    });
+  }, 500);
+}
+
+/* HOTELS */
+function nextHotel() {
+  hotelIndex = (hotelIndex + 1) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "next");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+function prevHotel() {
+  hotelIndex = (hotelIndex - 1 + hotelCarousel.length) % hotelCarousel.length;
+  slide(hotelImg, hotelCarousel[hotelIndex].img, "prev");
+  hotelName.textContent = hotelCarousel[hotelIndex].name;
+  updateHotelPopup(hotelIndex);
+
+}
+
+/* PLACES */
+function updatePlace(index) {
+  placeImg.src = placeCarousel[index].img;
+  placeName.innerHTML = `
+    <a href="${placeCarousel[index].link}" class="place-link">
+      ${placeCarousel[index].name}
+    </a>
+  `;
+}
+
+// initialize first place
+updatePlace(placeIndex);
+
+function nextPlace() {
+  placeIndex = (placeIndex + 1) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "next");
+  updatePlace(placeIndex);
+}
+
+function prevPlace() {
+  placeIndex = (placeIndex - 1 + placeCarousel.length) % placeCarousel.length;
+  slide(placeImg, placeCarousel[placeIndex].img, "prev");
+  updatePlace(placeIndex);
+}
+
+/* EAT */
+function nextEat() {
+  eatIndex = (eatIndex + 1) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "next");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+function prevEat() {
+  eatIndex = (eatIndex - 1 + eatCarousel.length) % eatCarousel.length;
+  slide(eatImg, eatCarousel[eatIndex].img, "prev");
+  eatName.textContent = eatCarousel[eatIndex].name;
+  updateEatPopup(eatIndex);
+
+}
+
+
+let translated = false;
+let originalText = "";
+
+function toggleTranslate() {
+  const content = document.getElementById("desc-en");
+
+  if (!translated) {
+    originalText = content.innerHTML;
+    
+content.innerHTML = `
+<h1>செட்டிநாடு அரண்மனை – காரைக்குடி</h1>
+
+<p><strong>செட்டிநாடு அரண்மனை</strong> தமிழ்நாட்டின் காரைக்குடியில் அமைந்துள்ள ஒரு பாரம்பரிய மாளிகை ஆகும்.</p>
+
+<p>இது செட்டியார் சமூகத்தின் செழுமையான வாழ்க்கை முறையை வெளிப்படுத்துகிறது.</p>
+
+<p>இந்த அரண்மனை அதன் அழகான கட்டிடக்கலை, மர அலங்காரம் மற்றும் பழமையான பொருட்களுக்காக பிரசித்தி பெற்றது.</p>
+
+<p>இந்திய மற்றும் ஐரோப்பிய கட்டிடக்கலையின் கலவையாக இது அமைந்துள்ளது.</p>
+
+<p>இதன் அழகு மற்றும் பாரம்பரியம் பார்வையாளர்களை கவர்கிறது.</p>
+`;
+    translated = true;
+  } else {
+    content.innerHTML = originalText;
+    translated = false;
+  }
+}
+
+
+function toggleChat(){
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "flex" ? "none" : "flex";
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie) {
+    const cookies = document.cookie.split(";");
+    for (let c of cookies) {
+      c = c.trim();
+      if (c.startsWith(name + "=")) {
+        cookieValue = decodeURIComponent(c.substring(name.length + 1));
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function sendMessage(){
+  const input = document.getElementById("chatText");
+  const msg = input.value.trim();
+  if(msg === "") return;
+
+  const chatBody = document.getElementById("chat-body");
+
+  // User message
+  const userDiv = document.createElement("div");
+  userDiv.className = "user-msg";
+  userDiv.innerText = msg;
+  chatBody.appendChild(userDiv);
+
+  input.value = "";
+
+  fetch("/api/chatbot/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")
+    },
+    body: JSON.stringify({ message: msg })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = data.reply;
+    chatBody.appendChild(botDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  })
+  .catch(() => {
+    const botDiv = document.createElement("div");
+    botDiv.className = "bot-msg";
+    botDiv.innerText = "⚠️ Server error. Try again.";
+    chatBody.appendChild(botDiv);
+  });
+}
+updateHotelPopup(0);
+updateEatPopup(0);
+let selectedRating = 0;
+
+function setRating(rating) {
+  selectedRating = rating;
+  const stars = document.querySelectorAll("#starInput span");
+
+  stars.forEach((star, index) => {
+    star.classList.toggle("active", index < rating);
+  });
+}
+
+function addReview(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("reviewName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text || selectedRating === 0) {
+    alert("Please add a star rating ⭐");
+    return;
+  }
+
+  const stars = "★".repeat(selectedRating) + "☆".repeat(5 - selectedRating);
+
+  const div = document.createElement("div");
+  div.className = "review-card";
+  div.innerHTML = `
+    <strong>${name}</strong>
+    <div class="stars">${stars}</div>
+    <p>${text}</p>
+  `;
+
+  document.getElementById("reviewList").prepend(div);
+
+  document.getElementById("reviewName").value = "";
+  document.getElementById("reviewText").value = "";
+  selectedRating = 0;
+  document.querySelectorAll("#starInput span").forEach(s => s.classList.remove("active"));
+}
+
+</script>
+</body>
+</html>
